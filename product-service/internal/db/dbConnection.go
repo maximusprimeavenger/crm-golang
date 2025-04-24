@@ -31,3 +31,42 @@ func Init() (*DB, error) {
 	fmt.Println("Connected and Migrated!")
 	return &DB{db: conn}, nil
 }
+
+func (db *DB) CreateProduct(product *models.Product) error {
+	err := db.db.Create(&product).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (db *DB) UpdateProduct(id string, name, description, currency, category, status *string, price *float64, instock *uint) error {
+	err := db.db.Model(&models.Product{}).Where("id = ?", id).Updates(models.Product{
+		Name:        name,
+		Description: description,
+		Category:    category,
+		Currency:    currency,
+		Price:       price,
+		InStock:     instock,
+		Status:      status,
+	}).Error
+	if err != nil {
+		return fmt.Errorf("error updating product: %v", err)
+	}
+	return nil
+}
+
+func (db *DB) FindProduct(id string) (*models.Product, error) {
+	product := new(models.Product)
+	err := db.db.First(&product).Error
+	if err != nil {
+		return nil, err
+	}
+	return product, nil
+}
+
+func (db *DB) FindProducts() []*models.Product {
+	var products []*models.Product
+	db.db.First(&products)
+	return products
+}

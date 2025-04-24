@@ -73,7 +73,12 @@ func (db *DBConnection) UpdateLead(name, email, company, phone, id string) error
 	if err != nil {
 		return err
 	}
-	err = db.db.Model(&models.Lead{}).Where("id = ?", uintID).Updates(models.Lead{Name: name, Email: email, Phone: phone, Company: company}).Error
+	err = db.db.Model(&models.Lead{}).Where("id = ?", uintID).Updates(models.Lead{
+		Name:    name,
+		Email:   email,
+		Phone:   phone,
+		Company: company,
+	}).Error
 	if err != nil {
 		return err
 	}
