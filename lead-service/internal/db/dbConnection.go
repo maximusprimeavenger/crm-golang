@@ -19,7 +19,9 @@ func Init() (*DBConnection, error) {
 		return nil, fmt.Errorf("error connecting to database")
 	}
 	fmt.Println("Successfully connected!")
-	db.AutoMigrate(&models.Lead{})
+	if err := db.AutoMigrate(&models.Lead{}, &models.Product{}); err != nil {
+		return nil, fmt.Errorf("migration failed: %v", err)
+	}
 	fmt.Println("Successfully migrated!")
 	return &DBConnection{db: db}, nil
 }
