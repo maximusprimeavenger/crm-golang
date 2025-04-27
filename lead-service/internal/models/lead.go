@@ -8,7 +8,7 @@ type Lead struct {
 	Phone    string    `gorm:"varchar(15);not null; unique" json:"phone"`
 	Company  string    `gorm:"varchar(50);not null" json:"company"`
 	Products []Product `gorm:"foreignKey:LeadID"`
-	LeadID   uint
+
 	gorm.Model
 }
 
@@ -20,5 +20,6 @@ type Product struct {
 	Currency    *string  `gorm:"default:'KZT'" json:"currency"`
 	InStock     *uint    `gorm:"not null" json:"in_stock"`
 	Status      *string  `gorm:"not null" json:"status"`
+	LeadID      *uint
 	gorm.Model
 }

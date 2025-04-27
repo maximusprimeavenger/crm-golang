@@ -3,12 +3,10 @@ package repository
 import (
 	"fmt"
 
-	"github.com/fiveret/product-service/internal/db"
-	"github.com/fiveret/product-service/internal/models"
 	"github.com/gofiber/fiber"
 )
 
-func CreateItem(db *db.DB) fiber.Handler {
+func CreateItem() fiber.Handler {
 	return func(c *fiber.Ctx) {
 		product := new(models.Item)
 		err := c.BodyParser(product)
@@ -20,7 +18,7 @@ func CreateItem(db *db.DB) fiber.Handler {
 	}
 }
 
-func GetItem(db *db.DB) fiber.Handler {
+func GetItem() fiber.Handler {
 	return func(c *fiber.Ctx) {
 		id := c.Params("id")
 		if id == "" {
@@ -38,7 +36,7 @@ func GetItem(db *db.DB) fiber.Handler {
 	}
 }
 
-func GetItems(db *db.DB) fiber.Handler {
+func GetItems() fiber.Handler {
 	return func(c *fiber.Ctx) {
 		products := db.FindItems()
 		c.Status(200).JSON(fiber.Map{
@@ -48,7 +46,7 @@ func GetItems(db *db.DB) fiber.Handler {
 	}
 }
 
-func UpdateItem(db *db.DB) fiber.Handler {
+func UpdateItem() fiber.Handler {
 	return func(c *fiber.Ctx) {
 		id := c.Params("id")
 		if id == "" {
@@ -77,7 +75,7 @@ func UpdateItem(db *db.DB) fiber.Handler {
 	}
 }
 
-func DeleteItem(db *db.DB) fiber.Handler {
+func DeleteItem() fiber.Handler {
 	return func(c *fiber.Ctx) {
 		id := c.Params("id")
 		if id == "" {
