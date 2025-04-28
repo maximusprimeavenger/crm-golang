@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "github.com/fiveret/crm-golang/grpc/item-grpc; proto";
+
+service ItemService{
+    rpc 
+}
+
+
+	{
+		app.Post("", repository.CreateItem())
+		app.Get("/:id", repository.GetItem())
+		app.Get("", repository.GetItems())
+		app.Put("/:id", repository.UpdateItem())
+		app.Delete("/:id", repository.DeleteItem())
+	}

@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package proto;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "grpc/models/structures.proto";
+
+option go_package = "github.com/fiveret/crm-golang/grpc/lead-grpc;proto";
+
+service LeadService{
+    rpc GetLead (GetLeadRequest) returns (GetLeadResponse);
+    rpc GetLeads (GetLeadsRequest) returns (GetLeadsResponse);
+    rpc DeleteLead (DeleteLeadRequest) returns (DeleteLeadResponse);
+    rpc NewLead (NewLeadRequest) returns (NewLeadResponse);
+    rpc UpdateLead (UpdateLeadRequest) returns (UpdateLeadResponse);
+}
+
+message GetLeadRequest{
+    uint32 id = 1;
+}
+
+message GetLeadResponse{
+    uint32 id = 1;
+    models.Lead lead = 2;
+    google.protobuf.Timestamp createdAt = 3;
+    google.protobuf.Timestamp updatedAt = 4;
+}
+
+message GetLeadsRequest{
+    google.protobuf.Empty empty = 1;
+}
+
+message GetLeadsResponse{
+    repeated models.Lead leads = 1;
+}
+
+message NewLeadRequest{
+    models.Lead lead = 1;
+}
+
+message NewLeadResponse{
+    models.Lead lead = 1;
+    google.protobuf.Timestamp createdAt = 2;
+}
+
+message UpdateLeadRequest{
+    models.Lead lead = 1;
+}
+
+message UpdateLeadResponse{
+    models.Lead lead = 1;
+    google.protobuf.Timestamp createdAt = 2;
+    google.protobuf.Timestamp updatedAt = 3;
+}
+
+message DeleteLeadRequest{
+    uint32 id = 1;
+}
+
+message DeleteLeadResponse{
+    string message = 1;
+}

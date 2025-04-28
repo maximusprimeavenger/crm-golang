@@ -5,7 +5,6 @@ import (
 
 	"github.com/fiveret/crm-golang/internal/db"
 	"github.com/fiveret/crm-golang/internal/helpers"
-	"github.com/fiveret/crm-golang/internal/routes"
 	"github.com/gofiber/fiber"
 )
 

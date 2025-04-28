@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package common;
+package models;
 
-option go_package = "github.com/fiveret/crm/golang/proto/common; common";
+option go_package = "github.com/fiveret/crm-golang/grpc/models; models";
 
 message Lead {
     string name = 1;
