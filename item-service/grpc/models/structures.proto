@@ -2,15 +2,7 @@ syntax = "proto3";
 
 package models;
 
-option go_package = "github.com/fiveret/crm-golang/grpc/models; models";
-
-message Lead {
-    string name = 1;
-    string email = 2;
-    string phone = 3;
-    string company = 4;
-    repeated Product products = 5;
-}
+option go_package = "github.com/fiveret/product-service/grpc/models; models";
 
 message Product{
     string name = 1;

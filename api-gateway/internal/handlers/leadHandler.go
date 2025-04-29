@@ -20,7 +20,7 @@ func LeadRouteManager(app *fiber.App) {
 func LeadProductManager(app *fiber.App) {
 	app.Group("/lead/:id/products")
 	{
-		app.Post("", repository.AddProductToLead())
+		app.Post("", repository.AddProductsToLead())
 		app.Get("", repository.GetLeadProducts())
 		app.Delete("", repository.DeleteLeadProducts())
 		app.Put("", repository.PutProductsLead())

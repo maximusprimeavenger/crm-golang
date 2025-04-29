@@ -3,15 +3,21 @@ syntax = "proto3";
 package proto;
 
 
+import "google/protobuf/Empty.proto";
+import "google/protobuf/Timestamp.proto";
+import "grpc/models/structures.proto";
 
+option go_package = "github.com/fiveret/crm-golang/grpc/lead-grpc; proto";
 
-func LeadProductManager(app *fiber.App) {
-	app.Group("/lead/:id/products")
-	{
-		app.Post("", repository.AddProductToLead())
-		app.Get("", repository.GetLeadProducts())
-		app.Delete("", repository.DeleteLeadProducts())
-		app.Put("", repository.PutProductsLead())
-	}
-	app.Get("/lead/products", repository.GetLeadsProducts())
+service LeadProductService{
+    rpc AddProductToLead (AddProductToLeadRequest) returns (AddProductToLeadResponse);
+    rpc GetLeadProducts (GetLeadProductsRequest) returns (GetLeadProductsResponse);
+    rpc GetLeadsProducts (GetLeadsProductsRequest) returns (GetLeadsProductsResponse);
+    rpc DeleteLeadProducts (DeleteLeadProductsRequest) returns (DeleteLeadProductsResponse);
+    rpc PutProductsLead (PutProductsLeadRequest) returns (PutProductsLeadResponse);
+}
+
+message AddProductToLeadRequest{
+    uint32 id = 1;
+    repeated string product_ids = 2;
 }

@@ -18,7 +18,6 @@ func main() {
 	if err != nil {
 		log.Fatal("Error with connecting to database")
 	}
-	routes.LeadRouteManager(app, conn)
 	app.Listen(port)
 
 }
