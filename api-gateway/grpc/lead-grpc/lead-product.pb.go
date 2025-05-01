@@ -7,7 +7,7 @@
 package proto
 
 import (
-	models "github.com/fiveret/crm-golang/grpc/models"
+	models "github.com/fiveret/api-gateway/grpc/models"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"

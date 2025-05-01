@@ -3,6 +3,7 @@ package repository
 import (
 	"fmt"
 
+	"github.com/fiveret/api-gateway/internal/models"
 	"github.com/gofiber/fiber"
 )
 
@@ -14,7 +15,7 @@ func CreateItem() fiber.Handler {
 			c.Send(fmt.Sprintf("error parsing body: %v", err))
 			return
 		}
-		db.CreateItem(product)
+		//db.CreateItem(product)
 	}
 }
 
@@ -25,24 +26,23 @@ func GetItem() fiber.Handler {
 			c.Status(500).Send("empty id")
 			return
 		}
-		product, err := db.FindItem(id)
-		if err != nil {
-			c.Status(500).Send(err)
-			return
-		}
-		c.Status(201).JSON(fiber.Map{"message": "Product found!",
-			"Product": product,
-		})
+		// product, err := db.FindItem(id)
+		// if err != nil {
+		// 	c.Status(500).Send(err)
+		// 	return
+		// }
+		c.Status(201).JSON(fiber.Map{"message": "Product found!"}) //"Product": product,
+
 	}
 }
 
 func GetItems() fiber.Handler {
 	return func(c *fiber.Ctx) {
-		products := db.FindItems()
-		c.Status(200).JSON(fiber.Map{
-			"message": "Products found!",
-			"List":    products,
-		})
+		// products := db.FindItems()
+		// c.Status(200).JSON(fiber.Map{
+		// 	"message": "Products found!",
+		// 	"List":    products,
+		// })
 	}
 }
 
@@ -59,19 +59,18 @@ func UpdateItem() fiber.Handler {
 			c.Status(500).Send(fmt.Sprintf("error parsing body: %v", err))
 			return
 		}
-		err = db.UpdateItem(id, product.Name, product.Description, product.Currency, product.Category, product.Status, product.Price, product.InStock)
-		if err != nil {
-			c.Status(500).Send(err)
-			return
-		}
-		updatedProd, err := db.FindItem(id)
-		if err != nil {
-			c.Status(500).Send("Erorr finding item")
-			return
-		}
-		c.Status(200).JSON(fiber.Map{"message": "Item updated successfully!",
-			"Product": updatedProd,
-		})
+		// err = db.UpdateItem(id, product.Name, product.Description, product.Currency, product.Category, product.Status, product.Price, product.InStock)
+		// if err != nil {
+		// 	c.Status(500).Send(err)
+		// 	return
+		// }
+		// updatedProd, err := db.FindItem(id)
+		// if err != nil {
+		// 	c.Status(500).Send("Erorr finding item")
+		// 	return
+		// }
+		c.Status(200).JSON(fiber.Map{"message": "Item updated successfully!"}) //"Product": updatedProd,
+
 	}
 }
 
@@ -82,11 +81,11 @@ func DeleteItem() fiber.Handler {
 			c.Status(500).Send("id is missing")
 			return
 		}
-		err := db.DeleteItem(id)
-		if err != nil {
-			c.Status(500).Send(err)
-			return
-		}
+		// // // err := db.DeleteItem(id)
+		// // if err != nil {
+		// 	c.Status(500).Send(err)
+		// 	return
+		// }
 		c.Status(201).Send("Item successfully deleted!")
 	}
 }

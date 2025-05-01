@@ -1,11 +1,12 @@
 package handlers
 
 import (
+	"github.com/fiveret/api-gateway/grpc/clients"
 	"github.com/fiveret/api-gateway/internal/repository"
 	"github.com/gofiber/fiber"
 )
 
-func LeadRouteManager(app *fiber.App) {
+func LeadRouteManager(app *fiber.App, c *clients.GRPCClients) {
 	app.Group("/lead")
 	{
 		app.Get("/:id", repository.GetLead())
@@ -17,7 +18,7 @@ func LeadRouteManager(app *fiber.App) {
 
 }
 
-func LeadProductManager(app *fiber.App) {
+func LeadProductManager(app *fiber.App, c *clients.GRPCClients) {
 	app.Group("/lead/:id/products")
 	{
 		app.Post("", repository.AddProductsToLead())
