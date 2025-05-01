@@ -6,12 +6,24 @@ A modular CRM system built using **microservices architecture**, **gRPC**, **Go*
 
 crm-golang/
 ├── api-gateway/
-│   ├── go.mod
-│   ├── main.go
-│   ├── grpc-clients/      # здесь генерируем pb.go, pb_grpc.go для клиента
-│   └── handlers/
-│       └── user_handler.go
-│
+│   ├── cmd
+│   │   └── main.go
+│   ├── internal
+│   │   ├── handlers/
+│   │   │   │   ├── leadHandler.go
+│   │   │   │   └── itemHandler.go
+│   │   ├── grpc/     
+│   │   │   ├── item-grpc/
+│   │   │   │   ├── item.pb_grpc.go
+│   │   │   │   ├── item.pb.go
+│   │   │   │   └── item.proto
+│   │   │   └── models/
+│   │   │       ├── structures.pb.go
+│   │   │       └── structures.proto
+│   │   └── models/
+│   │       └── item.go
+│   ├── go.sum
+│   └── go.mod
 ├── item-service/
 │   ├── cmd
 │   │   └── main.go

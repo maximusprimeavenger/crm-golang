@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package common;
+package models;
 
-option go_package = "github.com/fiveret/crm/golang/proto/common; common";
+option go_package = "github.com/fiveret/crm-golang/grpc/models; models";
 
 message Lead {
     string name = 1;
@@ -23,3 +23,12 @@ message Product{
     uint32 leadID = 8;
 }
 
+message Item{
+    string name = 1;
+    string description = 2;
+    double price = 3;
+    string category = 4;
+    string currency = 5;
+    uint32 inStock = 6;
+    string status = 7;
+}

@@ -2,22 +2,60 @@ syntax = "proto3";
 
 package proto;
 
-
-import "google/protobuf/Empty.proto";
-import "google/protobuf/Timestamp.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
 import "grpc/models/structures.proto";
 
-option go_package = "github.com/fiveret/crm-golang/grpc/lead-grpc; proto";
+option go_package = "github.com/fiveret/crm-golang/grpc/lead-grpc;proto";
 
 service LeadProductService{
-    rpc AddProductToLead (AddProductToLeadRequest) returns (AddProductToLeadResponse);
+    rpc AddProductsToLead (AddProductsToLeadRequest) returns (AddProductsToLeadResponse);
     rpc GetLeadProducts (GetLeadProductsRequest) returns (GetLeadProductsResponse);
     rpc GetLeadsProducts (GetLeadsProductsRequest) returns (GetLeadsProductsResponse);
     rpc DeleteLeadProducts (DeleteLeadProductsRequest) returns (DeleteLeadProductsResponse);
     rpc PutProductsLead (PutProductsLeadRequest) returns (PutProductsLeadResponse);
 }
 
-message AddProductToLeadRequest{
+message AddProductsToLeadRequest{
     uint32 id = 1;
     repeated string product_ids = 2;
+}
+
+message AddProductsToLeadResponse{
+    string message = 1;
+}
+
+message GetLeadProductsRequest{
+    uint32 id = 1;
+}
+
+message GetLeadProductsResponse{
+    models.Product product = 1;
+    uint32 product_id = 2;
+    google.protobuf.Timestamp createdAt = 3;
+    google.protobuf.Timestamp updatedAt = 4;
+}
+
+message GetLeadsProductsRequest{
+    google.protobuf.Empty empty = 1;
+}
+
+message GetLeadsProductsResponse{
+    repeated models.Product products = 1;
+}
+
+message PutProductsLeadRequest{
+    models.Product product = 1;
+}
+
+message PutProductsLeadResponse{
+    string message = 1;
+}
+
+message DeleteLeadProductsRequest{
+    uint32 id = 1;
+}
+
+message DeleteLeadProductsResponse{
+    string message = 1;
 }

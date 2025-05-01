@@ -2,5 +2,59 @@ syntax = "proto3";
 
 package proto;
 
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "grpc/models/structures.proto";
 
+option go_package = "github.com/fiveret/crm-golang/grpc/item-grpc; proto";
 
+service ItemService{
+    rpc CreateItem (CreateItemRequest) returns (CreateItemResponse);
+    rpc GetItem (GetItemRequest) returns (GetItemResponse);
+    rpc GetItems (GetItemsRequest) returns (GetItemsResponse);
+    rpc UpdateItem (UpdateItemRequest) returns (UpdateItemResponse);
+    rpc DeleteItem (DeleteItemRequest) returns (DeleteItemResponse);
+}
+
+message CreateItemRequest{
+    models.Item item = 1;
+}
+
+message CreateItemResponse{
+    string message = 1;
+    google.protobuf.Timestamp createdAt = 2;
+}
+
+message GetItemRequest{
+    uint32 id = 1;
+}
+
+message GetItemResponse{
+    models.Item item = 1;
+}
+
+message GetItemsRequest{
+    google.protobuf.Empty empty = 1;
+}
+
+message GetItemsResponse{
+    repeated models.Item items = 1;
+}
+
+message UpdateItemRequest{
+    uint32 id = 1;
+}
+
+message UpdateItemResponse{
+    models.Item item = 1;
+    google.protobuf.Timestamp createdAt = 2;
+    google.protobuf.Timestamp updatedAt = 3;
+}
+
+message DeleteItemRequest{
+    uint32 id = 1;
+}
+
+message DeleteItemResponse{
+    string message = 1;
+}
