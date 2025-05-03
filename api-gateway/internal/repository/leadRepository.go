@@ -1,6 +1,10 @@
 package repository
 
 import (
+	"strconv"
+
+	proto "github.com/fiveret/api-gateway/grpc/lead-grpc"
+	"github.com/fiveret/api-gateway/grpc/models"
 	"github.com/gofiber/fiber"
 )
 
@@ -66,37 +70,24 @@ func NewLead() fiber.Handler {
 	}
 }
 
-func UpdateLead() fiber.Handler {
+func UpdateLead(client proto.LeadServiceClient) fiber.Handler {
 	return func(c *fiber.Ctx) {
-		// id := c.Params("id")
-		// if id == "" {
-		// 	c.Status(500).JSON(fiber.Map{"error": "empty id provided"})
-		// 	return
-		// }
-		// lead := new(models.Lead)
-		// if err := c.BodyParser(lead); err != nil {
-		// 	c.Status(500).Send(fmt.Sprintf("Error parsing data: %v", err))
-		// 	return
-		// }
-		// err := db.UpdateLead(lead.Name, lead.Email, lead.Company, lead.Phone, id)
-		// if err != nil {
-		// 	c.Status(500).Send(fmt.Sprintf("Error updating lead: %v", err))
-		// 	return
-		// }
-		// updatedLead, err := db.FindLeadById(id)
-		// if err != nil {
-		// 	c.Status(500).Send(fmt.Sprintf("Error finding lead: %v", err))
-		// 	return
-		// }
-		// c.Status(200).JSON(fiber.Map{"message": "Lead updated successfully!",
-		// 	"Lead": []interface{}{
-		// 		updatedLead.ID,
-		// 		updatedLead.Name,
-		// 		updatedLead.Phone,
-		// 		updatedLead.Email,
-		// 		updatedLead.Company,
-		// 		updatedLead.CreatedAt,
-		// 	},
-		// })
+		idStr := c.Params("id")
+		id, err := strconv.ParseUint(idStr, 10, 64)
+		if err != nil {
+			c.Status(500).Send("Invalid ID")
+			return
+		}
+		lead := new(models.Lead)
+		req := &proto.PatchLeadRequest{
+			Lead: lead,
+			Id:   uint32(id),
+		}
+		resp, err := client.PatchLead(c.Context(), req)
+		if err != nil {
+			c.Status(500).Send("Failed to update lead")
+			return
+		}
+		c.Status(200).JSON(resp)
 	}
 }

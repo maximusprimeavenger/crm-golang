@@ -16,11 +16,11 @@ func main() {
 	}
 	app := fiber.New()
 
-	clients, err := clients.InitClients()
+	grpcClients, err := clients.InitClients()
 	if err != nil {
 		log.Fatal(err)
 	}
-	handlers.ItemRoutes(app, clients)
+	handlers.ItemRoutes(app, &grpcClients.ItemClient)
 	handlers.LeadRouteManager(app, clients)
 	handlers.LeadProductManager(app, clients)
 	app.Listen(port)

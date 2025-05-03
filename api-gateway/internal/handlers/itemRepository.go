@@ -1,12 +1,12 @@
 package handlers
 
 import (
-	"github.com/fiveret/api-gateway/grpc/clients"
+	proto "github.com/fiveret/api-gateway/grpc/item-grpc"
 	"github.com/fiveret/api-gateway/internal/repository"
 	"github.com/gofiber/fiber"
 )
 
-func ItemRoutes(app *fiber.App, c *clients.GRPCClients) {
+func ItemRoutes(app *fiber.App, c *proto.ItemServiceClient) {
 	app.Group("/items")
 	{
 		app.Post("", repository.CreateItem())

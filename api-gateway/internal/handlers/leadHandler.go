@@ -1,30 +1,31 @@
 package handlers
 
 import (
-	"github.com/fiveret/api-gateway/grpc/clients"
+	proto "github.com/fiveret/api-gateway/grpc/lead-grpc"
 	"github.com/fiveret/api-gateway/internal/repository"
 	"github.com/gofiber/fiber"
 )
 
-func LeadRouteManager(app *fiber.App, c *clients.GRPCClients) {
+func LeadRouteManager(app *fiber.App, c proto.LeadServiceClient) {
 	app.Group("/lead")
 	{
-		app.Get("/:id", repository.GetLead())
-		app.Get("", repository.GetLeads())
-		app.Delete("/:id", repository.DeleteLead())
-		app.Post("", repository.NewLead())
-		app.Put("/:id", repository.UpdateLead())
+		//app.Get("/:id", repository.GetLead(c))
+		//app.Get("", repository.GetLeads(c))
+		//app.Delete("/:id", repository.DeleteLead(c))
+		//app.Post("", repository.NewLead(c))
+		//TODO
+		app.Patch("/:id", repository.UpdateLead(c))
 	}
 
 }
 
-func LeadProductManager(app *fiber.App, c *clients.GRPCClients) {
-	app.Group("/lead/:id/products")
-	{
-		app.Post("", repository.AddProductsToLead())
-		app.Get("", repository.GetLeadProducts())
-		app.Delete("", repository.DeleteLeadProducts())
-		app.Put("", repository.PutProductsLead())
-	}
-	app.Get("/lead/products", repository.GetLeadsProducts())
+func LeadProductManager(app *fiber.App, c *proto.LeadProductServiceClient) {
+	// app.Group("/lead/:id/products")
+	// {
+	// 	app.Post("", repository.AddProductsToLead(c))
+	// 	app.Get("", repository.GetLeadProducts(c))
+	// 	app.Delete("", repository.DeleteLeadProducts(c))
+	// 	app.Put("", repository.PutProductsLead(c))
+	// }
+	// app.Get("/lead/products", repository.GetLeadsProducts(c))
 }
