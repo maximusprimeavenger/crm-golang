@@ -20,8 +20,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	handlers.ItemRoutes(app, &grpcClients.ItemClient)
-	handlers.LeadRouteManager(app, clients)
-	handlers.LeadProductManager(app, clients)
+	handlers.ItemRoutes(app, grpcClients.ItemClient)
+	handlers.LeadRouteManager(app, grpcClients.LeadClient)
+	handlers.LeadProductManager(app, grpcClients.LeadProductClient)
 	app.Listen(port)
 }

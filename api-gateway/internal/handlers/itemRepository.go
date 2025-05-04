@@ -6,7 +6,7 @@ import (
 	"github.com/gofiber/fiber"
 )
 
-func ItemRoutes(app *fiber.App, c *proto.ItemServiceClient) {
+func ItemRoutes(app *fiber.App, c proto.ItemServiceClient) {
 	app.Group("/items")
 	{
 		app.Post("", repository.CreateItem())

@@ -19,7 +19,7 @@ func LeadRouteManager(app *fiber.App, c proto.LeadServiceClient) {
 
 }
 
-func LeadProductManager(app *fiber.App, c *proto.LeadProductServiceClient) {
+func LeadProductManager(app *fiber.App, c proto.LeadProductServiceClient) {
 	// app.Group("/lead/:id/products")
 	// {
 	// 	app.Post("", repository.AddProductsToLead(c))
