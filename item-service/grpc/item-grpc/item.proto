@@ -3,17 +3,39 @@ syntax = "proto3";
 package proto;
 
 import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "grpc/models/structures.proto";
 
 option go_package = "github.com/fiveret/crm-golang/grpc/item-grpc; proto";
 
 service ItemService{
-    rpc CreateItem (CreateItemRequest) returns (CreateItemResponse);
-    rpc GetItem (GetItemRequest) returns (GetItemResponse);
-    rpc GetItems (GetItemsRequest) returns (GetItemsResponse);
-    rpc UpdateItem (UpdateItemRequest) returns (UpdateItemResponse);
-    rpc DeleteItem (DeleteItemRequest) returns (DeleteItemResponse);
+    rpc CreateItem (CreateItemRequest) returns (CreateItemResponse){
+        option (google.api.http) = {
+            post: "/items"
+        };
+    }
+    rpc GetItem (GetItemRequest) returns (GetItemResponse){
+        option (google.api.http) = {
+            get: "/items/{id}"
+        };
+    }
+    rpc GetItems (GetItemsRequest) returns (GetItemsResponse){
+        option (google.api.http) = {
+            get: "/items"
+        };
+    }
+    rpc PutItem (PutItemRequest) returns (PutItemResponse){
+        option (google.api.http) = {
+            put: "/items/{id}"
+            body: "item"
+        };
+    }
+    rpc DeleteItem (DeleteItemRequest) returns (DeleteItemResponse){
+        option (google.api.http) = {
+            delete: "/items/{id}"
+        };
+    }
 }
 
 message CreateItemRequest{
@@ -41,11 +63,12 @@ message GetItemsResponse{
     repeated models.Item items = 1;
 }
 
-message UpdateItemRequest{
+message PutItemRequest{
     uint32 id = 1;
+    models.Item item = 2;
 }
 
-message UpdateItemResponse{
+message PutItemResponse{
     models.Item item = 1;
     google.protobuf.Timestamp createdAt = 2;
     google.protobuf.Timestamp updatedAt = 3;
