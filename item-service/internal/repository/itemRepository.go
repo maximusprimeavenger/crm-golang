@@ -9,6 +9,7 @@ import (
 
 type ItemRepository interface {
 	NewItem(*models.Item) (*time.Time, error)
+	GetItem(*uint32) (*models.Item, error)
 }
 
 type itemRepo struct {
@@ -38,4 +39,10 @@ func (r *itemRepo) NewItem(item *models.Item) (*time.Time, error) {
 	return &newItem.CreatedAt, nil
 }
 
-func GetItem(grpcModels *models.Item)
+func (r *itemRepo) GetItem(id *uint32) (*models.Item, error) {
+	item, err := r.db.FindItem(*id)
+	if err != nil {
+		return nil, err
+	}
+	return item, nil
+}

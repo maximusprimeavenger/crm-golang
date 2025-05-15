@@ -4,6 +4,7 @@ import (
 	"context"
 
 	proto "github.com/fiveret/product-service/grpc/item-grpc"
+	"github.com/fiveret/product-service/internal/helpers"
 	"github.com/fiveret/product-service/internal/models"
 	"github.com/fiveret/product-service/internal/service"
 	"google.golang.org/grpc/codes"
@@ -39,8 +40,15 @@ func (h *GRPCHandler) CreateItem(ctx context.Context, req *proto.CreateItemReque
 	return &resp, nil
 }
 
-/*
-func (s *server) GetItem(ctx context.Context, req *proto.GetItemRequest) (*proto.GetItemResponse, error) {
-
+func (h *GRPCHandler) GetItem(ctx context.Context, req *proto.GetItemRequest) (*proto.GetItemResponse, error) {
+	id := &req.Id
+	item, err := h.service.GetItem(ctx, id)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error finding an item: %v", err)
+	}
+	respItem := helpers.ConvertItem(item)
+	resp := &proto.GetItemResponse{
+		Item: respItem,
+	}
+	return resp, nil
 }
-*/

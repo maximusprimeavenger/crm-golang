@@ -40,7 +40,7 @@ func (db *DB) CreateItem(item *models.Item) error {
 	return nil
 }
 
-func (db *DB) UpdateItem(id string, name, description, currency, category, status *string, price *float64, instock *uint32) error {
+func (db *DB) UpdateItem(id uint32, name, description, currency, category, status *string, price *float64, instock *uint32) error {
 	err := db.db.Model(&models.Item{}).Where("id = ?", id).Updates(models.Item{
 		Name:        name,
 		Description: description,
@@ -56,9 +56,9 @@ func (db *DB) UpdateItem(id string, name, description, currency, category, statu
 	return nil
 }
 
-func (db *DB) FindItem(id string) (*models.Item, error) {
+func (db *DB) FindItem(id uint32) (*models.Item, error) {
 	product := new(models.Item)
-	err := db.db.First(&product).Error
+	err := db.db.First(&product, id).Error
 	if err != nil {
 		return nil, err
 	}
@@ -71,7 +71,7 @@ func (db *DB) FindItems() []*models.Item {
 	return items
 }
 
-func (db *DB) DeleteItem(id string) error {
+func (db *DB) DeleteItem(id uint32) error {
 	var item *models.Item
 	err := db.db.First(&item, id).Error
 	if err != nil {
