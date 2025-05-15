@@ -13,5 +13,5 @@ func GetPort() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return os.Getenv("API-PORT"), nil
+	return os.Getenv("API_PORT"), nil
 }

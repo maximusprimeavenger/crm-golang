@@ -1,0 +1,13 @@
+services:
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+  item-service:
+    build: 
+      context: ./item-service
+      dockerfile: Dockerfile
+  lead-service:
+    build:
+      context: ./lead-service
+      dockerfile: Dockerfile
