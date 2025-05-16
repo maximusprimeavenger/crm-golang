@@ -5,13 +5,15 @@ import (
 	"errors"
 	"time"
 
+	"github.com/fiveret/product-service/internal/helpers"
 	"github.com/fiveret/product-service/internal/models"
 	"github.com/fiveret/product-service/internal/repository"
 )
 
 type ItemService interface {
-	CreateItem(ctx context.Context, item *models.Item) (*time.Time, error)
-	GetItem(ctx context.Context, id *uint32) (*models.Item, error)
+	CreateItem(context.Context, *models.Item) (*time.Time, error)
+	GetItem(context.Context, *uint32) (*models.Item, error)
+	PutItem(context.Context, *uint32, *models.Item) (*models.Item, *time.Time, *time.Time, error)
 }
 
 type itemService struct {
@@ -40,4 +42,16 @@ func (s *itemService) GetItem(ctx context.Context, id *uint32) (*models.Item, er
 		return nil, errors.New("id is empty")
 	}
 	return s.repo.GetItem(id)
+}
+
+func (s *itemService) PutItem(ctx context.Context, id *uint32, item *models.Item) (*models.Item, *time.Time, *time.Time, error) {
+	if id == nil {
+		return nil, nil, nil, errors.New("id is empty")
+	}
+
+	err := helpers.CheckItem(item)
+	if err != nil {
+		return nil, nil, nil, err
+	}
+	return s.repo.PutItem(id, item)
 }

@@ -5,7 +5,7 @@ import (
 	"github.com/fiveret/product-service/internal/models"
 )
 
-func ConvertItem(item *models.Item) *grpcModels.Item {
+func ConvertModelsToGRPC(item *models.Item) *grpcModels.Item {
 	return &grpcModels.Item{
 		Price:       *item.Price,
 		Name:        *item.Name,
@@ -14,5 +14,17 @@ func ConvertItem(item *models.Item) *grpcModels.Item {
 		Description: *item.Description,
 		Status:      *item.Status,
 		InStock:     *item.InStock,
+	}
+}
+
+func ConvertGRPCToModels(item *grpcModels.Item) *models.Item {
+	return &models.Item{
+		Name:        &item.Name,
+		Category:    &item.Category,
+		Currency:    &item.Currency,
+		Description: &item.Description,
+		Status:      &item.Status,
+		InStock:     &item.InStock,
+		Price:       &item.Price,
 	}
 }

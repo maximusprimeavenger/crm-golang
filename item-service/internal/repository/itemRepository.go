@@ -10,6 +10,7 @@ import (
 type ItemRepository interface {
 	NewItem(*models.Item) (*time.Time, error)
 	GetItem(*uint32) (*models.Item, error)
+	PutItem(*uint32, *models.Item) (*models.Item, *time.Time, *time.Time, error)
 }
 
 type itemRepo struct {
@@ -45,4 +46,12 @@ func (r *itemRepo) GetItem(id *uint32) (*models.Item, error) {
 		return nil, err
 	}
 	return item, nil
+}
+
+func (r *itemRepo) PutItem(id *uint32, item *models.Item) (*models.Item, *time.Time, *time.Time, error) {
+	item, err := r.db.UpdateItem(*id, item)
+	if err != nil {
+		return nil, nil, nil, err
+	}
+	return item, &item.CreatedAt, &item.UpdatedAt, nil
 }

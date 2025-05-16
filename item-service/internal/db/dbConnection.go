@@ -40,20 +40,21 @@ func (db *DB) CreateItem(item *models.Item) error {
 	return nil
 }
 
-func (db *DB) UpdateItem(id uint32, name, description, currency, category, status *string, price *float64, instock *uint32) error {
+func (db *DB) UpdateItem(id uint32, item *models.Item) (*models.Item, error) {
 	err := db.db.Model(&models.Item{}).Where("id = ?", id).Updates(models.Item{
-		Name:        name,
-		Description: description,
-		Category:    category,
-		Currency:    currency,
-		Price:       price,
-		InStock:     instock,
-		Status:      status,
+		Name:        item.Name,
+		Description: item.Description,
+		Category:    item.Category,
+		Currency:    item.Currency,
+		Price:       item.Price,
+		InStock:     item.InStock,
+		Status:      item.Status,
 	}).Error
 	if err != nil {
-		return fmt.Errorf("error updating item: %v", err)
+		return nil, fmt.Errorf("error updating item: %v", err)
 	}
-	return nil
+	db.db.First(&item)
+	return item, nil
 }
 
 func (db *DB) FindItem(id uint32) (*models.Item, error) {
