@@ -4,6 +4,7 @@ import (
 	itemProto "github.com/fiveret/api-gateway/grpc/item-grpc"
 	proto "github.com/fiveret/api-gateway/grpc/lead-grpc"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 type GRPCClients struct {
@@ -13,7 +14,8 @@ type GRPCClients struct {
 }
 
 func InitClients() (*GRPCClients, error) {
-	conn, err := grpc.NewClient(":50051")
+	credentials := grpc.WithTransportCredentials(insecure.NewCredentials())
+	conn, err := grpc.NewClient(":50051", credentials)
 	if err != nil {
 		return nil, err
 	}

@@ -3,11 +3,36 @@ services:
     build:
       context: ./api-gateway
       dockerfile: Dockerfile
+    ports:
+      - ${API_PORTS}
+    container_name: api-gateway
   item-service:
+    depends_on:
+      - postgres
+      - api-gateway
     build: 
       context: ./item-service
       dockerfile: Dockerfile
-  lead-service:
-    build:
-      context: ./lead-service
-      dockerfile: Dockerfile
+    ports:
+      - ${ITEM_PORTS}
+    container_name: item-service
+
+  postgres:
+    image: postgres:13.3
+    container_name: postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER:  ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:${POSTGRES_PORT}"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  #lead-service:
+   # build:
+    #  context: ./lead-service
+     # dockerfile: Dockerfile
+
+volumes:
+  postgres_data:

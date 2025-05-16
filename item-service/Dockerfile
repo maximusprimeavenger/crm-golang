@@ -11,4 +11,4 @@ COPY . .
 WORKDIR /app/cmd
 
 RUN go build -o /app/main .
-CMD ["app/main"]
+CMD ["/app/main"]
