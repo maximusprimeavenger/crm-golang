@@ -1,27 +1,77 @@
 package main
 
 import (
+	"context"
+	"fmt"
 	"log"
+	"log/slog"
+	"os"
 
-	"github.com/fiveret/api-gateway/grpc/clients"
-	"github.com/fiveret/api-gateway/internal/handlers"
+	proto "github.com/fiveret/api-gateway/grpc/item-grpc"
 	"github.com/fiveret/api-gateway/internal/helpers"
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"github.com/valyala/fasthttp/fasthttpadaptor"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+	"gopkg.in/yaml.v3"
 )
 
+const env = "../config/conf.yaml"
+
 func main() {
+	logger, err := loadLogger(env)
+	if err != nil {
+		log.Fatal("error, logger is nil:", err)
+	}
 	port, err := helpers.GetPort()
 	if err != nil {
-		log.Fatal(err)
+		logger.Error("error getting port", "error", err)
 	}
 	app := fiber.New()
 
-	grpcClients, err := clients.InitClients()
+	mux := runtime.NewServeMux()
+	ctx := context.Background()
+	credentials := grpc.WithTransportCredentials(insecure.NewCredentials())
+	opts := []grpc.DialOption{credentials}
+
+	err = proto.RegisterItemServiceHandlerFromEndpoint(ctx, mux, "item-service:9090", opts)
 	if err != nil {
-		log.Fatal(err)
+		logger.Error("error connecting to item-service", "details:", err)
 	}
-	handlers.ItemRoutes(app, grpcClients.ItemClient)
-	handlers.LeadRouteManager(app, grpcClients.LeadClient)
-	handlers.LeadProductManager(app, grpcClients.LeadProductClient)
-	app.Listen(port)
+	fasthttpHandler := fasthttpadaptor.NewFastHTTPHandler(mux)
+
+	app.All("/*", func(c *fiber.Ctx) error {
+		fasthttpHandler(c.Context())
+		return nil
+	})
+
+	logger.Error("error listening on http server", "details:",
+		app.Listen(fmt.Sprintf("%d", port)))
+}
+
+func loadLogger(env string) (*slog.Logger, error) {
+	body, err := os.ReadFile(env)
+	if err != nil {
+		return nil, err
+	}
+	logger := new(yamLogger)
+	err = yaml.Unmarshal(body, &logger)
+	if err != nil {
+		return nil, err
+	}
+	var handler *slog.TextHandler
+	switch logger.env {
+	case "dev":
+		handler = slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo})
+	case "test":
+		handler = slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug})
+	case "prod":
+		handler = (*slog.TextHandler)(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelWarn}))
+	}
+	return slog.New(handler), nil
+}
+
+type yamLogger struct {
+	env string `yaml:"env"`
 }

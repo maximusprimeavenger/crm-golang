@@ -1,0 +1,10 @@
+env: dev
+
+api-gateway:
+  http-port: 8080
+
+item-service:
+  grpc-port: 50055
+
+lead-service:
+  grpc-port: 50054

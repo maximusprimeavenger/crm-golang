@@ -3,15 +3,24 @@ package helpers
 import (
 	"os"
 
-	"github.com/joho/godotenv"
+	"gopkg.in/yaml.v3"
 )
 
-const path = "../.env"
+const path = "../config/conf.yaml"
 
-func GetPort() (string, error) {
-	err := godotenv.Load(path)
+func GetPort() (*int, error) {
+	body, err := os.ReadFile(path)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	return os.Getenv("API_PORT"), nil
+	api := new(apiGateway)
+	err = yaml.Unmarshal(body, &api)
+	if err != nil {
+		return nil, err
+	}
+	return &api.port, nil
+}
+
+type apiGateway struct {
+	port int `yaml:"http-port"`
 }
