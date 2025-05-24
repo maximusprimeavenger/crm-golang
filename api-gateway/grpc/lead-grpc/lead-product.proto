@@ -4,37 +4,37 @@ package proto;
 
 import "google/protobuf/empty.proto";
 import "google/api/annotations.proto";
+import "validate/validate.proto";
 import "google/protobuf/timestamp.proto";
 import "grpc/models/structures.proto";
-import "validate/validate.proto";
 
 option go_package = "grpc/lead-grpc;proto";
 
 service LeadProductService{
     rpc AddProductsToLead (AddProductsToLeadRequest) returns (AddProductsToLeadResponse){
         option (google.api.http) = {
-            post: "/leads"
+            post: "/lead-product"
             body: "*"
         };
     }
     rpc GetLeadProducts (GetLeadProductsRequest) returns (GetLeadProductsResponse){
         option (google.api.http) = {
-            get: "/leads/{id}"
+            get: "/lead-product/{id}"
         };
     }
     rpc GetLeadsProducts (GetLeadsProductsRequest) returns (GetLeadsProductsResponse){
         option (google.api.http) = {
-            get: "/leads"
+            get: "/lead-product"
         };
     }
     rpc DeleteLeadProducts (DeleteLeadProductsRequest) returns (DeleteLeadProductsResponse){
         option (google.api.http) = {
-            delete: "/leads/{id}"
+            delete: "/lead-product/{id}"
         };
     }
     rpc PutProductsLead (PutProductsLeadRequest) returns (PutProductsLeadResponse){
         option (google.api.http) = {
-            put: "/leads/{id}"
+            put: "/lead-product/{id}"
             body: "product"
         };
     }
@@ -42,7 +42,7 @@ service LeadProductService{
 
 message AddProductsToLeadRequest{
     uint32 id = 1 [(validate.rules).uint32.gt = 0];
-    repeated string product_id = 2;
+    repeated string product_ids = 2;
 }
 
 message AddProductsToLeadResponse{

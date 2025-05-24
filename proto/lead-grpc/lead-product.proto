@@ -3,21 +3,45 @@ syntax = "proto3";
 package proto;
 
 import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+import "validate/validate.proto";
 import "google/protobuf/timestamp.proto";
 import "grpc/models/structures.proto";
 
-option go_package = "github.com/fiveret/crm-golang/grpc/lead-grpc;proto";
+option go_package = "grpc/lead-grpc;proto";
 
 service LeadProductService{
-    rpc AddProductsToLead (AddProductsToLeadRequest) returns (AddProductsToLeadResponse);
-    rpc GetLeadProducts (GetLeadProductsRequest) returns (GetLeadProductsResponse);
-    rpc GetLeadsProducts (GetLeadsProductsRequest) returns (GetLeadsProductsResponse);
-    rpc DeleteLeadProducts (DeleteLeadProductsRequest) returns (DeleteLeadProductsResponse);
-    rpc PutProductsLead (PutProductsLeadRequest) returns (PutProductsLeadResponse);
+    rpc AddProductsToLead (AddProductsToLeadRequest) returns (AddProductsToLeadResponse){
+        option (google.api.http) = {
+            post: "/lead-product"
+            body: "*"
+        };
+    }
+    rpc GetLeadProducts (GetLeadProductsRequest) returns (GetLeadProductsResponse){
+        option (google.api.http) = {
+            get: "/lead-product/{id}"
+        };
+    }
+    rpc GetLeadsProducts (GetLeadsProductsRequest) returns (GetLeadsProductsResponse){
+        option (google.api.http) = {
+            get: "/lead-product"
+        };
+    }
+    rpc DeleteLeadProducts (DeleteLeadProductsRequest) returns (DeleteLeadProductsResponse){
+        option (google.api.http) = {
+            delete: "/lead-product/{id}"
+        };
+    }
+    rpc PutProductsLead (PutProductsLeadRequest) returns (PutProductsLeadResponse){
+        option (google.api.http) = {
+            put: "/lead-product/{id}"
+            body: "product"
+        };
+    }
 }
 
 message AddProductsToLeadRequest{
-    uint32 id = 1;
+    uint32 id = 1 [(validate.rules).uint32.gt = 0];
     repeated string product_ids = 2;
 }
 
@@ -26,7 +50,7 @@ message AddProductsToLeadResponse{
 }
 
 message GetLeadProductsRequest{
-    uint32 id = 1;
+    uint32 id = 1 [(validate.rules).uint32.gt = 0];
 }
 
 message GetLeadProductsResponse{
@@ -45,7 +69,8 @@ message GetLeadsProductsResponse{
 }
 
 message PutProductsLeadRequest{
-    models.Product product = 1;
+    uint32 id = 1 [(validate.rules).uint32.gt = 0];
+    models.Product product = 2;
 }
 
 message PutProductsLeadResponse{
@@ -53,7 +78,7 @@ message PutProductsLeadResponse{
 }
 
 message DeleteLeadProductsRequest{
-    uint32 id = 1;
+    uint32 id = 1 [(validate.rules).uint32.gt = 0];
 }
 
 message DeleteLeadProductsResponse{

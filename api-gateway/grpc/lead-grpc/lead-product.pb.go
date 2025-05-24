@@ -29,7 +29,7 @@ const (
 type AddProductsToLeadRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	ProductId     []string               `protobuf:"bytes,2,rep,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	ProductIds    []string               `protobuf:"bytes,2,rep,name=product_ids,json=productIds,proto3" json:"product_ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -71,9 +71,9 @@ func (x *AddProductsToLeadRequest) GetId() uint32 {
 	return 0
 }
 
-func (x *AddProductsToLeadRequest) GetProductId() []string {
+func (x *AddProductsToLeadRequest) GetProductIds() []string {
 	if x != nil {
-		return x.ProductId
+		return x.ProductIds
 	}
 	return nil
 }
@@ -510,11 +510,11 @@ var File_api_gateway_grpc_lead_grpc_lead_product_proto protoreflect.FileDescript
 
 const file_api_gateway_grpc_lead_grpc_lead_product_proto_rawDesc = "" +
 	"\n" +
-	"-api-gateway/grpc/lead-grpc/lead-product.proto\x12\x05proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cgrpc/models/structures.proto\x1a\x17validate/validate.proto\"R\n" +
+	"-api-gateway/grpc/lead-grpc/lead-product.proto\x12\x05proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x17validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cgrpc/models/structures.proto\"T\n" +
 	"\x18AddProductsToLeadRequest\x12\x17\n" +
-	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\x12\x1d\n" +
-	"\n" +
-	"product_id\x18\x02 \x03(\tR\tproductId\"5\n" +
+	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\x12\x1f\n" +
+	"\vproduct_ids\x18\x02 \x03(\tR\n" +
+	"productIds\"5\n" +
 	"\x19AddProductsToLeadResponse\x12\x18\n" +
 	"\amessage\x18\x01 \x01(\tR\amessage\"1\n" +
 	"\x16GetLeadProductsRequest\x12\x17\n" +
@@ -537,13 +537,13 @@ const file_api_gateway_grpc_lead_grpc_lead_product_proto_rawDesc = "" +
 	"\x19DeleteLeadProductsRequest\x12\x17\n" +
 	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\"6\n" +
 	"\x1aDeleteLeadProductsResponse\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage2\xab\x04\n" +
-	"\x12LeadProductService\x12i\n" +
-	"\x11AddProductsToLead\x12\x1f.proto.AddProductsToLeadRequest\x1a .proto.AddProductsToLeadResponse\"\x11\x82\xd3\xe4\x93\x02\v:\x01*\"\x06/leads\x12e\n" +
-	"\x0fGetLeadProducts\x12\x1d.proto.GetLeadProductsRequest\x1a\x1e.proto.GetLeadProductsResponse\"\x13\x82\xd3\xe4\x93\x02\r\x12\v/leads/{id}\x12c\n" +
-	"\x10GetLeadsProducts\x12\x1e.proto.GetLeadsProductsRequest\x1a\x1f.proto.GetLeadsProductsResponse\"\x0e\x82\xd3\xe4\x93\x02\b\x12\x06/leads\x12n\n" +
-	"\x12DeleteLeadProducts\x12 .proto.DeleteLeadProductsRequest\x1a!.proto.DeleteLeadProductsResponse\"\x13\x82\xd3\xe4\x93\x02\r*\v/leads/{id}\x12n\n" +
-	"\x0fPutProductsLead\x12\x1d.proto.PutProductsLeadRequest\x1a\x1e.proto.PutProductsLeadResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\aproduct\x1a\v/leads/{id}B\x16Z\x14grpc/lead-grpc;protob\x06proto3"
+	"\amessage\x18\x01 \x01(\tR\amessage2\xce\x04\n" +
+	"\x12LeadProductService\x12p\n" +
+	"\x11AddProductsToLead\x12\x1f.proto.AddProductsToLeadRequest\x1a .proto.AddProductsToLeadResponse\"\x18\x82\xd3\xe4\x93\x02\x12:\x01*\"\r/lead-product\x12l\n" +
+	"\x0fGetLeadProducts\x12\x1d.proto.GetLeadProductsRequest\x1a\x1e.proto.GetLeadProductsResponse\"\x1a\x82\xd3\xe4\x93\x02\x14\x12\x12/lead-product/{id}\x12j\n" +
+	"\x10GetLeadsProducts\x12\x1e.proto.GetLeadsProductsRequest\x1a\x1f.proto.GetLeadsProductsResponse\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/lead-product\x12u\n" +
+	"\x12DeleteLeadProducts\x12 .proto.DeleteLeadProductsRequest\x1a!.proto.DeleteLeadProductsResponse\"\x1a\x82\xd3\xe4\x93\x02\x14*\x12/lead-product/{id}\x12u\n" +
+	"\x0fPutProductsLead\x12\x1d.proto.PutProductsLeadRequest\x1a\x1e.proto.PutProductsLeadResponse\"#\x82\xd3\xe4\x93\x02\x1d:\aproduct\x1a\x12/lead-product/{id}B\x16Z\x14grpc/lead-grpc;protob\x06proto3"
 
 var (
 	file_api_gateway_grpc_lead_grpc_lead_product_proto_rawDescOnce sync.Once
