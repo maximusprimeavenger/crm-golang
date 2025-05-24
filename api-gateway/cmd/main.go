@@ -24,7 +24,7 @@ func main() {
 	if err != nil {
 		log.Fatal("error, logger is nil:", err)
 	}
-	port, err := helpers.GetPort()
+	port, err := helpers.GetPort(env)
 	if err != nil {
 		logger.Error("error getting port", "error", err)
 	}
