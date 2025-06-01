@@ -1,0 +1,16 @@
+FROM golang:1.23
+
+WORKDIR /app
+
+COPY api-gateway/go.* ./
+RUN go mod download
+
+COPY config/conf.yaml ./config/conf.yaml
+
+COPY api-gateway/. .
+
+WORKDIR /app/cmd
+
+RUN go build -o /app/main .
+
+CMD ["/app/main"]

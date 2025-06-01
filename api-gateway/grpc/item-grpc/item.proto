@@ -13,28 +13,28 @@ option go_package = "grpc/item-grpc;proto";
 service ItemService{
     rpc CreateItem (CreateItemRequest) returns (CreateItemResponse){
         option (google.api.http) = {
-            post: "/items"
+            post: "/v1/items"
         };
     }
     rpc GetItem (GetItemRequest) returns (GetItemResponse){
         option (google.api.http) = {
-            get: "/items/{id}"
+            get: "/v1/items/{id}"
         };
     }
     rpc GetItems (GetItemsRequest) returns (GetItemsResponse){
         option (google.api.http) = {
-            get: "/items"
+            get: "/v1/items"
         };
     }
     rpc PutItem (PutItemRequest) returns (PutItemResponse){
         option (google.api.http) = {
-            put: "/items/{id}"
+            put: "/v1/items/{id}"
             body: "item"
         };
     }
     rpc DeleteItem (DeleteItemRequest) returns (DeleteItemResponse){
         option (google.api.http) = {
-            delete: "/items/{id}"
+            delete: "/v1/items/{id}"
         };
     }
 }

@@ -14,7 +14,7 @@ func LeadRouteManager(app *fiber.App, c proto.LeadServiceClient) {
 		//app.Delete("/:id", repository.DeleteLead(c))
 		//app.Post("", repository.NewLead(c))
 		//TODO
-		app.Patch("/:id", repository.UpdateLead(c))
+		app.Patch("/:id", repository.UpdateLead())
 	}
 
 }

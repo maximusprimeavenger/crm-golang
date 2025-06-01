@@ -16,7 +16,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-const path = "../config/conf.yaml"
+const path = "/app/config/conf.yaml"
 
 func main() {
 	logger, err := loadLogger(path)
@@ -28,9 +28,9 @@ func main() {
 		logger.Error("error getting port", "error", err)
 		os.Exit(1)
 	}
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
 	if err != nil {
-		logger.Error("error listening", "port", port)
+		logger.Error("error listening", "port", *port)
 		os.Exit(1)
 	}
 	s := grpc.NewServer()

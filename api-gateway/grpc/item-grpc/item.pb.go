@@ -526,15 +526,15 @@ const file_api_gateway_grpc_item_grpc_item_proto_rawDesc = "" +
 	"\x11DeleteItemRequest\x12\x17\n" +
 	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\".\n" +
 	"\x12DeleteItemResponse\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage2\xa9\x03\n" +
-	"\vItemService\x12Q\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage2\xb8\x03\n" +
+	"\vItemService\x12T\n" +
 	"\n" +
-	"CreateItem\x12\x18.proto.CreateItemRequest\x1a\x19.proto.CreateItemResponse\"\x0e\x82\xd3\xe4\x93\x02\b\"\x06/items\x12M\n" +
-	"\aGetItem\x12\x15.proto.GetItemRequest\x1a\x16.proto.GetItemResponse\"\x13\x82\xd3\xe4\x93\x02\r\x12\v/items/{id}\x12K\n" +
-	"\bGetItems\x12\x16.proto.GetItemsRequest\x1a\x17.proto.GetItemsResponse\"\x0e\x82\xd3\xe4\x93\x02\b\x12\x06/items\x12S\n" +
-	"\aPutItem\x12\x15.proto.PutItemRequest\x1a\x16.proto.PutItemResponse\"\x19\x82\xd3\xe4\x93\x02\x13:\x04item\x1a\v/items/{id}\x12V\n" +
+	"CreateItem\x12\x18.proto.CreateItemRequest\x1a\x19.proto.CreateItemResponse\"\x11\x82\xd3\xe4\x93\x02\v\"\t/v1/items\x12P\n" +
+	"\aGetItem\x12\x15.proto.GetItemRequest\x1a\x16.proto.GetItemResponse\"\x16\x82\xd3\xe4\x93\x02\x10\x12\x0e/v1/items/{id}\x12N\n" +
+	"\bGetItems\x12\x16.proto.GetItemsRequest\x1a\x17.proto.GetItemsResponse\"\x11\x82\xd3\xe4\x93\x02\v\x12\t/v1/items\x12V\n" +
+	"\aPutItem\x12\x15.proto.PutItemRequest\x1a\x16.proto.PutItemResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x04item\x1a\x0e/v1/items/{id}\x12Y\n" +
 	"\n" +
-	"DeleteItem\x12\x18.proto.DeleteItemRequest\x1a\x19.proto.DeleteItemResponse\"\x13\x82\xd3\xe4\x93\x02\r*\v/items/{id}B\x16Z\x14grpc/item-grpc;protob\x06proto3"
+	"DeleteItem\x12\x18.proto.DeleteItemRequest\x1a\x19.proto.DeleteItemResponse\"\x16\x82\xd3\xe4\x93\x02\x10*\x0e/v1/items/{id}B\x16Z\x14grpc/item-grpc;protob\x06proto3"
 
 var (
 	file_api_gateway_grpc_item_grpc_item_proto_rawDescOnce sync.Once

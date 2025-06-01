@@ -1,8 +1,7 @@
 services:
   api-gateway:
     build:
-      context: ./api-gateway
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.api-gateway
     ports:
       - ${API_PORTS}
     container_name: api-gateway
@@ -11,8 +10,7 @@ services:
       - postgres
       - api-gateway
     build: 
-      context: ./item-service
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.item-service
     ports:
       - ${ITEM_PORTS}
     container_name: item-service

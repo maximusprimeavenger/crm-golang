@@ -537,13 +537,13 @@ const file_api_gateway_grpc_lead_grpc_lead_product_proto_rawDesc = "" +
 	"\x19DeleteLeadProductsRequest\x12\x17\n" +
 	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\"6\n" +
 	"\x1aDeleteLeadProductsResponse\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage2\xce\x04\n" +
-	"\x12LeadProductService\x12p\n" +
-	"\x11AddProductsToLead\x12\x1f.proto.AddProductsToLeadRequest\x1a .proto.AddProductsToLeadResponse\"\x18\x82\xd3\xe4\x93\x02\x12:\x01*\"\r/lead-product\x12l\n" +
-	"\x0fGetLeadProducts\x12\x1d.proto.GetLeadProductsRequest\x1a\x1e.proto.GetLeadProductsResponse\"\x1a\x82\xd3\xe4\x93\x02\x14\x12\x12/lead-product/{id}\x12j\n" +
-	"\x10GetLeadsProducts\x12\x1e.proto.GetLeadsProductsRequest\x1a\x1f.proto.GetLeadsProductsResponse\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/lead-product\x12u\n" +
-	"\x12DeleteLeadProducts\x12 .proto.DeleteLeadProductsRequest\x1a!.proto.DeleteLeadProductsResponse\"\x1a\x82\xd3\xe4\x93\x02\x14*\x12/lead-product/{id}\x12u\n" +
-	"\x0fPutProductsLead\x12\x1d.proto.PutProductsLeadRequest\x1a\x1e.proto.PutProductsLeadResponse\"#\x82\xd3\xe4\x93\x02\x1d:\aproduct\x1a\x12/lead-product/{id}B\x16Z\x14grpc/lead-grpc;protob\x06proto3"
+	"\amessage\x18\x01 \x01(\tR\amessage2\xdd\x04\n" +
+	"\x12LeadProductService\x12s\n" +
+	"\x11AddProductsToLead\x12\x1f.proto.AddProductsToLeadRequest\x1a .proto.AddProductsToLeadResponse\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/v1/lead-product\x12o\n" +
+	"\x0fGetLeadProducts\x12\x1d.proto.GetLeadProductsRequest\x1a\x1e.proto.GetLeadProductsResponse\"\x1d\x82\xd3\xe4\x93\x02\x17\x12\x15/v1/lead-product/{id}\x12m\n" +
+	"\x10GetLeadsProducts\x12\x1e.proto.GetLeadsProductsRequest\x1a\x1f.proto.GetLeadsProductsResponse\"\x18\x82\xd3\xe4\x93\x02\x12\x12\x10/v1/lead-product\x12x\n" +
+	"\x12DeleteLeadProducts\x12 .proto.DeleteLeadProductsRequest\x1a!.proto.DeleteLeadProductsResponse\"\x1d\x82\xd3\xe4\x93\x02\x17*\x15/v1/lead-product/{id}\x12x\n" +
+	"\x0fPutProductsLead\x12\x1d.proto.PutProductsLeadRequest\x1a\x1e.proto.PutProductsLeadResponse\"&\x82\xd3\xe4\x93\x02 :\aproduct\x1a\x15/v1/lead-product/{id}B\x16Z\x14grpc/lead-grpc;protob\x06proto3"
 
 var (
 	file_api_gateway_grpc_lead_grpc_lead_product_proto_rawDescOnce sync.Once

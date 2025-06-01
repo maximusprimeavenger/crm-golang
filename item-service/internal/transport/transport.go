@@ -22,6 +22,10 @@ func NewGRPCHandler(s service.ItemService) *GRPCHandler {
 }
 
 func (h *GRPCHandler) CreateItem(ctx context.Context, req *proto.CreateItemRequest) (*proto.CreateItemResponse, error) {
+	err := req.Validate()
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error sending post request: %v", err)
+	}
 	item := &models.Item{
 		Name:        &req.Item.Name,
 		Category:    &req.Item.Category,
@@ -41,6 +45,10 @@ func (h *GRPCHandler) CreateItem(ctx context.Context, req *proto.CreateItemReque
 }
 
 func (h *GRPCHandler) GetItem(ctx context.Context, req *proto.GetItemRequest) (*proto.GetItemResponse, error) {
+	err := req.Validate()
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error sendinf get request: %v", err)
+	}
 	id := &req.Id
 	item, err := h.service.GetItem(ctx, id)
 	if err != nil {
@@ -54,10 +62,14 @@ func (h *GRPCHandler) GetItem(ctx context.Context, req *proto.GetItemRequest) (*
 }
 
 func (h *GRPCHandler) PutItem(ctx context.Context, req *proto.PutItemRequest) (*proto.PutItemResponse, error) {
+	err := req.Validate()
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error sending put request: %v", err)
+	}
 	id, item := &req.Id, req.Item
 	updatedItem, createdAt, updatedAt, err := h.service.PutItem(ctx, id, helpers.ConvertGRPCToModels(item))
 	if err != nil {
-		return nil, err
+		return nil, status.Errorf(codes.InvalidArgument, "error putting item: %v", err)
 	}
 	resp := &proto.PutItemResponse{
 		CreatedAt: timestamppb.New(*createdAt),

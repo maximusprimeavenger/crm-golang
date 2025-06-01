@@ -2,11 +2,13 @@ FROM golang:1.23
 
 WORKDIR /app
 
-COPY go.* .
+COPY item-service/go.* .
 
 RUN go mod download
 
-COPY . .
+COPY config/conf.yaml /app/config/conf.yaml
+
+COPY item-service/. .
 
 WORKDIR /app/cmd
 
