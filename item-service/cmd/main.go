@@ -23,7 +23,7 @@ func main() {
 	if err != nil {
 		logger.Info("error setting up the right env for logger")
 	}
-	port, err := helpers.GetPort()
+	port, err := helpers.GetPort(path)
 	if err != nil {
 		logger.Error("error getting port", "error", err)
 		os.Exit(1)
@@ -45,9 +45,9 @@ func main() {
 	handler := transport.NewGRPCHandler(svc)
 
 	proto.RegisterItemServiceServer(s, handler)
-	logger.Info("server is running", "port", port)
+	logger.Info("server is running", "port", *port)
 	if err := s.Serve(lis); err != nil {
-		logger.Error("error serving", "port", port)
+		logger.Error("error serving", "port", *port)
 		os.Exit(1)
 	}
 }

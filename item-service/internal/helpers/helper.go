@@ -8,9 +8,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-const path = "/app/config/conf.yaml"
-
-func GetPort() (*int, error) {
+func GetPort(path string) (*int, error) {
 	body, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
