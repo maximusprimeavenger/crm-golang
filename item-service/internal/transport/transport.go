@@ -26,6 +26,10 @@ func (h *GRPCHandler) CreateItem(ctx context.Context, req *proto.CreateItemReque
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error sending post request: %v", err)
 	}
+	if req.Item == nil {
+		return nil, status.Errorf(codes.InvalidArgument, "item is nil")
+	}
+
 	item := &models.Item{
 		Name:        &req.Item.Name,
 		Category:    &req.Item.Category,

@@ -7,8 +7,8 @@ services:
     container_name: api-gateway
   item-service:
     depends_on:
-      postgres:
-        condition: service_healthy
+      - postgres
+      - api-gateway
     build: 
       dockerfile: Dockerfile.item-service
     ports:
@@ -27,11 +27,6 @@ services:
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "postgres"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
 
   #lead-service:
    # build:
