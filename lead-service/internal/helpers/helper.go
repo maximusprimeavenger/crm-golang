@@ -1,25 +1,34 @@
 package helpers
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/badoux/checkmail"
-	"github.com/joho/godotenv"
+	"gopkg.in/yaml.v3"
 )
 
-func FindPort() (string, error) {
-	err := godotenv.Load("../.env")
+func FindPort(path string) (*int, error) {
+	data, err := os.ReadFile(path)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	if os.Getenv("PORT") == "" {
-		return "", fmt.Errorf("provided no port")
+	lead := new(leadStruct)
+	err = yaml.Unmarshal(data, &lead)
+	if err != nil {
+		return nil, err
 	}
-	return os.Getenv("PORT"), nil
+	return lead.Lead.Port, nil
 }
 
 func IsValidEmail(email string) bool {
 	err := checkmail.ValidateFormat(email)
 	return err == nil
+}
+
+type lead struct {
+	Port *int `yaml:"grpc-port"`
+}
+
+type leadStruct struct {
+	Lead lead `yaml:"lead-service"`
 }
