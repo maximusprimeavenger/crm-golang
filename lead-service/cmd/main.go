@@ -39,11 +39,10 @@ func main() {
 		logger.Error("error connecting to db")
 		os.Exit(1)
 	}
-	repo := repository.NewLeadRepository(dbConn)
-	productRepo := repository.NewLeadProductRepository(dbConn)
+	repo := repository.NewLeadRepository(dbConn, logger)
 
 	serv := service.NewLeadService(repo)
-	productServ := service.LeadProductService(productRepo)
+	productServ := service.NewLeadProductService(repo)
 
 	handler := transport.NewGRPCHandler(serv, productServ)
 
