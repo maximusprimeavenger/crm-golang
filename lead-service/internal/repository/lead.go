@@ -8,9 +8,11 @@ import (
 )
 
 type LeadRepo interface {
-	AddProducts(id uint32, product_id []string) (*models.Lead, error)
+	AddProducts(id uint32, product_id []uint32) (*models.Lead, error)
 	CreateLead()
 	DeleteLead()
+	DeleteLeadProduct(id, productId uint32) (string, error)
+	DeleteLeadProducts(id uint32) (string, error)
 	GetLead()
 	GetLeads()
 	UpdateLead()

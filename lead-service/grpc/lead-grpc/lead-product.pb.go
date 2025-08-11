@@ -8,12 +8,9 @@ package proto
 
 import (
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
-	models "github.com/fiveret/crm-golang/grpc/models"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -29,7 +26,7 @@ const (
 type AddProductsToLeadRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	ProductIds    []string               `protobuf:"bytes,2,rep,name=product_ids,json=productIds,proto3" json:"product_ids,omitempty"`
+	ProductIds    []uint32               `protobuf:"varint,2,rep,packed,name=product_ids,json=productIds,proto3" json:"product_ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -71,7 +68,7 @@ func (x *AddProductsToLeadRequest) GetId() uint32 {
 	return 0
 }
 
-func (x *AddProductsToLeadRequest) GetProductIds() []string {
+func (x *AddProductsToLeadRequest) GetProductIds() []uint32 {
 	if x != nil {
 		return x.ProductIds
 	}
@@ -122,27 +119,28 @@ func (x *AddProductsToLeadResponse) GetMessage() string {
 	return ""
 }
 
-type GetLeadProductsRequest struct {
+type DeleteLeadProductRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ProductId     uint32                 `protobuf:"varint,2,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetLeadProductsRequest) Reset() {
-	*x = GetLeadProductsRequest{}
+func (x *DeleteLeadProductRequest) Reset() {
+	*x = DeleteLeadProductRequest{}
 	mi := &file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetLeadProductsRequest) String() string {
+func (x *DeleteLeadProductRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetLeadProductsRequest) ProtoMessage() {}
+func (*DeleteLeadProductRequest) ProtoMessage() {}
 
-func (x *GetLeadProductsRequest) ProtoReflect() protoreflect.Message {
+func (x *DeleteLeadProductRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -154,248 +152,47 @@ func (x *GetLeadProductsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetLeadProductsRequest.ProtoReflect.Descriptor instead.
-func (*GetLeadProductsRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use DeleteLeadProductRequest.ProtoReflect.Descriptor instead.
+func (*DeleteLeadProductRequest) Descriptor() ([]byte, []int) {
 	return file_lead_service_grpc_lead_grpc_lead_product_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *GetLeadProductsRequest) GetId() uint32 {
+func (x *DeleteLeadProductRequest) GetId() uint32 {
 	if x != nil {
 		return x.Id
 	}
 	return 0
 }
 
-type GetLeadProductsResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Product       *models.Product        `protobuf:"bytes,1,opt,name=product,proto3" json:"product,omitempty"`
-	ProductId     uint32                 `protobuf:"varint,2,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetLeadProductsResponse) Reset() {
-	*x = GetLeadProductsResponse{}
-	mi := &file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetLeadProductsResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetLeadProductsResponse) ProtoMessage() {}
-
-func (x *GetLeadProductsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetLeadProductsResponse.ProtoReflect.Descriptor instead.
-func (*GetLeadProductsResponse) Descriptor() ([]byte, []int) {
-	return file_lead_service_grpc_lead_grpc_lead_product_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *GetLeadProductsResponse) GetProduct() *models.Product {
-	if x != nil {
-		return x.Product
-	}
-	return nil
-}
-
-func (x *GetLeadProductsResponse) GetProductId() uint32 {
+func (x *DeleteLeadProductRequest) GetProductId() uint32 {
 	if x != nil {
 		return x.ProductId
 	}
 	return 0
 }
 
-func (x *GetLeadProductsResponse) GetCreatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CreatedAt
-	}
-	return nil
-}
-
-func (x *GetLeadProductsResponse) GetUpdatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.UpdatedAt
-	}
-	return nil
-}
-
-type GetLeadsProductsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Empty         *emptypb.Empty         `protobuf:"bytes,1,opt,name=empty,proto3" json:"empty,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetLeadsProductsRequest) Reset() {
-	*x = GetLeadsProductsRequest{}
-	mi := &file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetLeadsProductsRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetLeadsProductsRequest) ProtoMessage() {}
-
-func (x *GetLeadsProductsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes[4]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetLeadsProductsRequest.ProtoReflect.Descriptor instead.
-func (*GetLeadsProductsRequest) Descriptor() ([]byte, []int) {
-	return file_lead_service_grpc_lead_grpc_lead_product_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *GetLeadsProductsRequest) GetEmpty() *emptypb.Empty {
-	if x != nil {
-		return x.Empty
-	}
-	return nil
-}
-
-type GetLeadsProductsResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Products      []*models.Product      `protobuf:"bytes,1,rep,name=products,proto3" json:"products,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetLeadsProductsResponse) Reset() {
-	*x = GetLeadsProductsResponse{}
-	mi := &file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetLeadsProductsResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetLeadsProductsResponse) ProtoMessage() {}
-
-func (x *GetLeadsProductsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes[5]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetLeadsProductsResponse.ProtoReflect.Descriptor instead.
-func (*GetLeadsProductsResponse) Descriptor() ([]byte, []int) {
-	return file_lead_service_grpc_lead_grpc_lead_product_proto_rawDescGZIP(), []int{5}
-}
-
-func (x *GetLeadsProductsResponse) GetProducts() []*models.Product {
-	if x != nil {
-		return x.Products
-	}
-	return nil
-}
-
-type PutProductsLeadRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Product       *models.Product        `protobuf:"bytes,2,opt,name=product,proto3" json:"product,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *PutProductsLeadRequest) Reset() {
-	*x = PutProductsLeadRequest{}
-	mi := &file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *PutProductsLeadRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*PutProductsLeadRequest) ProtoMessage() {}
-
-func (x *PutProductsLeadRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes[6]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PutProductsLeadRequest.ProtoReflect.Descriptor instead.
-func (*PutProductsLeadRequest) Descriptor() ([]byte, []int) {
-	return file_lead_service_grpc_lead_grpc_lead_product_proto_rawDescGZIP(), []int{6}
-}
-
-func (x *PutProductsLeadRequest) GetId() uint32 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *PutProductsLeadRequest) GetProduct() *models.Product {
-	if x != nil {
-		return x.Product
-	}
-	return nil
-}
-
-type PutProductsLeadResponse struct {
+type DeleteLeadProductResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *PutProductsLeadResponse) Reset() {
-	*x = PutProductsLeadResponse{}
-	mi := &file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes[7]
+func (x *DeleteLeadProductResponse) Reset() {
+	*x = DeleteLeadProductResponse{}
+	mi := &file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *PutProductsLeadResponse) String() string {
+func (x *DeleteLeadProductResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*PutProductsLeadResponse) ProtoMessage() {}
+func (*DeleteLeadProductResponse) ProtoMessage() {}
 
-func (x *PutProductsLeadResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes[7]
+func (x *DeleteLeadProductResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -406,12 +203,12 @@ func (x *PutProductsLeadResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PutProductsLeadResponse.ProtoReflect.Descriptor instead.
-func (*PutProductsLeadResponse) Descriptor() ([]byte, []int) {
-	return file_lead_service_grpc_lead_grpc_lead_product_proto_rawDescGZIP(), []int{7}
+// Deprecated: Use DeleteLeadProductResponse.ProtoReflect.Descriptor instead.
+func (*DeleteLeadProductResponse) Descriptor() ([]byte, []int) {
+	return file_lead_service_grpc_lead_grpc_lead_product_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *PutProductsLeadResponse) GetMessage() string {
+func (x *DeleteLeadProductResponse) GetMessage() string {
 	if x != nil {
 		return x.Message
 	}
@@ -427,7 +224,7 @@ type DeleteLeadProductsRequest struct {
 
 func (x *DeleteLeadProductsRequest) Reset() {
 	*x = DeleteLeadProductsRequest{}
-	mi := &file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes[8]
+	mi := &file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -439,7 +236,7 @@ func (x *DeleteLeadProductsRequest) String() string {
 func (*DeleteLeadProductsRequest) ProtoMessage() {}
 
 func (x *DeleteLeadProductsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes[8]
+	mi := &file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -452,7 +249,7 @@ func (x *DeleteLeadProductsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteLeadProductsRequest.ProtoReflect.Descriptor instead.
 func (*DeleteLeadProductsRequest) Descriptor() ([]byte, []int) {
-	return file_lead_service_grpc_lead_grpc_lead_product_proto_rawDescGZIP(), []int{8}
+	return file_lead_service_grpc_lead_grpc_lead_product_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *DeleteLeadProductsRequest) GetId() uint32 {
@@ -471,7 +268,7 @@ type DeleteLeadProductsResponse struct {
 
 func (x *DeleteLeadProductsResponse) Reset() {
 	*x = DeleteLeadProductsResponse{}
-	mi := &file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes[9]
+	mi := &file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -483,7 +280,7 @@ func (x *DeleteLeadProductsResponse) String() string {
 func (*DeleteLeadProductsResponse) ProtoMessage() {}
 
 func (x *DeleteLeadProductsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes[9]
+	mi := &file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -496,7 +293,7 @@ func (x *DeleteLeadProductsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteLeadProductsResponse.ProtoReflect.Descriptor instead.
 func (*DeleteLeadProductsResponse) Descriptor() ([]byte, []int) {
-	return file_lead_service_grpc_lead_grpc_lead_product_proto_rawDescGZIP(), []int{9}
+	return file_lead_service_grpc_lead_grpc_lead_product_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *DeleteLeadProductsResponse) GetMessage() string {
@@ -510,40 +307,27 @@ var File_lead_service_grpc_lead_grpc_lead_product_proto protoreflect.FileDescrip
 
 const file_lead_service_grpc_lead_grpc_lead_product_proto_rawDesc = "" +
 	"\n" +
-	".lead-service/grpc/lead-grpc/lead-product.proto\x12\x05proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x17validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cgrpc/models/structures.proto\"T\n" +
+	".lead-service/grpc/lead-grpc/lead-product.proto\x12\x05proto\x1a\x1cgoogle/api/annotations.proto\x1a\x17validate/validate.proto\"T\n" +
 	"\x18AddProductsToLeadRequest\x12\x17\n" +
 	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\x12\x1f\n" +
-	"\vproduct_ids\x18\x02 \x03(\tR\n" +
+	"\vproduct_ids\x18\x02 \x03(\rR\n" +
 	"productIds\"5\n" +
 	"\x19AddProductsToLeadResponse\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage\"1\n" +
-	"\x16GetLeadProductsRequest\x12\x17\n" +
-	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\"\xd7\x01\n" +
-	"\x17GetLeadProductsResponse\x12)\n" +
-	"\aproduct\x18\x01 \x01(\v2\x0f.models.ProductR\aproduct\x12\x1d\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage\"R\n" +
+	"\x18DeleteLeadProductRequest\x12\x17\n" +
+	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\x12\x1d\n" +
 	"\n" +
-	"product_id\x18\x02 \x01(\rR\tproductId\x128\n" +
-	"\tcreatedAt\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x128\n" +
-	"\tupdatedAt\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"G\n" +
-	"\x17GetLeadsProductsRequest\x12,\n" +
-	"\x05empty\x18\x01 \x01(\v2\x16.google.protobuf.EmptyR\x05empty\"G\n" +
-	"\x18GetLeadsProductsResponse\x12+\n" +
-	"\bproducts\x18\x01 \x03(\v2\x0f.models.ProductR\bproducts\"\\\n" +
-	"\x16PutProductsLeadRequest\x12\x17\n" +
-	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\x12)\n" +
-	"\aproduct\x18\x02 \x01(\v2\x0f.models.ProductR\aproduct\"3\n" +
-	"\x17PutProductsLeadResponse\x12\x18\n" +
+	"product_id\x18\x02 \x01(\rR\tproductId\"5\n" +
+	"\x19DeleteLeadProductResponse\x12\x18\n" +
 	"\amessage\x18\x01 \x01(\tR\amessage\"4\n" +
 	"\x19DeleteLeadProductsRequest\x12\x17\n" +
 	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\"6\n" +
 	"\x1aDeleteLeadProductsResponse\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage2\xce\x04\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage2\xf4\x02\n" +
 	"\x12LeadProductService\x12p\n" +
-	"\x11AddProductsToLead\x12\x1f.proto.AddProductsToLeadRequest\x1a .proto.AddProductsToLeadResponse\"\x18\x82\xd3\xe4\x93\x02\x12:\x01*\"\r/lead-product\x12l\n" +
-	"\x0fGetLeadProducts\x12\x1d.proto.GetLeadProductsRequest\x1a\x1e.proto.GetLeadProductsResponse\"\x1a\x82\xd3\xe4\x93\x02\x14\x12\x12/lead-product/{id}\x12j\n" +
-	"\x10GetLeadsProducts\x12\x1e.proto.GetLeadsProductsRequest\x1a\x1f.proto.GetLeadsProductsResponse\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/lead-product\x12u\n" +
+	"\x11AddProductsToLead\x12\x1f.proto.AddProductsToLeadRequest\x1a .proto.AddProductsToLeadResponse\"\x18\x82\xd3\xe4\x93\x02\x12:\x01*\"\r/lead-product\x12u\n" +
 	"\x12DeleteLeadProducts\x12 .proto.DeleteLeadProductsRequest\x1a!.proto.DeleteLeadProductsResponse\"\x1a\x82\xd3\xe4\x93\x02\x14*\x12/lead-product/{id}\x12u\n" +
-	"\x0fPutProductsLead\x12\x1d.proto.PutProductsLeadRequest\x1a\x1e.proto.PutProductsLeadResponse\"#\x82\xd3\xe4\x93\x02\x1d:\aproduct\x1a\x12/lead-product/{id}B\x16Z\x14grpc/lead-grpc;protob\x06proto3"
+	"\x11DeleteLeadProduct\x12\x1f.proto.DeleteLeadProductRequest\x1a .proto.DeleteLeadProductResponse\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\x1a\x12/lead-product/{id}B\x16Z\x14grpc/lead-grpc;protob\x06proto3"
 
 var (
 	file_lead_service_grpc_lead_grpc_lead_product_proto_rawDescOnce sync.Once
@@ -557,44 +341,27 @@ func file_lead_service_grpc_lead_grpc_lead_product_proto_rawDescGZIP() []byte {
 	return file_lead_service_grpc_lead_grpc_lead_product_proto_rawDescData
 }
 
-var file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_lead_service_grpc_lead_grpc_lead_product_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_lead_service_grpc_lead_grpc_lead_product_proto_goTypes = []any{
 	(*AddProductsToLeadRequest)(nil),   // 0: proto.AddProductsToLeadRequest
 	(*AddProductsToLeadResponse)(nil),  // 1: proto.AddProductsToLeadResponse
-	(*GetLeadProductsRequest)(nil),     // 2: proto.GetLeadProductsRequest
-	(*GetLeadProductsResponse)(nil),    // 3: proto.GetLeadProductsResponse
-	(*GetLeadsProductsRequest)(nil),    // 4: proto.GetLeadsProductsRequest
-	(*GetLeadsProductsResponse)(nil),   // 5: proto.GetLeadsProductsResponse
-	(*PutProductsLeadRequest)(nil),     // 6: proto.PutProductsLeadRequest
-	(*PutProductsLeadResponse)(nil),    // 7: proto.PutProductsLeadResponse
-	(*DeleteLeadProductsRequest)(nil),  // 8: proto.DeleteLeadProductsRequest
-	(*DeleteLeadProductsResponse)(nil), // 9: proto.DeleteLeadProductsResponse
-	(*models.Product)(nil),             // 10: models.Product
-	(*timestamppb.Timestamp)(nil),      // 11: google.protobuf.Timestamp
-	(*emptypb.Empty)(nil),              // 12: google.protobuf.Empty
+	(*DeleteLeadProductRequest)(nil),   // 2: proto.DeleteLeadProductRequest
+	(*DeleteLeadProductResponse)(nil),  // 3: proto.DeleteLeadProductResponse
+	(*DeleteLeadProductsRequest)(nil),  // 4: proto.DeleteLeadProductsRequest
+	(*DeleteLeadProductsResponse)(nil), // 5: proto.DeleteLeadProductsResponse
 }
 var file_lead_service_grpc_lead_grpc_lead_product_proto_depIdxs = []int32{
-	10, // 0: proto.GetLeadProductsResponse.product:type_name -> models.Product
-	11, // 1: proto.GetLeadProductsResponse.createdAt:type_name -> google.protobuf.Timestamp
-	11, // 2: proto.GetLeadProductsResponse.updatedAt:type_name -> google.protobuf.Timestamp
-	12, // 3: proto.GetLeadsProductsRequest.empty:type_name -> google.protobuf.Empty
-	10, // 4: proto.GetLeadsProductsResponse.products:type_name -> models.Product
-	10, // 5: proto.PutProductsLeadRequest.product:type_name -> models.Product
-	0,  // 6: proto.LeadProductService.AddProductsToLead:input_type -> proto.AddProductsToLeadRequest
-	2,  // 7: proto.LeadProductService.GetLeadProducts:input_type -> proto.GetLeadProductsRequest
-	4,  // 8: proto.LeadProductService.GetLeadsProducts:input_type -> proto.GetLeadsProductsRequest
-	8,  // 9: proto.LeadProductService.DeleteLeadProducts:input_type -> proto.DeleteLeadProductsRequest
-	6,  // 10: proto.LeadProductService.PutProductsLead:input_type -> proto.PutProductsLeadRequest
-	1,  // 11: proto.LeadProductService.AddProductsToLead:output_type -> proto.AddProductsToLeadResponse
-	3,  // 12: proto.LeadProductService.GetLeadProducts:output_type -> proto.GetLeadProductsResponse
-	5,  // 13: proto.LeadProductService.GetLeadsProducts:output_type -> proto.GetLeadsProductsResponse
-	9,  // 14: proto.LeadProductService.DeleteLeadProducts:output_type -> proto.DeleteLeadProductsResponse
-	7,  // 15: proto.LeadProductService.PutProductsLead:output_type -> proto.PutProductsLeadResponse
-	11, // [11:16] is the sub-list for method output_type
-	6,  // [6:11] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	0, // 0: proto.LeadProductService.AddProductsToLead:input_type -> proto.AddProductsToLeadRequest
+	4, // 1: proto.LeadProductService.DeleteLeadProducts:input_type -> proto.DeleteLeadProductsRequest
+	2, // 2: proto.LeadProductService.DeleteLeadProduct:input_type -> proto.DeleteLeadProductRequest
+	1, // 3: proto.LeadProductService.AddProductsToLead:output_type -> proto.AddProductsToLeadResponse
+	5, // 4: proto.LeadProductService.DeleteLeadProducts:output_type -> proto.DeleteLeadProductsResponse
+	3, // 5: proto.LeadProductService.DeleteLeadProduct:output_type -> proto.DeleteLeadProductResponse
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
+	0, // [0:0] is the sub-list for extension type_name
+	0, // [0:0] is the sub-list for extension extendee
+	0, // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_lead_service_grpc_lead_grpc_lead_product_proto_init() }
@@ -608,7 +375,7 @@ func file_lead_service_grpc_lead_grpc_lead_product_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_lead_service_grpc_lead_grpc_lead_product_proto_rawDesc), len(file_lead_service_grpc_lead_grpc_lead_product_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
