@@ -5,6 +5,8 @@ services:
     ports:
       - ${API_PORTS}
     container_name: api-gateway
+    networks:
+      - internal-net
   item-service:
     depends_on:
       - postgres
@@ -14,8 +16,12 @@ services:
     ports:
       - ${ITEM_PORTS}
     container_name: item-service
+    networks:
+      - internal-net
 
   postgres:
+    depends_on:
+      - api-gateway
     image: postgres:13.3
     container_name: postgres
     environment:
@@ -23,10 +29,12 @@ services:
       POSTGRES_USER:  ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - "5432:${POSTGRES_PORT}"
+      - "${POSTGRES_PORT}:5432"
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - internal-net
 
   #lead-service:
    # build:
@@ -35,3 +43,8 @@ services:
 
 volumes:
   postgres_data:
+
+networks:
+  internal-net:
+    driver: bridge
+ 

@@ -87,7 +87,7 @@ func (db *DB) DeleteItem(id uint32) error {
 
 func (db *DB) FindItemByName(name string) (*models.Item, error) {
 	item := new(models.Item)
-	err := db.db.First(&item, name).Error
+	err := db.db.First(&item, "name = ?", name).Error
 	if err != nil {
 		return nil, err
 	}
