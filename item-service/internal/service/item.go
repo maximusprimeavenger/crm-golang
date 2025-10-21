@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"errors"
+	"sync"
 	"time"
 
 	grpcModels "github.com/fiveret/product-service/grpc/models"
@@ -59,19 +60,17 @@ func (s *itemService) GetItems(context.Context) ([]*grpcModels.Item, error) {
 	if err != nil {
 		return nil, err
 	}
-	returnItems := []*grpcModels.Item{}
-	for _, item := range items {
-		return_item := &grpcModels.Item{
-			Name:        *item.Name,
-			Status:      *item.Status,
-			Description: *item.Description,
-			Price:       *item.Price,
-			Category:    *item.Category,
-			Currency:    *item.Currency,
-			InStock:     *item.InStock,
-		}
-		returnItems = append(returnItems, return_item)
+	returnItems := make([]*grpcModels.Item, len(items))
+	var wg sync.WaitGroup
+	for i, item := range items {
+		wg.Add(1)
+		go func(i int, item *models.Item) {
+			defer wg.Done()
+			returnItems[i] = helpers.ConvertModelsToGRPC(item)
+		}(i, item)
 	}
+
+	wg.Wait()
 	return returnItems, nil
 }
 
