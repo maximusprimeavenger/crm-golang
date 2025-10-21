@@ -5,6 +5,7 @@ import (
 	"errors"
 	"time"
 
+	grpcModels "github.com/fiveret/product-service/grpc/models"
 	"github.com/fiveret/product-service/internal/helpers"
 	"github.com/fiveret/product-service/internal/models"
 	"github.com/fiveret/product-service/internal/repository"
@@ -12,7 +13,9 @@ import (
 
 type ItemService interface {
 	CreateItem(context.Context, *models.Item) (*time.Time, error)
+	DeleteItem(context.Context, *uint32) (string, error)
 	GetItem(context.Context, *uint32) (*models.Item, error)
+	GetItems(context.Context) ([]*grpcModels.Item, error)
 	PutItem(context.Context, *uint32, *models.Item) (*models.Item, *time.Time, *time.Time, error)
 }
 
@@ -37,11 +40,39 @@ func (s *itemService) CreateItem(ctx context.Context, item *models.Item) (*time.
 	return s.repo.NewItem(item)
 }
 
+func (s *itemService) DeleteItem(ctx context.Context, id *uint32) (string, error) {
+	if id == nil {
+		return "", errors.New("id is empty")
+	}
+	return s.repo.DeleteItem(id)
+}
+
 func (s *itemService) GetItem(ctx context.Context, id *uint32) (*models.Item, error) {
 	if id == nil {
 		return nil, errors.New("id is empty")
 	}
 	return s.repo.GetItem(id)
+}
+
+func (s *itemService) GetItems(context.Context) ([]*grpcModels.Item, error) {
+	items, err := s.repo.GetItems()
+	if err != nil {
+		return nil, err
+	}
+	returnItems := []*grpcModels.Item{}
+	for _, item := range items {
+		return_item := &grpcModels.Item{
+			Name:        *item.Name,
+			Status:      *item.Status,
+			Description: *item.Description,
+			Price:       *item.Price,
+			Category:    *item.Category,
+			Currency:    *item.Currency,
+			InStock:     *item.InStock,
+		}
+		returnItems = append(returnItems, return_item)
+	}
+	return returnItems, nil
 }
 
 func (s *itemService) PutItem(ctx context.Context, id *uint32, item *models.Item) (*models.Item, *time.Time, *time.Time, error) {

@@ -2,6 +2,8 @@ package transport
 
 import (
 	"context"
+	"errors"
+	"fmt"
 
 	proto "github.com/fiveret/product-service/grpc/item-grpc"
 	"github.com/fiveret/product-service/internal/helpers"
@@ -48,10 +50,30 @@ func (h *GRPCHandler) CreateItem(ctx context.Context, req *proto.CreateItemReque
 	return &resp, nil
 }
 
+func (h *GRPCHandler) DeleteItem(ctx context.Context, req *proto.DeleteItemRequest) (*proto.DeleteItemResponse, error) {
+	err := req.Validate()
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error sending delete request")
+	}
+	id := &req.Id
+	msg, err := h.service.DeleteItem(ctx, id)
+	if err != nil {
+		if errors.Is(err, fmt.Errorf("error finding item for deleting")) {
+			return &proto.DeleteItemResponse{
+				Message: fmt.Sprintf("item with id %d successfully deleted", id),
+			}, nil
+		}
+		return nil, status.Errorf(codes.InvalidArgument, "error deleting an item")
+	}
+	return &proto.DeleteItemResponse{
+		Message: msg,
+	}, nil
+}
+
 func (h *GRPCHandler) GetItem(ctx context.Context, req *proto.GetItemRequest) (*proto.GetItemResponse, error) {
 	err := req.Validate()
 	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error sendinf get request: %v", err)
+		return nil, status.Errorf(codes.InvalidArgument, "error sending get request: %v", err)
 	}
 	id := &req.Id
 	item, err := h.service.GetItem(ctx, id)
@@ -63,6 +85,19 @@ func (h *GRPCHandler) GetItem(ctx context.Context, req *proto.GetItemRequest) (*
 		Item: respItem,
 	}
 	return resp, nil
+}
+
+func (h *GRPCHandler) GetItems(ctx context.Context, req *proto.GetItemsRequest) (*proto.GetItemsResponse, error) {
+	items, err := h.service.GetItems(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if len(items) == 0 {
+		return nil, status.Errorf(codes.NotFound, "no items found")
+	}
+	return &proto.GetItemsResponse{
+		Items: items,
+	}, nil
 }
 
 func (h *GRPCHandler) PutItem(ctx context.Context, req *proto.PutItemRequest) (*proto.PutItemResponse, error) {

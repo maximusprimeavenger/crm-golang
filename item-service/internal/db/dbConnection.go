@@ -66,10 +66,13 @@ func (db *DB) FindItem(id uint32) (*models.Item, error) {
 	return product, nil
 }
 
-func (db *DB) FindItems() []*models.Item {
+func (db *DB) FindItems() ([]*models.Item, error) {
 	var items []*models.Item
-	db.db.First(&items)
-	return items
+	result := db.db.Find(&items)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return items, nil
 }
 
 func (db *DB) DeleteItem(id uint32) error {
