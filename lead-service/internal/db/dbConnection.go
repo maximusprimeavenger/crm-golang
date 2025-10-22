@@ -2,6 +2,7 @@ package db
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/fiveret/crm-golang/internal/models"
 	"github.com/glebarez/sqlite"
@@ -13,7 +14,11 @@ type DBConnection struct {
 }
 
 func Init() (*DBConnection, error) {
-	db, err := gorm.Open(sqlite.Open("lead.db"), &gorm.Config{})
+	dbPath := os.Getenv("SQLITE_PATH")
+	if dbPath == "" {
+		return nil, fmt.Errorf("error finding the SQLITE_PATH")
+	}
+	db, err := gorm.Open(sqlite.Open(dbPath), &gorm.Config{})
 	if err != nil {
 		return nil, fmt.Errorf("error connecting to database")
 	}

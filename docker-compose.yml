@@ -18,7 +18,18 @@ services:
     container_name: item-service
     networks:
       - internal-net
-
+  lead-service:
+    build:
+      dockerfile: Dockerfile.lead-service
+    ports:
+      - ${LEAD_PORTS}
+    container_name: lead-service
+    volumes:
+      - ./lead-service/cmd/lead-data:/data
+    environment:
+      - SQLITE_PATH=/data/lead.db
+    networks:
+      - internal-net
   postgres:
     depends_on:
       - api-gateway
@@ -36,13 +47,11 @@ services:
     networks:
       - internal-net
 
-  #lead-service:
-   # build:
-    #  context: ./lead-service
-     # dockerfile: Dockerfile
+  
 
 volumes:
   postgres_data:
+  lead_data:
 
 networks:
   internal-net:

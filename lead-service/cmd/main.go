@@ -28,7 +28,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
 	if err != nil {
 		logger.Error(fmt.Sprintf("error connecting with port :%d", *port))
 		os.Exit(1)

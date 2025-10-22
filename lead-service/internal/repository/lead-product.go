@@ -17,7 +17,7 @@ func (repo *leadRepo) AddProducts(id uint32, product_id []uint32) (*models.Lead,
 	}
 	for _, product := range products {
 		if product != nil {
-			lead.Products = append(lead.Products, *product)
+			lead.Products = append(lead.Products, product)
 		} else if product.ID != 0 && product.Name == nil {
 			repo.logger.Warn(fmt.Sprintf("the product with id: %d is null", product.ID))
 		}
@@ -30,7 +30,7 @@ func (repo *leadRepo) DeleteLeadProducts(id uint32) (string, error) {
 	if err != nil {
 		return "failure", err
 	}
-	lead.Products = []models.Product{}
+	lead.Products = []*models.Product{}
 	return "lead's products have been successfully deleted", nil
 }
 
@@ -42,7 +42,7 @@ func (repo *leadRepo) DeleteLeadProduct(id, productId uint32) (string, error) {
 
 	var (
 		deletedProductName string
-		newProducts        []models.Product
+		newProducts        []*models.Product
 	)
 
 	for _, p := range lead.Products {

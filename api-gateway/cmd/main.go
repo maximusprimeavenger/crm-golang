@@ -35,12 +35,12 @@ func main() {
 	credentials := grpc.WithTransportCredentials(insecure.NewCredentials())
 	opts := []grpc.DialOption{credentials}
 
-	endpoints := []string{"item-service:9090"}
+	endpoints := []string{"item-service:9090", "lead-service:7070"}
 	err = gateway.RegisterHandlers(ctx, mux, endpoints, opts)
 	if err != nil {
-		logger.Error("error connecting to item-service", "details:", err)
+		logger.Error("error connecting to item-service or lead-service", "details:", err)
 	}
-
+	logger.Info("Registered all handlers!")
 	fasthttpHandler := fasthttpadaptor.NewFastHTTPHandler(mux)
 
 	app.All("/v1/*", func(c *fiber.Ctx) error {
