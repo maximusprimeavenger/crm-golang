@@ -3,11 +3,13 @@ package main
 import (
 	"context"
 	"crypto/tls"
+	"fmt"
 	"log"
 	"log/slog"
 	"os"
 
 	"github.com/fiveret/api-gateway/internal/gateway"
+	"github.com/fiveret/api-gateway/internal/helpers"
 	"github.com/gofiber/fiber/v2"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/valyala/fasthttp/fasthttpadaptor"
@@ -25,9 +27,9 @@ func main() {
 		os.Exit(1)
 	}
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
+	port, err := helpers.GetPort(env)
+	if err != nil {
+		logger.Error("error getting port", "error", err)
 	}
 
 	itemServiceURL := os.Getenv("ITEM_SERVICE_URL")
@@ -69,8 +71,8 @@ func main() {
 		return nil
 	})
 
-	logger.Info("Starting API Gateway", "port", port)
-	log.Fatal(app.Listen(":" + port))
+	logger.Info("Starting API Gateway", "port", *port)
+	log.Fatal(app.Listen(fmt.Sprintf(":%d", *port)))
 }
 func loadLogger(env string) (*slog.Logger, error) {
 	body, err := os.ReadFile(env)
