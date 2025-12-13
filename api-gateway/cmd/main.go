@@ -2,18 +2,17 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"crypto/tls"
 	"log"
 	"log/slog"
 	"os"
 
 	"github.com/fiveret/api-gateway/internal/gateway"
-	"github.com/fiveret/api-gateway/internal/helpers"
 	"github.com/gofiber/fiber/v2"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/valyala/fasthttp/fasthttpadaptor"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/credentials"
 	"gopkg.in/yaml.v3"
 )
 
@@ -22,39 +21,57 @@ const env = "/app/config/conf.yaml"
 func main() {
 	logger, err := loadLogger(env)
 	if err != nil {
-		log.Fatal("error, logger is nil: ", err)
+		log.Fatal("Logger is not set")
+		os.Exit(1)
 	}
-	port, err := helpers.GetPort(env)
-	if err != nil {
-		logger.Error("error getting port", "error", err)
-	}
-	app := fiber.New()
 
-	mux := runtime.NewServeMux()
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	itemServiceURL := os.Getenv("ITEM_SERVICE_URL")
+	leadServiceURL := os.Getenv("LEAD_SERVICE_URL")
+
+	if itemServiceURL == "" || leadServiceURL == "" {
+		log.Fatal("ITEM_SERVICE_URL or LEAD_SERVICE_URL is not set")
+	}
+
+	creds := credentials.NewTLS(&tls.Config{})
+	opts := []grpc.DialOption{
+		grpc.WithTransportCredentials(creds),
+	}
+
 	ctx := context.Background()
-	credentials := grpc.WithTransportCredentials(insecure.NewCredentials())
-	opts := []grpc.DialOption{credentials}
+	mux := runtime.NewServeMux()
 
-	endpoints := []string{
-		os.Getenv("ITEM_SERVICE_URL"),
-		os.Getenv("LEAD_SERVICE_URL"),
-	}
-	err = gateway.RegisterHandlers(ctx, mux, endpoints, opts)
+	err = gateway.RegisterHandlers(
+		ctx,
+		mux,
+		[]string{
+			itemServiceURL,
+			leadServiceURL,
+		},
+		opts,
+	)
 	if err != nil {
-		logger.Error("error connecting to item-service or lead-service", "details:", err)
+		logger.Error("failed to register handlers", "error", err)
+		os.Exit(1)
 	}
-	logger.Info("Registered all handlers!")
-	fasthttpHandler := fasthttpadaptor.NewFastHTTPHandler(mux)
+
+	logger.Info("gRPC Gateway handlers registered")
+
+	app := fiber.New()
+	handler := fasthttpadaptor.NewFastHTTPHandler(mux)
 
 	app.All("/v1/*", func(c *fiber.Ctx) error {
-		fasthttpHandler(c.Context())
+		handler(c.Context())
 		return nil
 	})
 
-	logger.Error("error listening on http server", "details:",
-		app.Listen(fmt.Sprintf(":%d", *port)))
+	logger.Info("Starting API Gateway", "port", port)
+	log.Fatal(app.Listen(":" + port))
 }
-
 func loadLogger(env string) (*slog.Logger, error) {
 	body, err := os.ReadFile(env)
 	if err != nil {
