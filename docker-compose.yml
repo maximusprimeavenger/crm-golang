@@ -3,6 +3,8 @@ services:
     environment:
       - ITEM_SERVICE_URL=${ITEM_SERVICE_URL}
       - LEAD_SERVICE_URL=${LEAD_SERVICE_URL}
+      - ENV=${ENV}
+      - PORT_GATEWAY = ${PORT_GATEWAY}
     build:
       context: ./api-gateway
       dockerfile: Dockerfile
@@ -12,6 +14,9 @@ services:
       - ./config:/app/config
     container_name: api-gateway
   item-service:
+    environment:
+      - PORT_ITEM=${PORT_ITEM}
+      - ENV=${ENV}
     depends_on:
       - postgres
       - api-gateway

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"log/slog"
 	"net"
@@ -9,29 +8,21 @@ import (
 
 	proto "github.com/fiveret/product-service/grpc/item-grpc"
 	"github.com/fiveret/product-service/internal/db"
-	"github.com/fiveret/product-service/internal/helpers"
 	"github.com/fiveret/product-service/internal/repository"
 	"github.com/fiveret/product-service/internal/service"
 	"github.com/fiveret/product-service/internal/transport"
 	"google.golang.org/grpc"
-	"gopkg.in/yaml.v3"
 )
 
-const path = "/app/config/conf.yaml"
-
 func main() {
-	logger, err := loadLogger(path)
+	logger, err := loadLogger()
 	if err != nil {
 		log.Fatal("logger is nil, error:", err)
 	}
-	port, err := helpers.GetPort(path)
+	port := os.Getenv("PORT_ITEM")
+	lis, err := net.Listen("tcp", ":"+port)
 	if err != nil {
-		logger.Error("error getting port", "error", err)
-		os.Exit(1)
-	}
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
-	if err != nil {
-		logger.Error("error listening", "port", *port)
+		logger.Error("error listening", "port", port)
 		os.Exit(1)
 	}
 	s := grpc.NewServer()
@@ -46,25 +37,17 @@ func main() {
 	handler := transport.NewGRPCHandler(svc)
 
 	proto.RegisterItemServiceServer(s, handler)
-	logger.Info("server is running", "port", *port)
+	logger.Info("server is running", "port", port)
 	if err := s.Serve(lis); err != nil {
-		logger.Error("error serving", "port", *port)
+		logger.Error("error serving", "port", port)
 		os.Exit(1)
 	}
 }
 
-func loadLogger(path string) (*slog.Logger, error) {
-	body, err := os.ReadFile(path)
-	if err != nil {
-		return nil, err
-	}
-	logger := new(yamLogger)
-	err = yaml.Unmarshal(body, &logger)
-	if err != nil {
-		return nil, err
-	}
+func loadLogger() (*slog.Logger, error) {
+	env := os.Getenv("ENV")
 	var handler *slog.TextHandler
-	switch logger.env {
+	switch env {
 	case "dev":
 		handler = slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo})
 	case "test":
@@ -75,8 +58,4 @@ func loadLogger(path string) (*slog.Logger, error) {
 		handler = slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo})
 	}
 	return slog.New(handler), nil
-}
-
-type yamLogger struct {
-	env string `yaml:"env"`
 }

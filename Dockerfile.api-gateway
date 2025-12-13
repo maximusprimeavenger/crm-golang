@@ -6,8 +6,6 @@ COPY api-gateway/go.* /app/
 
 RUN go mod download
 
-COPY config/conf.yaml /app/config/conf.yaml
-
 COPY api-gateway/. /app/
 
 WORKDIR /app/cmd

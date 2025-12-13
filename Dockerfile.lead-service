@@ -6,8 +6,6 @@ COPY lead-service/go.* /app/
 
 RUN go mod download
 
-COPY config/conf.yaml /app/config/conf.yaml
-
 COPY lead-service/. /app/
 
 WORKDIR /app/cmd

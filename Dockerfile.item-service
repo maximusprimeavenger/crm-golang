@@ -6,8 +6,6 @@ COPY item-service/go.* /app/
 
 RUN go mod download
 
-COPY config/conf.yaml /app/config/conf.yaml
-
 COPY item-service/. /app/
 
 WORKDIR /app/cmd
