@@ -57,6 +57,15 @@ crm-golang/
 │   │       └── lead.go
 │   ├── go.sum
 │   └── go.mod
+│
+├── third-party/
+│   ├── googleapis/
+│   └── validate/
+│ 
 ├── .dockerignore
+├── Dockerfile.api-gateway
+├── Dockerfile.item-service
+├── Dockerfile.lead-service
+├── init.sql
 └── .gitignore             
 ```
