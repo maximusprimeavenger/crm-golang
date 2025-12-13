@@ -35,7 +35,10 @@ func main() {
 	credentials := grpc.WithTransportCredentials(insecure.NewCredentials())
 	opts := []grpc.DialOption{credentials}
 
-	endpoints := []string{"item-service:9090", "lead-service:7070"}
+	endpoints := []string{
+		os.Getenv("ITEM_SERVICE_URL"),
+		os.Getenv("LEAD_SERVICE_URL"),
+	}
 	err = gateway.RegisterHandlers(ctx, mux, endpoints, opts)
 	if err != nil {
 		logger.Error("error connecting to item-service or lead-service", "details:", err)

@@ -1,5 +1,8 @@
 services:
   api-gateway:
+    environment:
+      - ITEM_SERVICE_URL=${ITEM_SERVICE_URL}
+      - LEAD_SERVICE_URL=${LEAD_SERVICE_URL}
     build:
       context: ./api-gateway
       dockerfile: Dockerfile
