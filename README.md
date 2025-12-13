@@ -62,6 +62,7 @@ crm-golang/
 │   ├── googleapis/
 │   └── validate/
 │ 
+├── .env
 ├── .dockerignore
 ├── Dockerfile.api-gateway
 ├── Dockerfile.item-service
