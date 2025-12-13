@@ -5,6 +5,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - ${API_PORTS}
+    volumes: 
+      - ./config:/app/config
     container_name: api-gateway
   item-service:
     depends_on:
@@ -13,6 +15,8 @@ services:
     build: 
       context: ./item-service
       dockerfile: Dockerfile
+    volumes:
+      - ./config:/app/config
     ports:
       - ${ITEM_PORTS}
     container_name: item-service

@@ -4,7 +4,7 @@ api-gateway:
   http-port: 8080
 
 item-service:
-  grpc-port: 50055
+  grpc-port: 9090
 
 lead-service:
-  grpc-port: 50054
+  grpc-port: 9091

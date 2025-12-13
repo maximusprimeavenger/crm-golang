@@ -22,7 +22,12 @@ func NewGRPCHandler(s service.ItemService) *GRPCHandler {
 }
 
 func (h *GRPCHandler) CreateItem(ctx context.Context, req *proto.CreateItemRequest) (*proto.CreateItemResponse, error) {
+	if err := req.Validate(); err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "validation error: %v", err)
+	}
+
 	item := &models.Item{
+
 		Name:        &req.Item.Name,
 		Category:    &req.Item.Category,
 		Price:       &req.Item.Price,
@@ -41,6 +46,10 @@ func (h *GRPCHandler) CreateItem(ctx context.Context, req *proto.CreateItemReque
 }
 
 func (h *GRPCHandler) GetItem(ctx context.Context, req *proto.GetItemRequest) (*proto.GetItemResponse, error) {
+	if err := req.Validate(); err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "validation error: %v", err)
+	}
+
 	id := &req.Id
 	item, err := h.service.GetItem(ctx, id)
 	if err != nil {
@@ -54,10 +63,14 @@ func (h *GRPCHandler) GetItem(ctx context.Context, req *proto.GetItemRequest) (*
 }
 
 func (h *GRPCHandler) PutItem(ctx context.Context, req *proto.PutItemRequest) (*proto.PutItemResponse, error) {
+	if err := req.Validate(); err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "validation error: %v", err)
+	}
+
 	id, item := &req.Id, req.Item
 	updatedItem, createdAt, updatedAt, err := h.service.PutItem(ctx, id, helpers.ConvertGRPCToModels(item))
 	if err != nil {
-		return nil, err
+		return nil, status.Errorf(codes.InvalidArgument, "error putting item:%v", err)
 	}
 	resp := &proto.PutItemResponse{
 		CreatedAt: timestamppb.New(*createdAt),

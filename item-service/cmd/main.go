@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"log/slog"
 	"net"
 	"os"
@@ -16,12 +17,12 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-const path = "../config/conf.yaml"
+const path = "/app/config/conf.yaml"
 
 func main() {
 	logger, err := loadLogger(path)
 	if err != nil {
-		logger.Info("error setting up the right env for logger")
+		log.Fatal("logger is nil, error:", err)
 	}
 	port, err := helpers.GetPort()
 	if err != nil {

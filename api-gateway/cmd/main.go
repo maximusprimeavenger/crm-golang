@@ -17,7 +17,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-const env = "../config/conf.yaml"
+const env = "/app/config/conf.yaml"
 
 func main() {
 	logger, err := loadLogger(env)
