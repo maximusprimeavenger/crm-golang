@@ -15,11 +15,11 @@ type DB struct {
 }
 
 func Init() (*DB, error) {
-	err := godotenv.Load("../.env")
+	err := godotenv.Load("/app/.env")
 	if err != nil {
 		return nil, err
 	}
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", os.Getenv("HOST"), os.Getenv("DB_USER"), os.Getenv("DB_PASS"), os.Getenv("DB_NAME"), os.Getenv("PORT_SQL"))
+	dsn := fmt.Sprintf("host=postgres user=%s password=%s dbname=%s port=%s sslmode=disable", os.Getenv("DB_USER"), os.Getenv("DB_PASS"), os.Getenv("DB_NAME"), os.Getenv("PORT_SQL"))
 	conn, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return nil, err
@@ -66,10 +66,13 @@ func (db *DB) FindItem(id uint32) (*models.Item, error) {
 	return product, nil
 }
 
-func (db *DB) FindItems() []*models.Item {
+func (db *DB) FindItems() ([]*models.Item, error) {
 	var items []*models.Item
-	db.db.First(&items)
-	return items
+	result := db.db.Find(&items)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return items, nil
 }
 
 func (db *DB) DeleteItem(id uint32) error {
@@ -87,7 +90,7 @@ func (db *DB) DeleteItem(id uint32) error {
 
 func (db *DB) FindItemByName(name string) (*models.Item, error) {
 	item := new(models.Item)
-	err := db.db.First(&item, name).Error
+	err := db.db.First(&item, "name = ?", name).Error
 	if err != nil {
 		return nil, err
 	}

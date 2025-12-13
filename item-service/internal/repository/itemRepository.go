@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/fiveret/product-service/internal/db"
@@ -8,8 +9,10 @@ import (
 )
 
 type ItemRepository interface {
-	NewItem(*models.Item) (*time.Time, error)
 	GetItem(*uint32) (*models.Item, error)
+	GetItems() ([]*models.Item, error)
+	DeleteItem(*uint32) (string, error)
+	NewItem(*models.Item) (*time.Time, error)
 	PutItem(*uint32, *models.Item) (*models.Item, *time.Time, *time.Time, error)
 }
 
@@ -19,6 +22,18 @@ type itemRepo struct {
 
 func NewItemRepo(db *db.DB) ItemRepository {
 	return &itemRepo{db: db}
+}
+
+func (r *itemRepo) DeleteItem(id *uint32) (string, error) {
+	item, err := r.db.FindItem(*id)
+	if err != nil {
+		return "", fmt.Errorf("error finding item for deleting")
+	}
+	err = r.db.DeleteItem(*id)
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("item %s has successfully deleted", *item.Name), nil
 }
 
 func (r *itemRepo) NewItem(item *models.Item) (*time.Time, error) {
@@ -46,6 +61,10 @@ func (r *itemRepo) GetItem(id *uint32) (*models.Item, error) {
 		return nil, err
 	}
 	return item, nil
+}
+
+func (r *itemRepo) GetItems() ([]*models.Item, error) {
+	return r.db.FindItems()
 }
 
 func (r *itemRepo) PutItem(id *uint32, item *models.Item) (*models.Item, *time.Time, *time.Time, error) {

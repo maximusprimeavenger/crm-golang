@@ -11,14 +11,18 @@ func GetPort(path string) (*int, error) {
 	if err != nil {
 		return nil, err
 	}
-	api := new(apiGateway)
-	err = yaml.Unmarshal(body, &api)
+	api := new(service)
+	err = yaml.Unmarshal(body, api)
 	if err != nil {
 		return nil, err
 	}
-	return &api.port, nil
+	return &api.ApiGateway.Port, nil
 }
 
-type apiGateway struct {
-	port int `yaml:"http-port"`
+type service struct {
+	ApiGateway ApiGateway `yaml:"api-gateway"`
+}
+
+type ApiGateway struct {
+	Port int `yaml:"http-port"`
 }

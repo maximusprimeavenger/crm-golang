@@ -220,7 +220,7 @@ func RegisterLeadProductServiceHandlerServer(ctx context.Context, mux *runtime.S
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/proto.LeadProductService/AddProductsToLead", runtime.WithHTTPPathPattern("/lead-product"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/proto.LeadProductService/AddProductsToLead", runtime.WithHTTPPathPattern("/v1/lead-product"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -240,7 +240,7 @@ func RegisterLeadProductServiceHandlerServer(ctx context.Context, mux *runtime.S
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/proto.LeadProductService/GetLeadProducts", runtime.WithHTTPPathPattern("/lead-product/{id}"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/proto.LeadProductService/GetLeadProducts", runtime.WithHTTPPathPattern("/v1/lead-product/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -260,7 +260,7 @@ func RegisterLeadProductServiceHandlerServer(ctx context.Context, mux *runtime.S
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/proto.LeadProductService/GetLeadsProducts", runtime.WithHTTPPathPattern("/lead-product"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/proto.LeadProductService/GetLeadsProducts", runtime.WithHTTPPathPattern("/v1/lead-product"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -280,7 +280,7 @@ func RegisterLeadProductServiceHandlerServer(ctx context.Context, mux *runtime.S
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/proto.LeadProductService/DeleteLeadProducts", runtime.WithHTTPPathPattern("/lead-product/{id}"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/proto.LeadProductService/DeleteLeadProducts", runtime.WithHTTPPathPattern("/v1/lead-product/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -300,7 +300,7 @@ func RegisterLeadProductServiceHandlerServer(ctx context.Context, mux *runtime.S
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/proto.LeadProductService/PutProductsLead", runtime.WithHTTPPathPattern("/lead-product/{id}"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/proto.LeadProductService/PutProductsLead", runtime.WithHTTPPathPattern("/v1/lead-product/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -358,7 +358,7 @@ func RegisterLeadProductServiceHandlerClient(ctx context.Context, mux *runtime.S
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/proto.LeadProductService/AddProductsToLead", runtime.WithHTTPPathPattern("/lead-product"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/proto.LeadProductService/AddProductsToLead", runtime.WithHTTPPathPattern("/v1/lead-product"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -375,7 +375,7 @@ func RegisterLeadProductServiceHandlerClient(ctx context.Context, mux *runtime.S
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/proto.LeadProductService/GetLeadProducts", runtime.WithHTTPPathPattern("/lead-product/{id}"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/proto.LeadProductService/GetLeadProducts", runtime.WithHTTPPathPattern("/v1/lead-product/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -392,7 +392,7 @@ func RegisterLeadProductServiceHandlerClient(ctx context.Context, mux *runtime.S
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/proto.LeadProductService/GetLeadsProducts", runtime.WithHTTPPathPattern("/lead-product"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/proto.LeadProductService/GetLeadsProducts", runtime.WithHTTPPathPattern("/v1/lead-product"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -409,7 +409,7 @@ func RegisterLeadProductServiceHandlerClient(ctx context.Context, mux *runtime.S
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/proto.LeadProductService/DeleteLeadProducts", runtime.WithHTTPPathPattern("/lead-product/{id}"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/proto.LeadProductService/DeleteLeadProducts", runtime.WithHTTPPathPattern("/v1/lead-product/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -426,7 +426,7 @@ func RegisterLeadProductServiceHandlerClient(ctx context.Context, mux *runtime.S
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/proto.LeadProductService/PutProductsLead", runtime.WithHTTPPathPattern("/lead-product/{id}"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/proto.LeadProductService/PutProductsLead", runtime.WithHTTPPathPattern("/v1/lead-product/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -443,11 +443,11 @@ func RegisterLeadProductServiceHandlerClient(ctx context.Context, mux *runtime.S
 }
 
 var (
-	pattern_LeadProductService_AddProductsToLead_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"lead-product"}, ""))
-	pattern_LeadProductService_GetLeadProducts_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"lead-product", "id"}, ""))
-	pattern_LeadProductService_GetLeadsProducts_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"lead-product"}, ""))
-	pattern_LeadProductService_DeleteLeadProducts_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"lead-product", "id"}, ""))
-	pattern_LeadProductService_PutProductsLead_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"lead-product", "id"}, ""))
+	pattern_LeadProductService_AddProductsToLead_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "lead-product"}, ""))
+	pattern_LeadProductService_GetLeadProducts_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "lead-product", "id"}, ""))
+	pattern_LeadProductService_GetLeadsProducts_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "lead-product"}, ""))
+	pattern_LeadProductService_DeleteLeadProducts_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "lead-product", "id"}, ""))
+	pattern_LeadProductService_PutProductsLead_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "lead-product", "id"}, ""))
 )
 
 var (

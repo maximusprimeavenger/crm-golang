@@ -8,24 +8,26 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-const path = "../config/conf.yaml"
-
-func GetPort() (*int, error) {
+func GetPort(path string) (*int, error) {
 	body, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
-	service := new(itemService)
-	err = yaml.Unmarshal(body, &service)
+	service := new(service)
+	err = yaml.Unmarshal(body, service)
 	if err != nil {
 		return nil, err
 	}
-	if service.port <= 0 {
+	if service.ItemService.Port <= 0 {
 		return nil, errors.New("wrong value for item-service port")
 	}
-	return &service.port, nil
+	return &service.ItemService.Port, nil
 }
 
-type itemService struct {
-	port int `yaml:"grpc-port"`
+type service struct {
+	ItemService ItemService `yaml:"item-service"`
+}
+
+type ItemService struct {
+	Port int `yaml:"grpc-port"`
 }

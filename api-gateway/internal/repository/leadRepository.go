@@ -1,10 +1,6 @@
 package repository
 
 import (
-	"strconv"
-
-	proto "github.com/fiveret/api-gateway/grpc/lead-grpc"
-	"github.com/fiveret/api-gateway/grpc/models"
 	"github.com/gofiber/fiber"
 )
 
@@ -70,24 +66,8 @@ func NewLead() fiber.Handler {
 	}
 }
 
-func UpdateLead(client proto.LeadServiceClient) fiber.Handler {
+func UpdateLead() fiber.Handler {
 	return func(c *fiber.Ctx) {
-		idStr := c.Params("id")
-		id, err := strconv.ParseUint(idStr, 10, 64)
-		if err != nil {
-			c.Status(500).Send("Invalid ID")
-			return
-		}
-		lead := new(models.Lead)
-		req := &proto.PatchLeadRequest{
-			Lead: lead,
-			Id:   uint32(id),
-		}
-		resp, err := client.PatchLead(c.Context(), req)
-		if err != nil {
-			c.Status(500).Send("Failed to update lead")
-			return
-		}
-		c.Status(200).JSON(resp)
+
 	}
 }

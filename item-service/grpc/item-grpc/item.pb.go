@@ -526,10 +526,10 @@ const file_item_service_grpc_item_grpc_item_proto_rawDesc = "" +
 	"\x11DeleteItemRequest\x12\x17\n" +
 	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\".\n" +
 	"\x12DeleteItemResponse\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage2\xa9\x03\n" +
-	"\vItemService\x12Q\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage2\xaf\x03\n" +
+	"\vItemService\x12W\n" +
 	"\n" +
-	"CreateItem\x12\x18.proto.CreateItemRequest\x1a\x19.proto.CreateItemResponse\"\x0e\x82\xd3\xe4\x93\x02\b\"\x06/items\x12M\n" +
+	"CreateItem\x12\x18.proto.CreateItemRequest\x1a\x19.proto.CreateItemResponse\"\x14\x82\xd3\xe4\x93\x02\x0e:\x04item\"\x06/items\x12M\n" +
 	"\aGetItem\x12\x15.proto.GetItemRequest\x1a\x16.proto.GetItemResponse\"\x13\x82\xd3\xe4\x93\x02\r\x12\v/items/{id}\x12K\n" +
 	"\bGetItems\x12\x16.proto.GetItemsRequest\x1a\x17.proto.GetItemsResponse\"\x0e\x82\xd3\xe4\x93\x02\b\x12\x06/items\x12S\n" +
 	"\aPutItem\x12\x15.proto.PutItemRequest\x1a\x16.proto.PutItemResponse\"\x19\x82\xd3\xe4\x93\x02\x13:\x04item\x1a\v/items/{id}\x12V\n" +

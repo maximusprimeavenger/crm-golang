@@ -7,7 +7,7 @@ import (
 	"log/slog"
 	"os"
 
-	proto "github.com/fiveret/api-gateway/grpc/item-grpc"
+	"github.com/fiveret/api-gateway/internal/gateway"
 	"github.com/fiveret/api-gateway/internal/helpers"
 	"github.com/gofiber/fiber/v2"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
@@ -22,7 +22,7 @@ const env = "/app/config/conf.yaml"
 func main() {
 	logger, err := loadLogger(env)
 	if err != nil {
-		log.Fatal("error, logger is nil:", err)
+		log.Fatal("error, logger is nil: ", err)
 	}
 	port, err := helpers.GetPort(env)
 	if err != nil {
@@ -35,19 +35,21 @@ func main() {
 	credentials := grpc.WithTransportCredentials(insecure.NewCredentials())
 	opts := []grpc.DialOption{credentials}
 
-	err = proto.RegisterItemServiceHandlerFromEndpoint(ctx, mux, "item-service:9090", opts)
+	endpoints := []string{"item-service:9090", "lead-service:7070"}
+	err = gateway.RegisterHandlers(ctx, mux, endpoints, opts)
 	if err != nil {
-		logger.Error("error connecting to item-service", "details:", err)
+		logger.Error("error connecting to item-service or lead-service", "details:", err)
 	}
+	logger.Info("Registered all handlers!")
 	fasthttpHandler := fasthttpadaptor.NewFastHTTPHandler(mux)
 
-	app.All("/*", func(c *fiber.Ctx) error {
+	app.All("/v1/*", func(c *fiber.Ctx) error {
 		fasthttpHandler(c.Context())
 		return nil
 	})
 
 	logger.Error("error listening on http server", "details:",
-		app.Listen(fmt.Sprintf("%d", port)))
+		app.Listen(fmt.Sprintf(":%d", *port)))
 }
 
 func loadLogger(env string) (*slog.Logger, error) {
@@ -61,7 +63,7 @@ func loadLogger(env string) (*slog.Logger, error) {
 		return nil, err
 	}
 	var handler *slog.TextHandler
-	switch logger.env {
+	switch logger.Env {
 	case "dev":
 		handler = slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo})
 	case "test":
@@ -73,5 +75,5 @@ func loadLogger(env string) (*slog.Logger, error) {
 }
 
 type yamLogger struct {
-	env string `yaml:"env"`
+	Env string `yaml:"env"`
 }

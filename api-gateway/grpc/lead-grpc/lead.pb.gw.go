@@ -229,7 +229,7 @@ func RegisterLeadServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/proto.LeadService/GetLead", runtime.WithHTTPPathPattern("/lead/{id}"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/proto.LeadService/GetLead", runtime.WithHTTPPathPattern("/v1/lead/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -249,7 +249,7 @@ func RegisterLeadServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/proto.LeadService/GetLeads", runtime.WithHTTPPathPattern("/lead"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/proto.LeadService/GetLeads", runtime.WithHTTPPathPattern("/v1/lead"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -269,7 +269,7 @@ func RegisterLeadServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/proto.LeadService/DeleteLead", runtime.WithHTTPPathPattern("/lead/{id}"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/proto.LeadService/DeleteLead", runtime.WithHTTPPathPattern("/v1/lead/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -289,7 +289,7 @@ func RegisterLeadServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/proto.LeadService/NewLead", runtime.WithHTTPPathPattern("/lead"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/proto.LeadService/NewLead", runtime.WithHTTPPathPattern("/v1/lead"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -309,7 +309,7 @@ func RegisterLeadServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/proto.LeadService/PutLead", runtime.WithHTTPPathPattern("/lead/{id}"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/proto.LeadService/PutLead", runtime.WithHTTPPathPattern("/v1/lead/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -367,7 +367,7 @@ func RegisterLeadServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/proto.LeadService/GetLead", runtime.WithHTTPPathPattern("/lead/{id}"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/proto.LeadService/GetLead", runtime.WithHTTPPathPattern("/v1/lead/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -384,7 +384,7 @@ func RegisterLeadServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/proto.LeadService/GetLeads", runtime.WithHTTPPathPattern("/lead"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/proto.LeadService/GetLeads", runtime.WithHTTPPathPattern("/v1/lead"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -401,7 +401,7 @@ func RegisterLeadServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/proto.LeadService/DeleteLead", runtime.WithHTTPPathPattern("/lead/{id}"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/proto.LeadService/DeleteLead", runtime.WithHTTPPathPattern("/v1/lead/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -418,7 +418,7 @@ func RegisterLeadServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/proto.LeadService/NewLead", runtime.WithHTTPPathPattern("/lead"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/proto.LeadService/NewLead", runtime.WithHTTPPathPattern("/v1/lead"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -435,7 +435,7 @@ func RegisterLeadServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/proto.LeadService/PutLead", runtime.WithHTTPPathPattern("/lead/{id}"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/proto.LeadService/PutLead", runtime.WithHTTPPathPattern("/v1/lead/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -452,11 +452,11 @@ func RegisterLeadServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 }
 
 var (
-	pattern_LeadService_GetLead_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"lead", "id"}, ""))
-	pattern_LeadService_GetLeads_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"lead"}, ""))
-	pattern_LeadService_DeleteLead_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"lead", "id"}, ""))
-	pattern_LeadService_NewLead_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"lead"}, ""))
-	pattern_LeadService_PutLead_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"lead", "id"}, ""))
+	pattern_LeadService_GetLead_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "lead", "id"}, ""))
+	pattern_LeadService_GetLeads_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "lead"}, ""))
+	pattern_LeadService_DeleteLead_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "lead", "id"}, ""))
+	pattern_LeadService_NewLead_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "lead"}, ""))
+	pattern_LeadService_PutLead_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "lead", "id"}, ""))
 )
 
 var (
