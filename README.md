@@ -3,7 +3,7 @@
 A modular CRM system built using **microservices architecture**, **gRPC**, **Go** and **Docker**.
 
 ## Project Structure
-
+```
 crm-golang/
 ├── api-gateway/
 │   ├── cmd
@@ -59,3 +59,4 @@ crm-golang/
 │   └── go.mod
 ├── .dockerignore
 └── .gitignore             
+```
