@@ -2,17 +2,16 @@ package main
 
 import (
 	"context"
-	"crypto/tls"
 	"log"
 	"log/slog"
 	"os"
 
 	"github.com/fiveret/api-gateway/internal/gateway"
+	"github.com/fiveret/api-gateway/internal/handlers"
 	"github.com/gofiber/fiber/v2"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/valyala/fasthttp/fasthttpadaptor"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
 )
 
 func main() {
@@ -26,16 +25,8 @@ func main() {
 	if port == "" {
 		port = "9090"
 	}
-	itemServiceURL := os.Getenv("ITEM_SERVICE_URL")
-	leadServiceURL := os.Getenv("LEAD_SERVICE_URL")
-
-	if itemServiceURL == "" || leadServiceURL == "" {
-		log.Fatal("ITEM_SERVICE_URL or LEAD_SERVICE_URL is not set")
-	}
-
-	creds := credentials.NewTLS(&tls.Config{})
 	opts := []grpc.DialOption{
-		grpc.WithTransportCredentials(creds),
+		grpc.WithInsecure(),
 	}
 
 	ctx := context.Background()
@@ -44,10 +35,6 @@ func main() {
 	err = gateway.RegisterHandlers(
 		ctx,
 		mux,
-		[]string{
-			itemServiceURL,
-			leadServiceURL,
-		},
 		opts,
 	)
 	if err != nil {
@@ -59,7 +46,7 @@ func main() {
 
 	app := fiber.New()
 	handler := fasthttpadaptor.NewFastHTTPHandler(mux)
-
+	handlers.PythonHandler(app)
 	app.All("/v1/*", func(c *fiber.Ctx) error {
 		handler(c.Context())
 		return nil

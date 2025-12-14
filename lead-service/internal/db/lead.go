@@ -13,26 +13,22 @@ func (db *DBConnection) FindLeadById(id uint32) (*models.Lead, error) {
 	return &lead, nil
 }
 
-func (db *DBConnection) FindLeads() []models.Lead {
-	var leads []models.Lead
+func (db *DBConnection) FindLeads() []*models.Lead {
+	var leads []*models.Lead
 	db.db.Find(&leads)
 	return leads
 }
 
-func (db *DBConnection) DeleteLead(id string) error {
-	uintID, err := strconv.ParseUint(id, 10, 0)
-	if err != nil {
-		return err
-	}
+func (db *DBConnection) DeleteLead(id uint) error {
 	var lead *models.Lead
-	err = db.db.First(&lead, uintID).Error
+	err := db.db.First(&lead, id).Error
 	if err != nil {
 		return err
 	}
 	if lead.Name == "" {
-		return fmt.Errorf("no lead found with id: %d", uintID)
+		return fmt.Errorf("no lead found with id: %d", id)
 	}
-	err = db.db.Delete(&lead, uintID).Error
+	err = db.db.Delete(&lead, id).Error
 	if err != nil {
 		return err
 	}

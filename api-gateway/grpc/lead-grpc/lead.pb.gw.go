@@ -142,18 +142,12 @@ func local_request_LeadService_DeleteLead_0(ctx context.Context, marshaler runti
 	return msg, metadata, err
 }
 
-var filter_LeadService_NewLead_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-
 func request_LeadService_NewLead_0(ctx context.Context, marshaler runtime.Marshaler, client LeadServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq NewLeadRequest
 		metadata runtime.ServerMetadata
 	)
-	io.Copy(io.Discard, req.Body)
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_LeadService_NewLead_0); err != nil {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq.Lead); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := client.NewLead(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -165,10 +159,7 @@ func local_request_LeadService_NewLead_0(ctx context.Context, marshaler runtime.
 		protoReq NewLeadRequest
 		metadata runtime.ServerMetadata
 	)
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_LeadService_NewLead_0); err != nil {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq.Lead); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := server.NewLead(ctx, &protoReq)

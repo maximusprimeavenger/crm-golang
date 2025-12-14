@@ -1,50 +1,91 @@
 services:
   api-gateway:
+    depends_on:
+    - item-service
+    - lead-service
     environment:
       - ITEM_SERVICE_URL=${ITEM_SERVICE_URL}
       - LEAD_SERVICE_URL=${LEAD_SERVICE_URL}
       - ENV=${ENV}
-      - PORT_GATEWAY = ${PORT_GATEWAY}
+      - PORT_GATEWAY=${PORT_GATEWAY}
     build:
       context: ./api-gateway
       dockerfile: Dockerfile
     ports:
       - ${API_PORTS}
-    volumes: 
-      - ./config:/app/config
     container_name: api-gateway
+    networks:
+      - crm-network
+
   item-service:
     environment:
       - PORT_ITEM=${PORT_ITEM}
       - ENV=${ENV}
     depends_on:
-      - postgres
-      - api-gateway
+      postgres:
+        condition: service_healthy
     build: 
       context: ./item-service
       dockerfile: Dockerfile
-    volumes:
-      - ./config:/app/config
     ports:
       - ${ITEM_PORTS}
     container_name: item-service
+    networks:
+      - crm-network
 
   postgres:
     image: postgres:13.3
     container_name: postgres
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER:  ${POSTGRES_USER}
+      POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:${POSTGRES_PORT}"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - crm-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-  #lead-service:
-   # build:
-    #  context: ./lead-service
-     # dockerfile: Dockerfile
+  lead-service:
+    container_name: lead-service
+    environment:
+      - SQLITE_PATH=/app/data/crm.db
+      - PORT_LEAD=${PORT_LEAD}
+      - ENV=${ENV}
+    build: 
+      context: ./lead-service
+      dockerfile: Dockerfile
+    volumes:
+      - ./data/lead:/app/data
+    ports:
+      - ${LEAD_PORTS}
+    networks:
+      - crm-network
+
+  crm-service:
+    environment:
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - DEEPSEEK=${DEEPSEEK}
+    build:
+      context: ./crm-analytics
+      dockerfile: Dockerfile
+    depends_on:
+      - api-gateway
+    container_name: crm-analytics
+    ports:
+      - "9092:9092"
+    networks:
+      - crm-network
 
 volumes:
   postgres_data:
+
+networks:
+  crm-network:
+    driver: bridge

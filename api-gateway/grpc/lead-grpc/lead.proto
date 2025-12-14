@@ -29,6 +29,7 @@ service LeadService{
     rpc NewLead (NewLeadRequest) returns (NewLeadResponse){
         option (google.api.http) = {
             post: "/v1/lead"
+            body: "lead"
         };
     }
     rpc PutLead (PutLeadRequest) returns (PutLeadResponse){

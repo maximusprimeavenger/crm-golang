@@ -24,7 +24,6 @@ const (
 	LeadService_DeleteLead_FullMethodName = "/proto.LeadService/DeleteLead"
 	LeadService_NewLead_FullMethodName    = "/proto.LeadService/NewLead"
 	LeadService_PutLead_FullMethodName    = "/proto.LeadService/PutLead"
-	LeadService_PatchLead_FullMethodName  = "/proto.LeadService/PatchLead"
 )
 
 // LeadServiceClient is the client API for LeadService service.
@@ -36,7 +35,6 @@ type LeadServiceClient interface {
 	DeleteLead(ctx context.Context, in *DeleteLeadRequest, opts ...grpc.CallOption) (*DeleteLeadResponse, error)
 	NewLead(ctx context.Context, in *NewLeadRequest, opts ...grpc.CallOption) (*NewLeadResponse, error)
 	PutLead(ctx context.Context, in *PutLeadRequest, opts ...grpc.CallOption) (*PutLeadResponse, error)
-	PatchLead(ctx context.Context, in *PatchLeadRequest, opts ...grpc.CallOption) (*PatchLeadResponse, error)
 }
 
 type leadServiceClient struct {
@@ -97,16 +95,6 @@ func (c *leadServiceClient) PutLead(ctx context.Context, in *PutLeadRequest, opt
 	return out, nil
 }
 
-func (c *leadServiceClient) PatchLead(ctx context.Context, in *PatchLeadRequest, opts ...grpc.CallOption) (*PatchLeadResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(PatchLeadResponse)
-	err := c.cc.Invoke(ctx, LeadService_PatchLead_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // LeadServiceServer is the server API for LeadService service.
 // All implementations must embed UnimplementedLeadServiceServer
 // for forward compatibility.
@@ -116,7 +104,6 @@ type LeadServiceServer interface {
 	DeleteLead(context.Context, *DeleteLeadRequest) (*DeleteLeadResponse, error)
 	NewLead(context.Context, *NewLeadRequest) (*NewLeadResponse, error)
 	PutLead(context.Context, *PutLeadRequest) (*PutLeadResponse, error)
-	PatchLead(context.Context, *PatchLeadRequest) (*PatchLeadResponse, error)
 	mustEmbedUnimplementedLeadServiceServer()
 }
 
@@ -141,9 +128,6 @@ func (UnimplementedLeadServiceServer) NewLead(context.Context, *NewLeadRequest) 
 }
 func (UnimplementedLeadServiceServer) PutLead(context.Context, *PutLeadRequest) (*PutLeadResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PutLead not implemented")
-}
-func (UnimplementedLeadServiceServer) PatchLead(context.Context, *PatchLeadRequest) (*PatchLeadResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PatchLead not implemented")
 }
 func (UnimplementedLeadServiceServer) mustEmbedUnimplementedLeadServiceServer() {}
 func (UnimplementedLeadServiceServer) testEmbeddedByValue()                     {}
@@ -256,24 +240,6 @@ func _LeadService_PutLead_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _LeadService_PatchLead_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PatchLeadRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(LeadServiceServer).PatchLead(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: LeadService_PatchLead_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LeadServiceServer).PatchLead(ctx, req.(*PatchLeadRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // LeadService_ServiceDesc is the grpc.ServiceDesc for LeadService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -300,10 +266,6 @@ var LeadService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PutLead",
 			Handler:    _LeadService_PutLead_Handler,
-		},
-		{
-			MethodName: "PatchLead",
-			Handler:    _LeadService_PatchLead_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

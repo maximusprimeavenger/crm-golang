@@ -13,32 +13,31 @@ option go_package = "grpc/lead-grpc;proto";
 service LeadService{
     rpc GetLead (GetLeadRequest) returns (GetLeadResponse){
         option (google.api.http) = {
-            get: "/lead/{id}"
+            get: "/v1/lead/{id}"
         };
     }
     rpc GetLeads (GetLeadsRequest) returns (GetLeadsResponse){
         option (google.api.http) = {
-            get: "/lead"
+            get: "/v1/lead"
         };
     }
     rpc DeleteLead (DeleteLeadRequest) returns (DeleteLeadResponse){
         option (google.api.http) = {
-            delete: "/lead/{id}"
+            delete: "/v1/lead/{id}"
         };
     }
     rpc NewLead (NewLeadRequest) returns (NewLeadResponse){
         option (google.api.http) = {
-            post: "/lead"
+            post: "/v1/lead"
+            body: "lead"
         };
     }
     rpc PutLead (PutLeadRequest) returns (PutLeadResponse){
         option (google.api.http) = {
-            put: "/lead/{id}"
+            put: "/v1/lead/{id}"
             body: "lead"
         };
     }
-
-    rpc PatchLead (PatchLeadRequest) returns (PatchLeadResponse);
 }
 
 message GetLeadRequest{
@@ -86,15 +85,4 @@ message DeleteLeadRequest{
 
 message DeleteLeadResponse{
     string message = 1;
-}
-
-message PatchLeadRequest{
-    models.Lead lead = 1;
-    uint32 id = 2 [(validate.rules).uint32.gt = 0];
-}
-
-message PatchLeadResponse{
-    models.Lead lead = 1;
-    google.protobuf.Timestamp createdAt = 2;
-    google.protobuf.Timestamp updatedAt = 3;
 }

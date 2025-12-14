@@ -3,12 +3,15 @@ package models
 import "gorm.io/gorm"
 
 type Lead struct {
-	Name     string     `gorm:"varchar(50);not null" json:"name"`
-	Email    string     `gorm:"varchar(100);not null; unique" json:"email"`
-	Phone    string     `gorm:"varchar(15);not null; unique" json:"phone"`
-	Company  string     `gorm:"varchar(50);not null" json:"company"`
-	Products []*Product `gorm:"foreignKey:LeadID"`
-
+	Name             string     `gorm:"varchar(50);not null" json:"name"`
+	Email            string     `gorm:"varchar(100);not null; unique" json:"email"`
+	Phone            string     `gorm:"varchar(15);not null; unique" json:"phone"`
+	Company          string     `gorm:"varchar(50);not null" json:"company"`
+	Products         []*Product `gorm:"foreignKey:LeadID"`
+	Visits           uint       `gorm:"default:0" json:"visits"`
+	LastVisit        *string    `json:"last_visit,omitempty"`
+	TotalSales       float64    `gorm:"default:0" json:"total_sales"`
+	LastPurchaseDays *uint      `json:"last_purchase_days,omitempty"`
 	gorm.Model
 }
 

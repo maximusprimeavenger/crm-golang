@@ -2,11 +2,11 @@ FROM golang:1.23
 
 WORKDIR /app
 
-COPY lead-service/go.* /app/
+COPY go.* /app/
 
 RUN go mod download
 
-COPY lead-service/. /app/
+COPY . /app/
 
 WORKDIR /app/cmd
 

@@ -2,11 +2,11 @@ FROM golang:1.23
 
 WORKDIR /app
 
-COPY api-gateway/go.* /app/
+COPY go.* /app/
 
 RUN go mod download
 
-COPY api-gateway/. /app/
+COPY . /app/
 
 WORKDIR /app/cmd
 

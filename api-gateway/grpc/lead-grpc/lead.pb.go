@@ -553,15 +553,14 @@ const file_api_gateway_grpc_lead_grpc_lead_proto_rawDesc = "" +
 	"\x11DeleteLeadRequest\x12\x17\n" +
 	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\".\n" +
 	"\x12DeleteLeadResponse\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage2\xaa\x03\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage2\xb0\x03\n" +
 	"\vLeadService\x12O\n" +
 	"\aGetLead\x12\x15.proto.GetLeadRequest\x1a\x16.proto.GetLeadResponse\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/v1/lead/{id}\x12M\n" +
 	"\bGetLeads\x12\x16.proto.GetLeadsRequest\x1a\x17.proto.GetLeadsResponse\"\x10\x82\xd3\xe4\x93\x02\n" +
 	"\x12\b/v1/lead\x12X\n" +
 	"\n" +
-	"DeleteLead\x12\x18.proto.DeleteLeadRequest\x1a\x19.proto.DeleteLeadResponse\"\x15\x82\xd3\xe4\x93\x02\x0f*\r/v1/lead/{id}\x12J\n" +
-	"\aNewLead\x12\x15.proto.NewLeadRequest\x1a\x16.proto.NewLeadResponse\"\x10\x82\xd3\xe4\x93\x02\n" +
-	"\"\b/v1/lead\x12U\n" +
+	"DeleteLead\x12\x18.proto.DeleteLeadRequest\x1a\x19.proto.DeleteLeadResponse\"\x15\x82\xd3\xe4\x93\x02\x0f*\r/v1/lead/{id}\x12P\n" +
+	"\aNewLead\x12\x15.proto.NewLeadRequest\x1a\x16.proto.NewLeadResponse\"\x16\x82\xd3\xe4\x93\x02\x10:\x04lead\"\b/v1/lead\x12U\n" +
 	"\aPutLead\x12\x15.proto.PutLeadRequest\x1a\x16.proto.PutLeadResponse\"\x1b\x82\xd3\xe4\x93\x02\x15:\x04lead\x1a\r/v1/lead/{id}B\x16Z\x14grpc/lead-grpc;protob\x06proto3"
 
 var (

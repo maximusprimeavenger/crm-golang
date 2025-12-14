@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package models;
 
-option go_package = "github.com/fiveret/product-service/grpc/models; models";
+option go_package = "grpc/models; models";
 
 message Product{
     string name = 1;

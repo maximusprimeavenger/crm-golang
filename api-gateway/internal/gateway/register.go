@@ -2,7 +2,7 @@ package gateway
 
 import (
 	"context"
-	"strings"
+	"os"
 
 	itemProto "github.com/fiveret/api-gateway/grpc/item-grpc"
 	leadProto "github.com/fiveret/api-gateway/grpc/lead-grpc"
@@ -10,25 +10,33 @@ import (
 	"google.golang.org/grpc"
 )
 
-func RegisterHandlers(ctx context.Context, mux *runtime.ServeMux, endpoints []string, opts []grpc.DialOption) error {
-	for i := 0; i < len(endpoints); i++ {
-		parts := strings.Split(endpoints[i], ":")
-		switch parts[0] {
-		case "lead-service":
-			err := leadProto.RegisterLeadServiceHandlerFromEndpoint(ctx, mux, endpoints[i], opts)
-			if err != nil {
-				return err
-			}
-			err = leadProto.RegisterLeadProductServiceHandlerFromEndpoint(ctx, mux, endpoints[i], opts)
-			if err != nil {
-				return err
-			}
-		case "item-service":
-			err := itemProto.RegisterItemServiceHandlerFromEndpoint(ctx, mux, endpoints[i], opts)
-			if err != nil {
-				return err
-			}
-		}
+func RegisterHandlers(ctx context.Context, mux *runtime.ServeMux, opts []grpc.DialOption) error {
+	if err := leadProto.RegisterLeadServiceHandlerFromEndpoint(
+		ctx,
+		mux,
+		os.Getenv("LEAD_SERVICE_URL"),
+		opts,
+	); err != nil {
+		return err
 	}
+
+	if err := leadProto.RegisterLeadProductServiceHandlerFromEndpoint(
+		ctx,
+		mux,
+		os.Getenv("LEAD_SERVICE_URL"),
+		opts,
+	); err != nil {
+		return err
+	}
+
+	if err := itemProto.RegisterItemServiceHandlerFromEndpoint(
+		ctx,
+		mux,
+		os.Getenv("ITEM_SERVICE_URL"),
+		opts,
+	); err != nil {
+		return err
+	}
+
 	return nil
 }

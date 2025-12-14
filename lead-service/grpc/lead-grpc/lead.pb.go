@@ -522,118 +522,6 @@ func (x *DeleteLeadResponse) GetMessage() string {
 	return ""
 }
 
-type PatchLeadRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Lead          *models.Lead           `protobuf:"bytes,1,opt,name=lead,proto3" json:"lead,omitempty"`
-	Id            uint32                 `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *PatchLeadRequest) Reset() {
-	*x = PatchLeadRequest{}
-	mi := &file_lead_service_grpc_lead_grpc_lead_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *PatchLeadRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*PatchLeadRequest) ProtoMessage() {}
-
-func (x *PatchLeadRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_lead_service_grpc_lead_grpc_lead_proto_msgTypes[10]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PatchLeadRequest.ProtoReflect.Descriptor instead.
-func (*PatchLeadRequest) Descriptor() ([]byte, []int) {
-	return file_lead_service_grpc_lead_grpc_lead_proto_rawDescGZIP(), []int{10}
-}
-
-func (x *PatchLeadRequest) GetLead() *models.Lead {
-	if x != nil {
-		return x.Lead
-	}
-	return nil
-}
-
-func (x *PatchLeadRequest) GetId() uint32 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-type PatchLeadResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Lead          *models.Lead           `protobuf:"bytes,1,opt,name=lead,proto3" json:"lead,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *PatchLeadResponse) Reset() {
-	*x = PatchLeadResponse{}
-	mi := &file_lead_service_grpc_lead_grpc_lead_proto_msgTypes[11]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *PatchLeadResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*PatchLeadResponse) ProtoMessage() {}
-
-func (x *PatchLeadResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_lead_service_grpc_lead_grpc_lead_proto_msgTypes[11]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PatchLeadResponse.ProtoReflect.Descriptor instead.
-func (*PatchLeadResponse) Descriptor() ([]byte, []int) {
-	return file_lead_service_grpc_lead_grpc_lead_proto_rawDescGZIP(), []int{11}
-}
-
-func (x *PatchLeadResponse) GetLead() *models.Lead {
-	if x != nil {
-		return x.Lead
-	}
-	return nil
-}
-
-func (x *PatchLeadResponse) GetCreatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CreatedAt
-	}
-	return nil
-}
-
-func (x *PatchLeadResponse) GetUpdatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.UpdatedAt
-	}
-	return nil
-}
-
 var File_lead_service_grpc_lead_grpc_lead_proto protoreflect.FileDescriptor
 
 const file_lead_service_grpc_lead_grpc_lead_proto_rawDesc = "" +
@@ -665,25 +553,15 @@ const file_lead_service_grpc_lead_grpc_lead_proto_rawDesc = "" +
 	"\x11DeleteLeadRequest\x12\x17\n" +
 	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\".\n" +
 	"\x12DeleteLeadResponse\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage\"M\n" +
-	"\x10PatchLeadRequest\x12 \n" +
-	"\x04lead\x18\x01 \x01(\v2\f.models.LeadR\x04lead\x12\x17\n" +
-	"\x02id\x18\x02 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\"\xa9\x01\n" +
-	"\x11PatchLeadResponse\x12 \n" +
-	"\x04lead\x18\x01 \x01(\v2\f.models.LeadR\x04lead\x128\n" +
-	"\tcreatedAt\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x128\n" +
-	"\tupdatedAt\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt2\xdb\x03\n" +
-	"\vLeadService\x12L\n" +
-	"\aGetLead\x12\x15.proto.GetLeadRequest\x1a\x16.proto.GetLeadResponse\"\x12\x82\xd3\xe4\x93\x02\f\x12\n" +
-	"/lead/{id}\x12J\n" +
-	"\bGetLeads\x12\x16.proto.GetLeadsRequest\x1a\x17.proto.GetLeadsResponse\"\r\x82\xd3\xe4\x93\x02\a\x12\x05/lead\x12U\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage2\xb0\x03\n" +
+	"\vLeadService\x12O\n" +
+	"\aGetLead\x12\x15.proto.GetLeadRequest\x1a\x16.proto.GetLeadResponse\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/v1/lead/{id}\x12M\n" +
+	"\bGetLeads\x12\x16.proto.GetLeadsRequest\x1a\x17.proto.GetLeadsResponse\"\x10\x82\xd3\xe4\x93\x02\n" +
+	"\x12\b/v1/lead\x12X\n" +
 	"\n" +
-	"DeleteLead\x12\x18.proto.DeleteLeadRequest\x1a\x19.proto.DeleteLeadResponse\"\x12\x82\xd3\xe4\x93\x02\f*\n" +
-	"/lead/{id}\x12G\n" +
-	"\aNewLead\x12\x15.proto.NewLeadRequest\x1a\x16.proto.NewLeadResponse\"\r\x82\xd3\xe4\x93\x02\a\"\x05/lead\x12R\n" +
-	"\aPutLead\x12\x15.proto.PutLeadRequest\x1a\x16.proto.PutLeadResponse\"\x18\x82\xd3\xe4\x93\x02\x12:\x04lead\x1a\n" +
-	"/lead/{id}\x12>\n" +
-	"\tPatchLead\x12\x17.proto.PatchLeadRequest\x1a\x18.proto.PatchLeadResponseB\x16Z\x14grpc/lead-grpc;protob\x06proto3"
+	"DeleteLead\x12\x18.proto.DeleteLeadRequest\x1a\x19.proto.DeleteLeadResponse\"\x15\x82\xd3\xe4\x93\x02\x0f*\r/v1/lead/{id}\x12P\n" +
+	"\aNewLead\x12\x15.proto.NewLeadRequest\x1a\x16.proto.NewLeadResponse\"\x16\x82\xd3\xe4\x93\x02\x10:\x04lead\"\b/v1/lead\x12U\n" +
+	"\aPutLead\x12\x15.proto.PutLeadRequest\x1a\x16.proto.PutLeadResponse\"\x1b\x82\xd3\xe4\x93\x02\x15:\x04lead\x1a\r/v1/lead/{id}B\x16Z\x14grpc/lead-grpc;protob\x06proto3"
 
 var (
 	file_lead_service_grpc_lead_grpc_lead_proto_rawDescOnce sync.Once
@@ -697,7 +575,7 @@ func file_lead_service_grpc_lead_grpc_lead_proto_rawDescGZIP() []byte {
 	return file_lead_service_grpc_lead_grpc_lead_proto_rawDescData
 }
 
-var file_lead_service_grpc_lead_grpc_lead_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_lead_service_grpc_lead_grpc_lead_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_lead_service_grpc_lead_grpc_lead_proto_goTypes = []any{
 	(*GetLeadRequest)(nil),        // 0: proto.GetLeadRequest
 	(*GetLeadResponse)(nil),       // 1: proto.GetLeadResponse
@@ -709,46 +587,38 @@ var file_lead_service_grpc_lead_grpc_lead_proto_goTypes = []any{
 	(*PutLeadResponse)(nil),       // 7: proto.PutLeadResponse
 	(*DeleteLeadRequest)(nil),     // 8: proto.DeleteLeadRequest
 	(*DeleteLeadResponse)(nil),    // 9: proto.DeleteLeadResponse
-	(*PatchLeadRequest)(nil),      // 10: proto.PatchLeadRequest
-	(*PatchLeadResponse)(nil),     // 11: proto.PatchLeadResponse
-	(*models.Lead)(nil),           // 12: models.Lead
-	(*timestamppb.Timestamp)(nil), // 13: google.protobuf.Timestamp
-	(*emptypb.Empty)(nil),         // 14: google.protobuf.Empty
+	(*models.Lead)(nil),           // 10: models.Lead
+	(*timestamppb.Timestamp)(nil), // 11: google.protobuf.Timestamp
+	(*emptypb.Empty)(nil),         // 12: google.protobuf.Empty
 }
 var file_lead_service_grpc_lead_grpc_lead_proto_depIdxs = []int32{
-	12, // 0: proto.GetLeadResponse.lead:type_name -> models.Lead
-	13, // 1: proto.GetLeadResponse.createdAt:type_name -> google.protobuf.Timestamp
-	13, // 2: proto.GetLeadResponse.updatedAt:type_name -> google.protobuf.Timestamp
-	14, // 3: proto.GetLeadsRequest.empty:type_name -> google.protobuf.Empty
-	12, // 4: proto.GetLeadsResponse.leads:type_name -> models.Lead
-	12, // 5: proto.NewLeadRequest.lead:type_name -> models.Lead
-	12, // 6: proto.NewLeadResponse.lead:type_name -> models.Lead
-	13, // 7: proto.NewLeadResponse.createdAt:type_name -> google.protobuf.Timestamp
-	12, // 8: proto.PutLeadRequest.lead:type_name -> models.Lead
-	12, // 9: proto.PutLeadResponse.lead:type_name -> models.Lead
-	13, // 10: proto.PutLeadResponse.createdAt:type_name -> google.protobuf.Timestamp
-	13, // 11: proto.PutLeadResponse.updatedAt:type_name -> google.protobuf.Timestamp
-	12, // 12: proto.PatchLeadRequest.lead:type_name -> models.Lead
-	12, // 13: proto.PatchLeadResponse.lead:type_name -> models.Lead
-	13, // 14: proto.PatchLeadResponse.createdAt:type_name -> google.protobuf.Timestamp
-	13, // 15: proto.PatchLeadResponse.updatedAt:type_name -> google.protobuf.Timestamp
-	0,  // 16: proto.LeadService.GetLead:input_type -> proto.GetLeadRequest
-	2,  // 17: proto.LeadService.GetLeads:input_type -> proto.GetLeadsRequest
-	8,  // 18: proto.LeadService.DeleteLead:input_type -> proto.DeleteLeadRequest
-	4,  // 19: proto.LeadService.NewLead:input_type -> proto.NewLeadRequest
-	6,  // 20: proto.LeadService.PutLead:input_type -> proto.PutLeadRequest
-	10, // 21: proto.LeadService.PatchLead:input_type -> proto.PatchLeadRequest
-	1,  // 22: proto.LeadService.GetLead:output_type -> proto.GetLeadResponse
-	3,  // 23: proto.LeadService.GetLeads:output_type -> proto.GetLeadsResponse
-	9,  // 24: proto.LeadService.DeleteLead:output_type -> proto.DeleteLeadResponse
-	5,  // 25: proto.LeadService.NewLead:output_type -> proto.NewLeadResponse
-	7,  // 26: proto.LeadService.PutLead:output_type -> proto.PutLeadResponse
-	11, // 27: proto.LeadService.PatchLead:output_type -> proto.PatchLeadResponse
-	22, // [22:28] is the sub-list for method output_type
-	16, // [16:22] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	10, // 0: proto.GetLeadResponse.lead:type_name -> models.Lead
+	11, // 1: proto.GetLeadResponse.createdAt:type_name -> google.protobuf.Timestamp
+	11, // 2: proto.GetLeadResponse.updatedAt:type_name -> google.protobuf.Timestamp
+	12, // 3: proto.GetLeadsRequest.empty:type_name -> google.protobuf.Empty
+	10, // 4: proto.GetLeadsResponse.leads:type_name -> models.Lead
+	10, // 5: proto.NewLeadRequest.lead:type_name -> models.Lead
+	10, // 6: proto.NewLeadResponse.lead:type_name -> models.Lead
+	11, // 7: proto.NewLeadResponse.createdAt:type_name -> google.protobuf.Timestamp
+	10, // 8: proto.PutLeadRequest.lead:type_name -> models.Lead
+	10, // 9: proto.PutLeadResponse.lead:type_name -> models.Lead
+	11, // 10: proto.PutLeadResponse.createdAt:type_name -> google.protobuf.Timestamp
+	11, // 11: proto.PutLeadResponse.updatedAt:type_name -> google.protobuf.Timestamp
+	0,  // 12: proto.LeadService.GetLead:input_type -> proto.GetLeadRequest
+	2,  // 13: proto.LeadService.GetLeads:input_type -> proto.GetLeadsRequest
+	8,  // 14: proto.LeadService.DeleteLead:input_type -> proto.DeleteLeadRequest
+	4,  // 15: proto.LeadService.NewLead:input_type -> proto.NewLeadRequest
+	6,  // 16: proto.LeadService.PutLead:input_type -> proto.PutLeadRequest
+	1,  // 17: proto.LeadService.GetLead:output_type -> proto.GetLeadResponse
+	3,  // 18: proto.LeadService.GetLeads:output_type -> proto.GetLeadsResponse
+	9,  // 19: proto.LeadService.DeleteLead:output_type -> proto.DeleteLeadResponse
+	5,  // 20: proto.LeadService.NewLead:output_type -> proto.NewLeadResponse
+	7,  // 21: proto.LeadService.PutLead:output_type -> proto.PutLeadResponse
+	17, // [17:22] is the sub-list for method output_type
+	12, // [12:17] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_lead_service_grpc_lead_grpc_lead_proto_init() }
@@ -762,7 +632,7 @@ func file_lead_service_grpc_lead_grpc_lead_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_lead_service_grpc_lead_grpc_lead_proto_rawDesc), len(file_lead_service_grpc_lead_grpc_lead_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

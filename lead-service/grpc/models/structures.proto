@@ -10,6 +10,10 @@ message Lead {
     string phone = 3;
     string company = 4;
     repeated Product products = 5;
+    uint32 visits = 6;
+    string lastVisit = 7;
+    double totalSales = 8;
+    uint32 lastPurchaseDays = 9;
 }
 
 message Product{
