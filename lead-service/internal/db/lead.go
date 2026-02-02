@@ -9,7 +9,10 @@ import (
 
 func (db *DBConnection) FindLeadById(id uint32) (*models.Lead, error) {
 	var lead models.Lead
-	db.db.First(&lead, id)
+	err := db.db.Preload("Products").First(&lead, id).Error
+	if err != nil {
+		return nil, err
+	}
 	return &lead, nil
 }
 

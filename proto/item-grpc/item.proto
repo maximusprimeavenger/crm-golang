@@ -3,17 +3,41 @@ syntax = "proto3";
 package proto;
 
 import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "grpc/models/structures.proto";
+import "validate/validate.proto";
 
-option go_package = "github.com/fiveret/crm-golang/grpc/item-grpc; proto";
+option go_package = "grpc/item-grpc;proto";
 
 service ItemService{
-    rpc CreateItem (CreateItemRequest) returns (CreateItemResponse);
-    rpc GetItem (GetItemRequest) returns (GetItemResponse);
-    rpc GetItems (GetItemsRequest) returns (GetItemsResponse);
-    rpc UpdateItem (UpdateItemRequest) returns (UpdateItemResponse);
-    rpc DeleteItem (DeleteItemRequest) returns (DeleteItemResponse);
+    rpc CreateItem (CreateItemRequest) returns (CreateItemResponse){
+        option (google.api.http) = {
+            post: "/items"
+            body:"item"
+        };
+    }
+    rpc GetItem (GetItemRequest) returns (GetItemResponse){
+        option (google.api.http) = {
+            get: "/items/{id}"
+        };
+    }
+    rpc GetItems (GetItemsRequest) returns (GetItemsResponse){
+        option (google.api.http) = {
+            get: "/items"
+        };
+    }
+    rpc PutItem (PutItemRequest) returns (PutItemResponse){
+        option (google.api.http) = {
+            put: "/items/{id}"
+            body: "item"
+        };
+    }
+    rpc DeleteItem (DeleteItemRequest) returns (DeleteItemResponse){
+        option (google.api.http) = {
+            delete: "/items/{id}"
+        };
+    }
 }
 
 message CreateItemRequest{
@@ -21,12 +45,14 @@ message CreateItemRequest{
 }
 
 message CreateItemResponse{
-    string message = 1;
+    string message = 1 [(validate.rules).string = {
+        min_len: 5
+    }];
     google.protobuf.Timestamp createdAt = 2;
 }
 
 message GetItemRequest{
-    uint32 id = 1;
+    uint32 id = 1 [(validate.rules).uint32.gt = 0];
 }
 
 message GetItemResponse{
@@ -41,20 +67,21 @@ message GetItemsResponse{
     repeated models.Item items = 1;
 }
 
-message UpdateItemRequest{
-    uint32 id = 1;
+message PutItemRequest{
+    uint32 id = 1 [(validate.rules).uint32.gt = 0];
+    models.Item item = 2;
 }
 
-message UpdateItemResponse{
+message PutItemResponse{
     models.Item item = 1;
     google.protobuf.Timestamp createdAt = 2;
     google.protobuf.Timestamp updatedAt = 3;
 }
 
 message DeleteItemRequest{
-    uint32 id = 1;
+    uint32 id = 1 [(validate.rules).uint32.gt = 0];
 }
 
 message DeleteItemResponse{
     string message = 1;
-}4
+}

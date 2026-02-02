@@ -41,7 +41,7 @@ service ItemService{
 }
 
 message CreateItemRequest{
-    models.Item item = 1;
+    models.RequestItem item = 1;
 }
 
 message CreateItemResponse{
@@ -56,7 +56,7 @@ message GetItemRequest{
 }
 
 message GetItemResponse{
-    models.Item item = 1;
+    models.ResponseItem item = 1;
 }
 
 message GetItemsRequest{
@@ -64,16 +64,16 @@ message GetItemsRequest{
 }
 
 message GetItemsResponse{
-    repeated models.Item items = 1;
+    repeated models.ResponseItem items = 1;
 }
 
 message PutItemRequest{
     uint32 id = 1 [(validate.rules).uint32.gt = 0];
-    models.Item item = 2;
+    models.RequestItem item = 2;
 }
 
 message PutItemResponse{
-    models.Item item = 1;
+    models.ResponseItem item = 1;
     google.protobuf.Timestamp createdAt = 2;
     google.protobuf.Timestamp updatedAt = 3;
 }

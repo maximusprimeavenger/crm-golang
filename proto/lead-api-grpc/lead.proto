@@ -13,28 +13,28 @@ option go_package = "grpc/lead-grpc;proto";
 service LeadService{
     rpc GetLead (GetLeadRequest) returns (GetLeadResponse){
         option (google.api.http) = {
-            get: "/v1/lead/{id}"
+            get: "/v1/leads/{id}"
         };
     }
     rpc GetLeads (GetLeadsRequest) returns (GetLeadsResponse){
         option (google.api.http) = {
-            get: "/v1/lead"
+            get: "/v1/leads"
         };
     }
     rpc DeleteLead (DeleteLeadRequest) returns (DeleteLeadResponse){
         option (google.api.http) = {
-            delete: "/v1/lead/{id}"
+            delete: "/v1/leads/{id}"
         };
     }
     rpc NewLead (NewLeadRequest) returns (NewLeadResponse){
         option (google.api.http) = {
-            post: "/v1/lead"
+            post: "/v1/leads"
             body: "lead"
         };
     }
     rpc PutLead (PutLeadRequest) returns (PutLeadResponse){
         option (google.api.http) = {
-            put: "/v1/lead/{id}"
+            put: "/v1/leads/{id}"
             body: "lead"
         };
     }

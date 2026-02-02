@@ -13,28 +13,28 @@ option go_package = "grpc/lead-grpc;proto";
 service LeadProductService{
     rpc AddProductsToLead (AddProductsToLeadRequest) returns (AddProductsToLeadResponse){
         option (google.api.http) = {
-            post: "/lead-product"
+            post: "/v1/lead-product"
             body: "*"
         };
     }
     rpc GetLeadProducts (GetLeadProductsRequest) returns (GetLeadProductsResponse){
         option (google.api.http) = {
-            get: "/lead-product/{id}"
+            get: "/v1/lead-product/{id}"
         };
     }
     rpc GetLeadsProducts (GetLeadsProductsRequest) returns (GetLeadsProductsResponse){
         option (google.api.http) = {
-            get: "/lead-product"
+            get: "/v1/lead-product"
         };
     }
     rpc DeleteLeadProducts (DeleteLeadProductsRequest) returns (DeleteLeadProductsResponse){
         option (google.api.http) = {
-            delete: "/lead-product/{id}"
+            delete: "/v1/lead-product/{id}"
         };
     }
     rpc PutProductsLead (PutProductsLeadRequest) returns (PutProductsLeadResponse){
         option (google.api.http) = {
-            put: "/lead-product/{id}"
+            put: "/v1/lead-product/{id}"
             body: "product"
         };
     }
@@ -54,10 +54,9 @@ message GetLeadProductsRequest{
 }
 
 message GetLeadProductsResponse{
-    models.Product product = 1;
-    uint32 product_id = 2;
-    google.protobuf.Timestamp createdAt = 3;
-    google.protobuf.Timestamp updatedAt = 4;
+    repeated models.ResponseItem product = 1;
+    google.protobuf.Timestamp createdAt = 2;
+    google.protobuf.Timestamp updatedAt = 3;
 }
 
 message GetLeadsProductsRequest{
@@ -65,7 +64,7 @@ message GetLeadsProductsRequest{
 }
 
 message GetLeadsProductsResponse{
-    repeated models.Product products = 1;
+    repeated models.ResponseItem products = 1;
 }
 
 message PutProductsLeadRequest{

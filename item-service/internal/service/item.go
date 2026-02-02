@@ -55,7 +55,7 @@ func (s *itemService) GetItem(ctx context.Context, id *uint32) (*models.Item, er
 	return s.repo.GetItem(id)
 }
 
-func (s *itemService) GetItems(context.Context) ([]*grpcModels.Item, error) {
+func (s *itemService) GetItems(ctx context.Context) ([]*grpcModels.Item, error) {
 	items, err := s.repo.GetItems()
 	if err != nil {
 		return nil, err

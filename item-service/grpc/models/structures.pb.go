@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v6.31.0
-// source: item-service/grpc/models/structures.proto
+// source: proto/models/structures.proto
 
 package models
 
@@ -21,35 +21,36 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type Product struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	Price         float64                `protobuf:"fixed64,3,opt,name=price,proto3" json:"price,omitempty"`
-	Category      string                 `protobuf:"bytes,4,opt,name=category,proto3" json:"category,omitempty"`
-	Currency      string                 `protobuf:"bytes,5,opt,name=currency,proto3" json:"currency,omitempty"`
-	InStock       uint32                 `protobuf:"varint,6,opt,name=inStock,proto3" json:"inStock,omitempty"`
-	Status        string                 `protobuf:"bytes,7,opt,name=status,proto3" json:"status,omitempty"`
-	LeadID        uint32                 `protobuf:"varint,8,opt,name=leadID,proto3" json:"leadID,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+type Lead struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	Name             string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Email            string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
+	Phone            string                 `protobuf:"bytes,3,opt,name=phone,proto3" json:"phone,omitempty"`
+	Company          string                 `protobuf:"bytes,4,opt,name=company,proto3" json:"company,omitempty"`
+	Products         []*ResponseItem        `protobuf:"bytes,5,rep,name=products,proto3" json:"products,omitempty"`
+	Visits           uint32                 `protobuf:"varint,6,opt,name=visits,proto3" json:"visits,omitempty"`
+	LastVisit        string                 `protobuf:"bytes,7,opt,name=lastVisit,proto3" json:"lastVisit,omitempty"`
+	TotalSales       float64                `protobuf:"fixed64,8,opt,name=totalSales,proto3" json:"totalSales,omitempty"`
+	LastPurchaseDays uint32                 `protobuf:"varint,9,opt,name=lastPurchaseDays,proto3" json:"lastPurchaseDays,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
-func (x *Product) Reset() {
-	*x = Product{}
-	mi := &file_item_service_grpc_models_structures_proto_msgTypes[0]
+func (x *Lead) Reset() {
+	*x = Lead{}
+	mi := &file_proto_models_structures_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Product) String() string {
+func (x *Lead) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Product) ProtoMessage() {}
+func (*Lead) ProtoMessage() {}
 
-func (x *Product) ProtoReflect() protoreflect.Message {
-	mi := &file_item_service_grpc_models_structures_proto_msgTypes[0]
+func (x *Lead) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_models_structures_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -60,68 +61,175 @@ func (x *Product) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Product.ProtoReflect.Descriptor instead.
-func (*Product) Descriptor() ([]byte, []int) {
-	return file_item_service_grpc_models_structures_proto_rawDescGZIP(), []int{0}
+// Deprecated: Use Lead.ProtoReflect.Descriptor instead.
+func (*Lead) Descriptor() ([]byte, []int) {
+	return file_proto_models_structures_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Product) GetName() string {
+func (x *Lead) GetName() string {
 	if x != nil {
 		return x.Name
 	}
 	return ""
 }
 
-func (x *Product) GetDescription() string {
+func (x *Lead) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *Lead) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+func (x *Lead) GetCompany() string {
+	if x != nil {
+		return x.Company
+	}
+	return ""
+}
+
+func (x *Lead) GetProducts() []*ResponseItem {
+	if x != nil {
+		return x.Products
+	}
+	return nil
+}
+
+func (x *Lead) GetVisits() uint32 {
+	if x != nil {
+		return x.Visits
+	}
+	return 0
+}
+
+func (x *Lead) GetLastVisit() string {
+	if x != nil {
+		return x.LastVisit
+	}
+	return ""
+}
+
+func (x *Lead) GetTotalSales() float64 {
+	if x != nil {
+		return x.TotalSales
+	}
+	return 0
+}
+
+func (x *Lead) GetLastPurchaseDays() uint32 {
+	if x != nil {
+		return x.LastPurchaseDays
+	}
+	return 0
+}
+
+type ResponseItem struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProductId     uint32                 `protobuf:"varint,1,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Price         float64                `protobuf:"fixed64,4,opt,name=price,proto3" json:"price,omitempty"`
+	Category      string                 `protobuf:"bytes,5,opt,name=category,proto3" json:"category,omitempty"`
+	Currency      string                 `protobuf:"bytes,6,opt,name=currency,proto3" json:"currency,omitempty"`
+	InStock       uint32                 `protobuf:"varint,7,opt,name=inStock,proto3" json:"inStock,omitempty"`
+	Status        string                 `protobuf:"bytes,8,opt,name=status,proto3" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ResponseItem) Reset() {
+	*x = ResponseItem{}
+	mi := &file_proto_models_structures_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ResponseItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ResponseItem) ProtoMessage() {}
+
+func (x *ResponseItem) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_models_structures_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ResponseItem.ProtoReflect.Descriptor instead.
+func (*ResponseItem) Descriptor() ([]byte, []int) {
+	return file_proto_models_structures_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *ResponseItem) GetProductId() uint32 {
+	if x != nil {
+		return x.ProductId
+	}
+	return 0
+}
+
+func (x *ResponseItem) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *ResponseItem) GetDescription() string {
 	if x != nil {
 		return x.Description
 	}
 	return ""
 }
 
-func (x *Product) GetPrice() float64 {
+func (x *ResponseItem) GetPrice() float64 {
 	if x != nil {
 		return x.Price
 	}
 	return 0
 }
 
-func (x *Product) GetCategory() string {
+func (x *ResponseItem) GetCategory() string {
 	if x != nil {
 		return x.Category
 	}
 	return ""
 }
 
-func (x *Product) GetCurrency() string {
+func (x *ResponseItem) GetCurrency() string {
 	if x != nil {
 		return x.Currency
 	}
 	return ""
 }
 
-func (x *Product) GetInStock() uint32 {
+func (x *ResponseItem) GetInStock() uint32 {
 	if x != nil {
 		return x.InStock
 	}
 	return 0
 }
 
-func (x *Product) GetStatus() string {
+func (x *ResponseItem) GetStatus() string {
 	if x != nil {
 		return x.Status
 	}
 	return ""
 }
 
-func (x *Product) GetLeadID() uint32 {
-	if x != nil {
-		return x.LeadID
-	}
-	return 0
-}
-
-type Item struct {
+type RequestItem struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
@@ -134,21 +242,21 @@ type Item struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *Item) Reset() {
-	*x = Item{}
-	mi := &file_item_service_grpc_models_structures_proto_msgTypes[1]
+func (x *RequestItem) Reset() {
+	*x = RequestItem{}
+	mi := &file_proto_models_structures_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Item) String() string {
+func (x *RequestItem) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Item) ProtoMessage() {}
+func (*RequestItem) ProtoMessage() {}
 
-func (x *Item) ProtoReflect() protoreflect.Message {
-	mi := &file_item_service_grpc_models_structures_proto_msgTypes[1]
+func (x *RequestItem) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_models_structures_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -159,75 +267,88 @@ func (x *Item) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Item.ProtoReflect.Descriptor instead.
-func (*Item) Descriptor() ([]byte, []int) {
-	return file_item_service_grpc_models_structures_proto_rawDescGZIP(), []int{1}
+// Deprecated: Use RequestItem.ProtoReflect.Descriptor instead.
+func (*RequestItem) Descriptor() ([]byte, []int) {
+	return file_proto_models_structures_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *Item) GetName() string {
+func (x *RequestItem) GetName() string {
 	if x != nil {
 		return x.Name
 	}
 	return ""
 }
 
-func (x *Item) GetDescription() string {
+func (x *RequestItem) GetDescription() string {
 	if x != nil {
 		return x.Description
 	}
 	return ""
 }
 
-func (x *Item) GetPrice() float64 {
+func (x *RequestItem) GetPrice() float64 {
 	if x != nil {
 		return x.Price
 	}
 	return 0
 }
 
-func (x *Item) GetCategory() string {
+func (x *RequestItem) GetCategory() string {
 	if x != nil {
 		return x.Category
 	}
 	return ""
 }
 
-func (x *Item) GetCurrency() string {
+func (x *RequestItem) GetCurrency() string {
 	if x != nil {
 		return x.Currency
 	}
 	return ""
 }
 
-func (x *Item) GetInStock() uint32 {
+func (x *RequestItem) GetInStock() uint32 {
 	if x != nil {
 		return x.InStock
 	}
 	return 0
 }
 
-func (x *Item) GetStatus() string {
+func (x *RequestItem) GetStatus() string {
 	if x != nil {
 		return x.Status
 	}
 	return ""
 }
 
-var File_item_service_grpc_models_structures_proto protoreflect.FileDescriptor
+var File_proto_models_structures_proto protoreflect.FileDescriptor
 
-const file_item_service_grpc_models_structures_proto_rawDesc = "" +
+const file_proto_models_structures_proto_rawDesc = "" +
 	"\n" +
-	")item-service/grpc/models/structures.proto\x12\x06models\"\xd7\x01\n" +
-	"\aProduct\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x14\n" +
-	"\x05price\x18\x03 \x01(\x01R\x05price\x12\x1a\n" +
-	"\bcategory\x18\x04 \x01(\tR\bcategory\x12\x1a\n" +
-	"\bcurrency\x18\x05 \x01(\tR\bcurrency\x12\x18\n" +
-	"\ainStock\x18\x06 \x01(\rR\ainStock\x12\x16\n" +
-	"\x06status\x18\a \x01(\tR\x06status\x12\x16\n" +
-	"\x06leadID\x18\b \x01(\rR\x06leadID\"\xbc\x01\n" +
-	"\x04Item\x12\x12\n" +
+	"\x1dproto/models/structures.proto\x12\x06models\"\x94\x02\n" +
+	"\x04Lead\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
+	"\x05email\x18\x02 \x01(\tR\x05email\x12\x14\n" +
+	"\x05phone\x18\x03 \x01(\tR\x05phone\x12\x18\n" +
+	"\acompany\x18\x04 \x01(\tR\acompany\x120\n" +
+	"\bproducts\x18\x05 \x03(\v2\x14.models.ResponseItemR\bproducts\x12\x16\n" +
+	"\x06visits\x18\x06 \x01(\rR\x06visits\x12\x1c\n" +
+	"\tlastVisit\x18\a \x01(\tR\tlastVisit\x12\x1e\n" +
+	"\n" +
+	"totalSales\x18\b \x01(\x01R\n" +
+	"totalSales\x12*\n" +
+	"\x10lastPurchaseDays\x18\t \x01(\rR\x10lastPurchaseDays\"\xe3\x01\n" +
+	"\fResponseItem\x12\x1d\n" +
+	"\n" +
+	"product_id\x18\x01 \x01(\rR\tproductId\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x14\n" +
+	"\x05price\x18\x04 \x01(\x01R\x05price\x12\x1a\n" +
+	"\bcategory\x18\x05 \x01(\tR\bcategory\x12\x1a\n" +
+	"\bcurrency\x18\x06 \x01(\tR\bcurrency\x12\x18\n" +
+	"\ainStock\x18\a \x01(\rR\ainStock\x12\x16\n" +
+	"\x06status\x18\b \x01(\tR\x06status\"\xc3\x01\n" +
+	"\vRequestItem\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x14\n" +
 	"\x05price\x18\x03 \x01(\x01R\x05price\x12\x1a\n" +
@@ -237,50 +358,52 @@ const file_item_service_grpc_models_structures_proto_rawDesc = "" +
 	"\x06status\x18\a \x01(\tR\x06statusB\x15Z\x13grpc/models; modelsb\x06proto3"
 
 var (
-	file_item_service_grpc_models_structures_proto_rawDescOnce sync.Once
-	file_item_service_grpc_models_structures_proto_rawDescData []byte
+	file_proto_models_structures_proto_rawDescOnce sync.Once
+	file_proto_models_structures_proto_rawDescData []byte
 )
 
-func file_item_service_grpc_models_structures_proto_rawDescGZIP() []byte {
-	file_item_service_grpc_models_structures_proto_rawDescOnce.Do(func() {
-		file_item_service_grpc_models_structures_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_item_service_grpc_models_structures_proto_rawDesc), len(file_item_service_grpc_models_structures_proto_rawDesc)))
+func file_proto_models_structures_proto_rawDescGZIP() []byte {
+	file_proto_models_structures_proto_rawDescOnce.Do(func() {
+		file_proto_models_structures_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_models_structures_proto_rawDesc), len(file_proto_models_structures_proto_rawDesc)))
 	})
-	return file_item_service_grpc_models_structures_proto_rawDescData
+	return file_proto_models_structures_proto_rawDescData
 }
 
-var file_item_service_grpc_models_structures_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_item_service_grpc_models_structures_proto_goTypes = []any{
-	(*Product)(nil), // 0: models.Product
-	(*Item)(nil),    // 1: models.Item
+var file_proto_models_structures_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_proto_models_structures_proto_goTypes = []any{
+	(*Lead)(nil),         // 0: models.Lead
+	(*ResponseItem)(nil), // 1: models.ResponseItem
+	(*RequestItem)(nil),  // 2: models.RequestItem
 }
-var file_item_service_grpc_models_structures_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+var file_proto_models_structures_proto_depIdxs = []int32{
+	1, // 0: models.Lead.products:type_name -> models.ResponseItem
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_item_service_grpc_models_structures_proto_init() }
-func file_item_service_grpc_models_structures_proto_init() {
-	if File_item_service_grpc_models_structures_proto != nil {
+func init() { file_proto_models_structures_proto_init() }
+func file_proto_models_structures_proto_init() {
+	if File_proto_models_structures_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_item_service_grpc_models_structures_proto_rawDesc), len(file_item_service_grpc_models_structures_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_models_structures_proto_rawDesc), len(file_proto_models_structures_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_item_service_grpc_models_structures_proto_goTypes,
-		DependencyIndexes: file_item_service_grpc_models_structures_proto_depIdxs,
-		MessageInfos:      file_item_service_grpc_models_structures_proto_msgTypes,
+		GoTypes:           file_proto_models_structures_proto_goTypes,
+		DependencyIndexes: file_proto_models_structures_proto_depIdxs,
+		MessageInfos:      file_proto_models_structures_proto_msgTypes,
 	}.Build()
-	File_item_service_grpc_models_structures_proto = out.File
-	file_item_service_grpc_models_structures_proto_goTypes = nil
-	file_item_service_grpc_models_structures_proto_depIdxs = nil
+	File_proto_models_structures_proto = out.File
+	file_proto_models_structures_proto_goTypes = nil
+	file_proto_models_structures_proto_depIdxs = nil
 }

@@ -2,22 +2,46 @@ syntax = "proto3";
 
 package proto;
 
+import "google/api/annotations.proto";
+import "validate/validate.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 import "grpc/models/structures.proto";
 
-option go_package = "github.com/fiveret/crm-golang/grpc/lead-grpc;proto";
+option go_package = "grpc/lead-grpc;proto";
 
 service LeadService{
-    rpc GetLead (GetLeadRequest) returns (GetLeadResponse);
-    rpc GetLeads (GetLeadsRequest) returns (GetLeadsResponse);
-    rpc DeleteLead (DeleteLeadRequest) returns (DeleteLeadResponse);
-    rpc NewLead (NewLeadRequest) returns (NewLeadResponse);
-    rpc UpdateLead (UpdateLeadRequest) returns (UpdateLeadResponse);
+    rpc GetLead (GetLeadRequest) returns (GetLeadResponse){
+        option (google.api.http) = {
+            get: "/v1/leads/{id}"
+        };
+    }
+    rpc GetLeads (GetLeadsRequest) returns (GetLeadsResponse){
+        option (google.api.http) = {
+            get: "/v1/leads"
+        };
+    }
+    rpc DeleteLead (DeleteLeadRequest) returns (DeleteLeadResponse){
+        option (google.api.http) = {
+            delete: "/v1/leads/{id}"
+        };
+    }
+    rpc NewLead (NewLeadRequest) returns (NewLeadResponse){
+        option (google.api.http) = {
+            post: "/v1/leads"
+            body: "lead"
+        };
+    }
+    rpc PutLead (PutLeadRequest) returns (PutLeadResponse){
+        option (google.api.http) = {
+            put: "/v1/leads/{id}"
+            body: "lead"
+        };
+    }
 }
 
 message GetLeadRequest{
-    uint32 id = 1;
+    uint32 id = 1 [(validate.rules).uint32.gt = 0];
 }
 
 message GetLeadResponse{
@@ -44,18 +68,19 @@ message NewLeadResponse{
     google.protobuf.Timestamp createdAt = 2;
 }
 
-message UpdateLeadRequest{
-    models.Lead lead = 1;
+message PutLeadRequest{
+    uint32 id = 1 [(validate.rules).uint32.gt = 0];
+    models.Lead lead = 2;
 }
 
-message UpdateLeadResponse{
+message PutLeadResponse{
     models.Lead lead = 1;
     google.protobuf.Timestamp createdAt = 2;
     google.protobuf.Timestamp updatedAt = 3;
 }
 
 message DeleteLeadRequest{
-    uint32 id = 1;
+    uint32 id = 1 [(validate.rules).uint32.gt = 0];
 }
 
 message DeleteLeadResponse{

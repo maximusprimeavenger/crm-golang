@@ -79,3 +79,11 @@ func (h *GRPCHandler) PutItem(ctx context.Context, req *proto.PutItemRequest) (*
 	}
 	return resp, nil
 }
+
+func (h *GRPCHandler) GetItems(ctx context.Context, req *proto.GetItemsRequest) (*proto.GetItemsResponse, error) {
+	items, err := h.service.GetItems(ctx)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "failed to get items: %v", err)
+	}
+	return &proto.GetItemsResponse{Items: items}, nil
+}

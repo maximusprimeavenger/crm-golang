@@ -323,11 +323,11 @@ const file_lead_service_grpc_lead_grpc_lead_product_proto_rawDesc = "" +
 	"\x19DeleteLeadProductsRequest\x12\x17\n" +
 	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\"6\n" +
 	"\x1aDeleteLeadProductsResponse\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage2\xf4\x02\n" +
-	"\x12LeadProductService\x12p\n" +
-	"\x11AddProductsToLead\x12\x1f.proto.AddProductsToLeadRequest\x1a .proto.AddProductsToLeadResponse\"\x18\x82\xd3\xe4\x93\x02\x12:\x01*\"\r/lead-product\x12u\n" +
-	"\x12DeleteLeadProducts\x12 .proto.DeleteLeadProductsRequest\x1a!.proto.DeleteLeadProductsResponse\"\x1a\x82\xd3\xe4\x93\x02\x14*\x12/lead-product/{id}\x12u\n" +
-	"\x11DeleteLeadProduct\x12\x1f.proto.DeleteLeadProductRequest\x1a .proto.DeleteLeadProductResponse\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\x1a\x12/lead-product/{id}B\x16Z\x14grpc/lead-grpc;protob\x06proto3"
+	"\amessage\x18\x01 \x01(\tR\amessage2\x8d\x03\n" +
+	"\x12LeadProductService\x12w\n" +
+	"\x11AddProductsToLead\x12\x1f.proto.AddProductsToLeadRequest\x1a .proto.AddProductsToLeadResponse\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\"\x14/leads/{id}/products\x12w\n" +
+	"\x12DeleteLeadProducts\x12 .proto.DeleteLeadProductsRequest\x1a!.proto.DeleteLeadProductsResponse\"\x1c\x82\xd3\xe4\x93\x02\x16*\x14/leads/{id}/products\x12\x84\x01\n" +
+	"\x11DeleteLeadProduct\x12\x1f.proto.DeleteLeadProductRequest\x1a .proto.DeleteLeadProductResponse\",\x82\xd3\xe4\x93\x02&:\x01**!/leads/{id}/products/{product_id}B\x16Z\x14grpc/lead-grpc;protob\x06proto3"
 
 var (
 	file_lead_service_grpc_lead_grpc_lead_product_proto_rawDescOnce sync.Once

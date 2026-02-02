@@ -55,7 +55,11 @@ func (s *leadService) UpdateLead(lead *models.Lead) (*models.Lead, error) {
 }
 
 func (s *leadService) GetLead(leadID uint32) (*models.Lead, error) {
-	return s.repo.GetLead(leadID)
+	lead, err := s.repo.GetLead(leadID)
+	if err != nil {
+		return nil, err
+	}
+	return lead, nil
 }
 
 func (s *leadService) GetLeads() []*models.Lead {
