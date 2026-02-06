@@ -1,28 +1,34 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"time"
+)
 
 type Lead struct {
-	Name             string     `gorm:"varchar(50);not null" json:"name"`
-	Email            string     `gorm:"varchar(100);not null; unique" json:"email"`
-	Phone            string     `gorm:"varchar(15);not null; unique" json:"phone"`
-	Company          string     `gorm:"varchar(50);not null" json:"company"`
-	Products         []*Product `gorm:"foreignKey:LeadID"`
-	Visits           uint       `gorm:"default:0" json:"visits"`
-	LastVisit        *string    `json:"last_visit,omitempty"`
-	TotalSales       float64    `gorm:"default:0" json:"total_sales"`
-	LastPurchaseDays *uint      `json:"last_purchase_days,omitempty"`
-	gorm.Model
+	ID               uint       `gorm:"primaryKey"`
+	Name             string     `gorm:"varchar(50);not null"`
+	Email            string     `gorm:"varchar(100);not null;unique"`
+	Phone            string     `gorm:"varchar(15);not null;unique"`
+	Company          string     `gorm:"varchar(50);not null"`
+	Products         []*Product `gorm:"foreignKey:LeadID;constraint:OnDelete:CASCADE"`
+	Visits           uint       `gorm:"default:0"`
+	LastVisit        *string
+	TotalSales       float64 `gorm:"default:0"`
+	LastPurchaseDays *uint
+	CreatedAt        time.Time
+	UpdatedAt        time.Time
 }
 
 type Product struct {
-	Name        *string  `gorm:"unique; not null" json:"name"`
-	Description *string  `gorm:"not null" json:"description"`
-	Price       *float64 `gorm:"not null" json:"price"`
-	Category    *string  `gorm:"not null" json:"category"`
-	Currency    *string  `gorm:"default:'KZT'" json:"currency"`
-	InStock     *uint    `gorm:"not null" json:"in_stock"`
-	Status      *string  `gorm:"not null" json:"status"`
-	LeadID      *uint
-	gorm.Model
+	ID          uint    `gorm:"primaryKey"`
+	LeadID      uint    `gorm:"index;not null"`
+	Name        string  `gorm:"not null"`
+	Description string  `gorm:"not null"`
+	Price       float64 `gorm:"not null"`
+	Category    string  `gorm:"not null"`
+	Currency    string  `gorm:"default:'KZT'"`
+	InStock     uint    `gorm:"not null"`
+	Status      string  `gorm:"not null"`
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 }

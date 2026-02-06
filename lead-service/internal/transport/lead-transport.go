@@ -29,13 +29,13 @@ func (h *GRPCHandler) NewLead(ctx context.Context, req *proto.NewLeadRequest) (*
 		return nil, status.Errorf(codes.InvalidArgument, "error occured during validating")
 	}
 	lead := req.Lead
-	createdAt, err := h.leadService.NewLead(helpers.LeadGRPCToModels(lead))
+	newLead, err := h.leadService.NewLead(helpers.LeadRequest(lead))
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error occured during saving the lead")
 	}
 	return &proto.NewLeadResponse{
-		Lead:      lead,
-		CreatedAt: timestamppb.New(*createdAt),
+		Lead:      helpers.LeadResponse(newLead),
+		CreatedAt: timestamppb.New(newLead.CreatedAt),
 	}, nil
 }
 
@@ -49,9 +49,8 @@ func (h *GRPCHandler) GetLead(ctx context.Context, req *proto.GetLeadRequest) (*
 	if err != nil {
 		return nil, status.Errorf(codes.NotFound, "lead not found: %v", err)
 	}
-	leadResp := helpers.ModelsToLeadGRPC(lead)
+	leadResp := helpers.LeadResponse(lead)
 	return &proto.GetLeadResponse{
-		Id:        uint32(lead.ID),
 		Lead:      leadResp,
 		CreatedAt: timestamppb.New(lead.CreatedAt),
 		UpdatedAt: timestamppb.New(lead.UpdatedAt),
@@ -61,9 +60,9 @@ func (h *GRPCHandler) GetLead(ctx context.Context, req *proto.GetLeadRequest) (*
 func (h *GRPCHandler) GetLeads(ctx context.Context, req *proto.GetLeadsRequest) (*proto.GetLeadsResponse, error) {
 	leads := h.leadService.GetLeads()
 
-	respLeads := make([]*grpcModels.Lead, 0, len(leads))
+	respLeads := make([]*grpcModels.LeadResponse, 0, len(leads))
 	for _, l := range leads {
-		respLeads = append(respLeads, helpers.ModelsToLeadGRPC(l))
+		respLeads = append(respLeads, helpers.LeadResponse(l))
 	}
 
 	return &proto.GetLeadsResponse{Leads: respLeads}, nil
@@ -74,12 +73,13 @@ func (h *GRPCHandler) UpdateLead(ctx context.Context, req *proto.PutLeadRequest)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "invalid request: %v", err)
 	}
-	lead := helpers.LeadGRPCToModels(req.Lead)
+	lead := helpers.LeadRequest(req.Lead)
+	lead.ID = uint(req.Id)
 	updatedLead, err := h.leadService.UpdateLead(lead)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "could not update lead: %v", err)
 	}
-	leadResponse := helpers.ModelsToLeadGRPC(updatedLead)
+	leadResponse := helpers.LeadResponse(updatedLead)
 
 	return &proto.PutLeadResponse{Lead: leadResponse}, nil
 }

@@ -6,7 +6,7 @@ import "google/protobuf/empty.proto";
 import "google/api/annotations.proto";
 import "validate/validate.proto";
 import "google/protobuf/timestamp.proto";
-import "models/lead-service.proto";
+import "models/gateway.proto";
 
 option go_package = "grpc/lead-grpc;proto";
 
@@ -46,6 +46,7 @@ service LeadProductService {
     rpc PutProductsLead(PutProductsLeadRequest) returns (PutProductsLeadResponse) {
         option (google.api.http) = {
             put: "/v1/leads/{id}/products"
+            body: "*"
         };
     }
 }
@@ -78,6 +79,7 @@ message DeleteLeadProductsResponse {
 
 message GetLeadProductsRequest {
     uint32 id = 1 [(validate.rules).uint32.gt = 0];
+    uint32 product_id = 2[(validate.rules).uint32.gt = 0];
 }
 
 message GetLeadProductsResponse {

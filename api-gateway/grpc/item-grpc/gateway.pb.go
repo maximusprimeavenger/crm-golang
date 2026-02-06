@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v6.31.0
-// source: api-gateway/grpc/item-grpc/item.proto
+// source: proto/item-grpc/gateway.proto
 
 package proto
 
@@ -28,14 +28,14 @@ const (
 
 type CreateItemRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Item          *models.Item           `protobuf:"bytes,1,opt,name=item,proto3" json:"item,omitempty"`
+	Item          *models.ItemRequest    `protobuf:"bytes,1,opt,name=item,proto3" json:"item,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CreateItemRequest) Reset() {
 	*x = CreateItemRequest{}
-	mi := &file_api_gateway_grpc_item_grpc_item_proto_msgTypes[0]
+	mi := &file_proto_item_grpc_gateway_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -47,7 +47,7 @@ func (x *CreateItemRequest) String() string {
 func (*CreateItemRequest) ProtoMessage() {}
 
 func (x *CreateItemRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_gateway_grpc_item_grpc_item_proto_msgTypes[0]
+	mi := &file_proto_item_grpc_gateway_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -60,10 +60,10 @@ func (x *CreateItemRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateItemRequest.ProtoReflect.Descriptor instead.
 func (*CreateItemRequest) Descriptor() ([]byte, []int) {
-	return file_api_gateway_grpc_item_grpc_item_proto_rawDescGZIP(), []int{0}
+	return file_proto_item_grpc_gateway_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *CreateItemRequest) GetItem() *models.Item {
+func (x *CreateItemRequest) GetItem() *models.ItemRequest {
 	if x != nil {
 		return x.Item
 	}
@@ -80,7 +80,7 @@ type CreateItemResponse struct {
 
 func (x *CreateItemResponse) Reset() {
 	*x = CreateItemResponse{}
-	mi := &file_api_gateway_grpc_item_grpc_item_proto_msgTypes[1]
+	mi := &file_proto_item_grpc_gateway_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -92,7 +92,7 @@ func (x *CreateItemResponse) String() string {
 func (*CreateItemResponse) ProtoMessage() {}
 
 func (x *CreateItemResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_gateway_grpc_item_grpc_item_proto_msgTypes[1]
+	mi := &file_proto_item_grpc_gateway_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -105,7 +105,7 @@ func (x *CreateItemResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateItemResponse.ProtoReflect.Descriptor instead.
 func (*CreateItemResponse) Descriptor() ([]byte, []int) {
-	return file_api_gateway_grpc_item_grpc_item_proto_rawDescGZIP(), []int{1}
+	return file_proto_item_grpc_gateway_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *CreateItemResponse) GetMessage() string {
@@ -131,7 +131,7 @@ type GetItemRequest struct {
 
 func (x *GetItemRequest) Reset() {
 	*x = GetItemRequest{}
-	mi := &file_api_gateway_grpc_item_grpc_item_proto_msgTypes[2]
+	mi := &file_proto_item_grpc_gateway_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -143,7 +143,7 @@ func (x *GetItemRequest) String() string {
 func (*GetItemRequest) ProtoMessage() {}
 
 func (x *GetItemRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_gateway_grpc_item_grpc_item_proto_msgTypes[2]
+	mi := &file_proto_item_grpc_gateway_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -156,7 +156,7 @@ func (x *GetItemRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetItemRequest.ProtoReflect.Descriptor instead.
 func (*GetItemRequest) Descriptor() ([]byte, []int) {
-	return file_api_gateway_grpc_item_grpc_item_proto_rawDescGZIP(), []int{2}
+	return file_proto_item_grpc_gateway_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetItemRequest) GetId() uint32 {
@@ -168,14 +168,14 @@ func (x *GetItemRequest) GetId() uint32 {
 
 type GetItemResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Item          *models.Item           `protobuf:"bytes,1,opt,name=item,proto3" json:"item,omitempty"`
+	Item          *models.ItemResponse   `protobuf:"bytes,1,opt,name=item,proto3" json:"item,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetItemResponse) Reset() {
 	*x = GetItemResponse{}
-	mi := &file_api_gateway_grpc_item_grpc_item_proto_msgTypes[3]
+	mi := &file_proto_item_grpc_gateway_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -187,7 +187,7 @@ func (x *GetItemResponse) String() string {
 func (*GetItemResponse) ProtoMessage() {}
 
 func (x *GetItemResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_gateway_grpc_item_grpc_item_proto_msgTypes[3]
+	mi := &file_proto_item_grpc_gateway_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -200,10 +200,10 @@ func (x *GetItemResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetItemResponse.ProtoReflect.Descriptor instead.
 func (*GetItemResponse) Descriptor() ([]byte, []int) {
-	return file_api_gateway_grpc_item_grpc_item_proto_rawDescGZIP(), []int{3}
+	return file_proto_item_grpc_gateway_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *GetItemResponse) GetItem() *models.Item {
+func (x *GetItemResponse) GetItem() *models.ItemResponse {
 	if x != nil {
 		return x.Item
 	}
@@ -219,7 +219,7 @@ type GetItemsRequest struct {
 
 func (x *GetItemsRequest) Reset() {
 	*x = GetItemsRequest{}
-	mi := &file_api_gateway_grpc_item_grpc_item_proto_msgTypes[4]
+	mi := &file_proto_item_grpc_gateway_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -231,7 +231,7 @@ func (x *GetItemsRequest) String() string {
 func (*GetItemsRequest) ProtoMessage() {}
 
 func (x *GetItemsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_gateway_grpc_item_grpc_item_proto_msgTypes[4]
+	mi := &file_proto_item_grpc_gateway_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -244,7 +244,7 @@ func (x *GetItemsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetItemsRequest.ProtoReflect.Descriptor instead.
 func (*GetItemsRequest) Descriptor() ([]byte, []int) {
-	return file_api_gateway_grpc_item_grpc_item_proto_rawDescGZIP(), []int{4}
+	return file_proto_item_grpc_gateway_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetItemsRequest) GetEmpty() *emptypb.Empty {
@@ -256,14 +256,14 @@ func (x *GetItemsRequest) GetEmpty() *emptypb.Empty {
 
 type GetItemsResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Items         []*models.Item         `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	Items         []*models.ItemResponse `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetItemsResponse) Reset() {
 	*x = GetItemsResponse{}
-	mi := &file_api_gateway_grpc_item_grpc_item_proto_msgTypes[5]
+	mi := &file_proto_item_grpc_gateway_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -275,7 +275,7 @@ func (x *GetItemsResponse) String() string {
 func (*GetItemsResponse) ProtoMessage() {}
 
 func (x *GetItemsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_gateway_grpc_item_grpc_item_proto_msgTypes[5]
+	mi := &file_proto_item_grpc_gateway_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -288,10 +288,10 @@ func (x *GetItemsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetItemsResponse.ProtoReflect.Descriptor instead.
 func (*GetItemsResponse) Descriptor() ([]byte, []int) {
-	return file_api_gateway_grpc_item_grpc_item_proto_rawDescGZIP(), []int{5}
+	return file_proto_item_grpc_gateway_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *GetItemsResponse) GetItems() []*models.Item {
+func (x *GetItemsResponse) GetItems() []*models.ItemResponse {
 	if x != nil {
 		return x.Items
 	}
@@ -301,14 +301,14 @@ func (x *GetItemsResponse) GetItems() []*models.Item {
 type PutItemRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Item          *models.Item           `protobuf:"bytes,2,opt,name=item,proto3" json:"item,omitempty"`
+	Item          *models.ItemRequest    `protobuf:"bytes,2,opt,name=item,proto3" json:"item,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *PutItemRequest) Reset() {
 	*x = PutItemRequest{}
-	mi := &file_api_gateway_grpc_item_grpc_item_proto_msgTypes[6]
+	mi := &file_proto_item_grpc_gateway_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -320,7 +320,7 @@ func (x *PutItemRequest) String() string {
 func (*PutItemRequest) ProtoMessage() {}
 
 func (x *PutItemRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_gateway_grpc_item_grpc_item_proto_msgTypes[6]
+	mi := &file_proto_item_grpc_gateway_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -333,7 +333,7 @@ func (x *PutItemRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PutItemRequest.ProtoReflect.Descriptor instead.
 func (*PutItemRequest) Descriptor() ([]byte, []int) {
-	return file_api_gateway_grpc_item_grpc_item_proto_rawDescGZIP(), []int{6}
+	return file_proto_item_grpc_gateway_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *PutItemRequest) GetId() uint32 {
@@ -343,7 +343,7 @@ func (x *PutItemRequest) GetId() uint32 {
 	return 0
 }
 
-func (x *PutItemRequest) GetItem() *models.Item {
+func (x *PutItemRequest) GetItem() *models.ItemRequest {
 	if x != nil {
 		return x.Item
 	}
@@ -352,7 +352,7 @@ func (x *PutItemRequest) GetItem() *models.Item {
 
 type PutItemResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Item          *models.Item           `protobuf:"bytes,1,opt,name=item,proto3" json:"item,omitempty"`
+	Item          *models.ItemResponse   `protobuf:"bytes,1,opt,name=item,proto3" json:"item,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
 	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -361,7 +361,7 @@ type PutItemResponse struct {
 
 func (x *PutItemResponse) Reset() {
 	*x = PutItemResponse{}
-	mi := &file_api_gateway_grpc_item_grpc_item_proto_msgTypes[7]
+	mi := &file_proto_item_grpc_gateway_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -373,7 +373,7 @@ func (x *PutItemResponse) String() string {
 func (*PutItemResponse) ProtoMessage() {}
 
 func (x *PutItemResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_gateway_grpc_item_grpc_item_proto_msgTypes[7]
+	mi := &file_proto_item_grpc_gateway_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -386,10 +386,10 @@ func (x *PutItemResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PutItemResponse.ProtoReflect.Descriptor instead.
 func (*PutItemResponse) Descriptor() ([]byte, []int) {
-	return file_api_gateway_grpc_item_grpc_item_proto_rawDescGZIP(), []int{7}
+	return file_proto_item_grpc_gateway_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *PutItemResponse) GetItem() *models.Item {
+func (x *PutItemResponse) GetItem() *models.ItemResponse {
 	if x != nil {
 		return x.Item
 	}
@@ -419,7 +419,7 @@ type DeleteItemRequest struct {
 
 func (x *DeleteItemRequest) Reset() {
 	*x = DeleteItemRequest{}
-	mi := &file_api_gateway_grpc_item_grpc_item_proto_msgTypes[8]
+	mi := &file_proto_item_grpc_gateway_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -431,7 +431,7 @@ func (x *DeleteItemRequest) String() string {
 func (*DeleteItemRequest) ProtoMessage() {}
 
 func (x *DeleteItemRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_gateway_grpc_item_grpc_item_proto_msgTypes[8]
+	mi := &file_proto_item_grpc_gateway_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -444,7 +444,7 @@ func (x *DeleteItemRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteItemRequest.ProtoReflect.Descriptor instead.
 func (*DeleteItemRequest) Descriptor() ([]byte, []int) {
-	return file_api_gateway_grpc_item_grpc_item_proto_rawDescGZIP(), []int{8}
+	return file_proto_item_grpc_gateway_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *DeleteItemRequest) GetId() uint32 {
@@ -463,7 +463,7 @@ type DeleteItemResponse struct {
 
 func (x *DeleteItemResponse) Reset() {
 	*x = DeleteItemResponse{}
-	mi := &file_api_gateway_grpc_item_grpc_item_proto_msgTypes[9]
+	mi := &file_proto_item_grpc_gateway_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -475,7 +475,7 @@ func (x *DeleteItemResponse) String() string {
 func (*DeleteItemResponse) ProtoMessage() {}
 
 func (x *DeleteItemResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_gateway_grpc_item_grpc_item_proto_msgTypes[9]
+	mi := &file_proto_item_grpc_gateway_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -488,7 +488,7 @@ func (x *DeleteItemResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteItemResponse.ProtoReflect.Descriptor instead.
 func (*DeleteItemResponse) Descriptor() ([]byte, []int) {
-	return file_api_gateway_grpc_item_grpc_item_proto_rawDescGZIP(), []int{9}
+	return file_proto_item_grpc_gateway_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *DeleteItemResponse) GetMessage() string {
@@ -498,29 +498,29 @@ func (x *DeleteItemResponse) GetMessage() string {
 	return ""
 }
 
-var File_api_gateway_grpc_item_grpc_item_proto protoreflect.FileDescriptor
+var File_proto_item_grpc_gateway_proto protoreflect.FileDescriptor
 
-const file_api_gateway_grpc_item_grpc_item_proto_rawDesc = "" +
+const file_proto_item_grpc_gateway_proto_rawDesc = "" +
 	"\n" +
-	"%api-gateway/grpc/item-grpc/item.proto\x12\x05proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cgrpc/models/structures.proto\x1a\x17validate/validate.proto\"5\n" +
-	"\x11CreateItemRequest\x12 \n" +
-	"\x04item\x18\x01 \x01(\v2\f.models.ItemR\x04item\"q\n" +
+	"\x1dproto/item-grpc/gateway.proto\x12\x05proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x14models/gateway.proto\x1a\x17validate/validate.proto\"<\n" +
+	"\x11CreateItemRequest\x12'\n" +
+	"\x04item\x18\x01 \x01(\v2\x13.models.ItemRequestR\x04item\"q\n" +
 	"\x12CreateItemResponse\x12!\n" +
 	"\amessage\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x05R\amessage\x128\n" +
 	"\tcreatedAt\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\")\n" +
 	"\x0eGetItemRequest\x12\x17\n" +
-	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\"3\n" +
-	"\x0fGetItemResponse\x12 \n" +
-	"\x04item\x18\x01 \x01(\v2\f.models.ItemR\x04item\"?\n" +
+	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\";\n" +
+	"\x0fGetItemResponse\x12(\n" +
+	"\x04item\x18\x01 \x01(\v2\x14.models.ItemResponseR\x04item\"?\n" +
 	"\x0fGetItemsRequest\x12,\n" +
-	"\x05empty\x18\x01 \x01(\v2\x16.google.protobuf.EmptyR\x05empty\"6\n" +
-	"\x10GetItemsResponse\x12\"\n" +
-	"\x05items\x18\x01 \x03(\v2\f.models.ItemR\x05items\"K\n" +
+	"\x05empty\x18\x01 \x01(\v2\x16.google.protobuf.EmptyR\x05empty\">\n" +
+	"\x10GetItemsResponse\x12*\n" +
+	"\x05items\x18\x01 \x03(\v2\x14.models.ItemResponseR\x05items\"R\n" +
 	"\x0ePutItemRequest\x12\x17\n" +
-	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\x12 \n" +
-	"\x04item\x18\x02 \x01(\v2\f.models.ItemR\x04item\"\xa7\x01\n" +
-	"\x0fPutItemResponse\x12 \n" +
-	"\x04item\x18\x01 \x01(\v2\f.models.ItemR\x04item\x128\n" +
+	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\x12'\n" +
+	"\x04item\x18\x02 \x01(\v2\x13.models.ItemRequestR\x04item\"\xaf\x01\n" +
+	"\x0fPutItemResponse\x12(\n" +
+	"\x04item\x18\x01 \x01(\v2\x14.models.ItemResponseR\x04item\x128\n" +
 	"\tcreatedAt\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x128\n" +
 	"\tupdatedAt\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\",\n" +
 	"\x11DeleteItemRequest\x12\x17\n" +
@@ -537,19 +537,19 @@ const file_api_gateway_grpc_item_grpc_item_proto_rawDesc = "" +
 	"DeleteItem\x12\x18.proto.DeleteItemRequest\x1a\x19.proto.DeleteItemResponse\"\x16\x82\xd3\xe4\x93\x02\x10*\x0e/v1/items/{id}B\x16Z\x14grpc/item-grpc;protob\x06proto3"
 
 var (
-	file_api_gateway_grpc_item_grpc_item_proto_rawDescOnce sync.Once
-	file_api_gateway_grpc_item_grpc_item_proto_rawDescData []byte
+	file_proto_item_grpc_gateway_proto_rawDescOnce sync.Once
+	file_proto_item_grpc_gateway_proto_rawDescData []byte
 )
 
-func file_api_gateway_grpc_item_grpc_item_proto_rawDescGZIP() []byte {
-	file_api_gateway_grpc_item_grpc_item_proto_rawDescOnce.Do(func() {
-		file_api_gateway_grpc_item_grpc_item_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_gateway_grpc_item_grpc_item_proto_rawDesc), len(file_api_gateway_grpc_item_grpc_item_proto_rawDesc)))
+func file_proto_item_grpc_gateway_proto_rawDescGZIP() []byte {
+	file_proto_item_grpc_gateway_proto_rawDescOnce.Do(func() {
+		file_proto_item_grpc_gateway_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_item_grpc_gateway_proto_rawDesc), len(file_proto_item_grpc_gateway_proto_rawDesc)))
 	})
-	return file_api_gateway_grpc_item_grpc_item_proto_rawDescData
+	return file_proto_item_grpc_gateway_proto_rawDescData
 }
 
-var file_api_gateway_grpc_item_grpc_item_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
-var file_api_gateway_grpc_item_grpc_item_proto_goTypes = []any{
+var file_proto_item_grpc_gateway_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_proto_item_grpc_gateway_proto_goTypes = []any{
 	(*CreateItemRequest)(nil),     // 0: proto.CreateItemRequest
 	(*CreateItemResponse)(nil),    // 1: proto.CreateItemResponse
 	(*GetItemRequest)(nil),        // 2: proto.GetItemRequest
@@ -560,18 +560,19 @@ var file_api_gateway_grpc_item_grpc_item_proto_goTypes = []any{
 	(*PutItemResponse)(nil),       // 7: proto.PutItemResponse
 	(*DeleteItemRequest)(nil),     // 8: proto.DeleteItemRequest
 	(*DeleteItemResponse)(nil),    // 9: proto.DeleteItemResponse
-	(*models.Item)(nil),           // 10: models.Item
+	(*models.ItemRequest)(nil),    // 10: models.ItemRequest
 	(*timestamppb.Timestamp)(nil), // 11: google.protobuf.Timestamp
-	(*emptypb.Empty)(nil),         // 12: google.protobuf.Empty
+	(*models.ItemResponse)(nil),   // 12: models.ItemResponse
+	(*emptypb.Empty)(nil),         // 13: google.protobuf.Empty
 }
-var file_api_gateway_grpc_item_grpc_item_proto_depIdxs = []int32{
-	10, // 0: proto.CreateItemRequest.item:type_name -> models.Item
+var file_proto_item_grpc_gateway_proto_depIdxs = []int32{
+	10, // 0: proto.CreateItemRequest.item:type_name -> models.ItemRequest
 	11, // 1: proto.CreateItemResponse.createdAt:type_name -> google.protobuf.Timestamp
-	10, // 2: proto.GetItemResponse.item:type_name -> models.Item
-	12, // 3: proto.GetItemsRequest.empty:type_name -> google.protobuf.Empty
-	10, // 4: proto.GetItemsResponse.items:type_name -> models.Item
-	10, // 5: proto.PutItemRequest.item:type_name -> models.Item
-	10, // 6: proto.PutItemResponse.item:type_name -> models.Item
+	12, // 2: proto.GetItemResponse.item:type_name -> models.ItemResponse
+	13, // 3: proto.GetItemsRequest.empty:type_name -> google.protobuf.Empty
+	12, // 4: proto.GetItemsResponse.items:type_name -> models.ItemResponse
+	10, // 5: proto.PutItemRequest.item:type_name -> models.ItemRequest
+	12, // 6: proto.PutItemResponse.item:type_name -> models.ItemResponse
 	11, // 7: proto.PutItemResponse.createdAt:type_name -> google.protobuf.Timestamp
 	11, // 8: proto.PutItemResponse.updatedAt:type_name -> google.protobuf.Timestamp
 	0,  // 9: proto.ItemService.CreateItem:input_type -> proto.CreateItemRequest
@@ -591,26 +592,26 @@ var file_api_gateway_grpc_item_grpc_item_proto_depIdxs = []int32{
 	0,  // [0:9] is the sub-list for field type_name
 }
 
-func init() { file_api_gateway_grpc_item_grpc_item_proto_init() }
-func file_api_gateway_grpc_item_grpc_item_proto_init() {
-	if File_api_gateway_grpc_item_grpc_item_proto != nil {
+func init() { file_proto_item_grpc_gateway_proto_init() }
+func file_proto_item_grpc_gateway_proto_init() {
+	if File_proto_item_grpc_gateway_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_gateway_grpc_item_grpc_item_proto_rawDesc), len(file_api_gateway_grpc_item_grpc_item_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_item_grpc_gateway_proto_rawDesc), len(file_proto_item_grpc_gateway_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_api_gateway_grpc_item_grpc_item_proto_goTypes,
-		DependencyIndexes: file_api_gateway_grpc_item_grpc_item_proto_depIdxs,
-		MessageInfos:      file_api_gateway_grpc_item_grpc_item_proto_msgTypes,
+		GoTypes:           file_proto_item_grpc_gateway_proto_goTypes,
+		DependencyIndexes: file_proto_item_grpc_gateway_proto_depIdxs,
+		MessageInfos:      file_proto_item_grpc_gateway_proto_msgTypes,
 	}.Build()
-	File_api_gateway_grpc_item_grpc_item_proto = out.File
-	file_api_gateway_grpc_item_grpc_item_proto_goTypes = nil
-	file_api_gateway_grpc_item_grpc_item_proto_depIdxs = nil
+	File_proto_item_grpc_gateway_proto = out.File
+	file_proto_item_grpc_gateway_proto_goTypes = nil
+	file_proto_item_grpc_gateway_proto_depIdxs = nil
 }

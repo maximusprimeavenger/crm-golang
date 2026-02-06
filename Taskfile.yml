@@ -36,33 +36,36 @@ tasks:
     desc: Show logs for certain service
     cmds:
       - docker compose logs -f {{.CLI_ARGS}}
-  
-  proto-item-gateway:
-    desc: "Compilation of item-service for gateway"
-    cmds:
-      - protoc -I . -I ./third-party -I ./third-party/googleapis -I ./api-gateway --go_out=./api-gateway --go-grpc_out=./api-gateway --validate_out="lang=go:./api-gateway" ./api-gateway/grpc/item-grpc/item.proto
-  
-  proto-lead-gateway:
-    desc: "Compilation of lead-service for gateway"
-    cmds:
-      - protoc -I . -I ./third-party -I ./third-party/googleapis -I ./api-gateway --go_out=./api-gateway --go-grpc_out=./api-gateway --grpc-gateway_out=./api-gateway  --validate_out="lang=go:./api-gateway" ./api-gateway/grpc/lead-grpc/lead-product.proto
-      - protoc -I . -I ./third-party -I ./third-party/googleapis -I ./api-gateway --go_out=./api-gateway --go-grpc_out=./api-gateway --grpc-gateway_out=./api-gateway  --validate_out="lang=go:./api-gateway" ./api-gateway/grpc/lead-grpc/lead.proto
 
   proto-item:
-    desc: "Compilation of item-service"
+    desc: "Compilation of item-service and gateway"
     cmds:
-      - protoc -I . -I ./third-party -I ./third-party/googleapis -I ./item-service --go_out=./item-service --go-grpc_out=./item-service --validate_out="lang=go:./item-service" ./item-service/grpc/item-grpc/item.proto
+      - protoc -I . -I ./third-party -I ./third-party/googleapis --go_out=./item-service/ --go-grpc_out=./item-service/ ./proto/structures.proto
+      - protoc -I . -I ./proto/item-grpc -I ./third-party -I ./third-party/googleapis --go_out=./item-service --go-grpc_out=./item-service --validate_out="lang=go:./item-service" ./proto/item-grpc/item.proto
+      - protoc -I. -I ./proto/item-grpc -I ./third-party -I ./third-party/googleapis --go_out=./api-gateway/ --go-grpc_out=./api-gateway/ ./proto/structures.proto
+      - protoc -I. -I ./proto/item-grpc -I ./third-party -I ./third-party/googleapis -I ./api-gateway --go_out=./api-gateway --grpc-gateway_out=./api-gateway --go-grpc_out=./api-gateway --validate_out="lang=go:./api-gateway" ./proto/item-grpc/gateway.proto
 
   proto-lead:
-    desc: "Compilation of lead-service"
+    desc: "Compilation of lead-service and gateway"
     cmds:
-      - protoc -I . -I ./third-party -I ./third-party/googleapis -I ./lead-service --go_out=./lead-service --go-grpc_out=./lead-service --validate_out="lang=go:./lead-service" ./lead-service/grpc/lead-grpc/lead-product.proto
-      - protoc -I . -I ./third-party -I ./third-party/googleapis -I ./lead-service --go_out=./lead-service --go-grpc_out=./lead-service --validate_out="lang=go:./lead-service" ./lead-service/grpc/lead-grpc/lead.proto
+      - protoc -I . -I ./third-party -I ./third-party/googleapis --go_out=./lead-service/ --go-grpc_out=./lead-service/ ./proto/structures.proto
+      - protoc -I . -I ./proto/lead-grpc -I ./third-party -I ./third-party/googleapis -I ./lead-service --go_out=./lead-service --go-grpc_out=./lead-service --validate_out="lang=go:./lead-service" ./proto/lead-grpc/lead-product.proto
+      - protoc -I . -I ./proto/lead-grpc -I ./third-party -I ./third-party/googleapis -I ./lead-service --go_out=./lead-service --go-grpc_out=./lead-service --validate_out="lang=go:./lead-service" ./proto/lead-grpc/lead.proto
+      - protoc -I . -I ./proto/lead-grpc -I ./third-party -I ./third-party/googleapis --go_out=./api-gateway/ --go-grpc_out=./api-gateway/ ./proto/structures.proto
+      - protoc -I . -I ./proto/lead-grpc -I ./third-party -I ./third-party/googleapis -I ./api-gateway --go_out=./api-gateway --go-grpc_out=./api-gateway --grpc-gateway_out=./api-gateway  --validate_out="lang=go:./api-gateway" ./proto/lead-grpc/g-lead-product.proto
+      - protoc -I . -I ./proto/lead-grpc -I ./third-party -I ./third-party/googleapis -I ./api-gateway --go_out=./api-gateway --go-grpc_out=./api-gateway --grpc-gateway_out=./api-gateway  --validate_out="lang=go:./api-gateway" ./proto/lead-grpc/gateway.proto
 
   proto-structures:
     desc: "Compile structures.proto for all services"
     cmds:
-      - protoc -I . -I ./third-party -I ./third-party/googleapis --go_out=./api-gateway/ --go-grpc_out=./api-gateway/ ./proto/models/structures.proto
-      - protoc -I . -I ./third-party -I ./third-party/googleapis --go_out=./item-service/ --go-grpc_out=./item-service/ ./proto/models/structures.proto
-      - protoc -I . -I ./third-party -I ./third-party/googleapis --go_out=./lead-service/ --go-grpc_out=./lead-service/ ./proto/models/structures.proto
+      - protoc -I . -I ./third-party -I ./third-party/googleapis --go_out=./api-gateway/ --go-grpc_out=./api-gateway/ ./proto/structures.proto
+      - protoc -I . -I ./third-party -I ./third-party/googleapis --go_out=./item-service/ --go-grpc_out=./item-service/ ./proto/structures.proto
+      - protoc -I . -I ./third-party -I ./third-party/googleapis --go_out=./lead-service/ --go-grpc_out=./lead-service/ ./proto/structures.proto
+
+  proto-all:
+    desc: "Compile all .proto for all services"
+    cmds:
+    - task: proto-item
+    - task: proto-lead
+    - task: proto-structures
 

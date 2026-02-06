@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v6.31.0
-// source: api-gateway/grpc/lead-grpc/lead.proto
+// source: proto/lead-grpc/gateway.proto
 
 package proto
 
@@ -35,7 +35,7 @@ type GetLeadRequest struct {
 
 func (x *GetLeadRequest) Reset() {
 	*x = GetLeadRequest{}
-	mi := &file_api_gateway_grpc_lead_grpc_lead_proto_msgTypes[0]
+	mi := &file_proto_lead_grpc_gateway_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -47,7 +47,7 @@ func (x *GetLeadRequest) String() string {
 func (*GetLeadRequest) ProtoMessage() {}
 
 func (x *GetLeadRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_gateway_grpc_lead_grpc_lead_proto_msgTypes[0]
+	mi := &file_proto_lead_grpc_gateway_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -60,7 +60,7 @@ func (x *GetLeadRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetLeadRequest.ProtoReflect.Descriptor instead.
 func (*GetLeadRequest) Descriptor() ([]byte, []int) {
-	return file_api_gateway_grpc_lead_grpc_lead_proto_rawDescGZIP(), []int{0}
+	return file_proto_lead_grpc_gateway_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *GetLeadRequest) GetId() uint32 {
@@ -72,17 +72,16 @@ func (x *GetLeadRequest) GetId() uint32 {
 
 type GetLeadResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Lead          *models.Lead           `protobuf:"bytes,2,opt,name=lead,proto3" json:"lead,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"`
+	Lead          *models.LeadResponse   `protobuf:"bytes,1,opt,name=lead,proto3" json:"lead,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetLeadResponse) Reset() {
 	*x = GetLeadResponse{}
-	mi := &file_api_gateway_grpc_lead_grpc_lead_proto_msgTypes[1]
+	mi := &file_proto_lead_grpc_gateway_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -94,7 +93,7 @@ func (x *GetLeadResponse) String() string {
 func (*GetLeadResponse) ProtoMessage() {}
 
 func (x *GetLeadResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_gateway_grpc_lead_grpc_lead_proto_msgTypes[1]
+	mi := &file_proto_lead_grpc_gateway_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -107,17 +106,10 @@ func (x *GetLeadResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetLeadResponse.ProtoReflect.Descriptor instead.
 func (*GetLeadResponse) Descriptor() ([]byte, []int) {
-	return file_api_gateway_grpc_lead_grpc_lead_proto_rawDescGZIP(), []int{1}
+	return file_proto_lead_grpc_gateway_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *GetLeadResponse) GetId() uint32 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *GetLeadResponse) GetLead() *models.Lead {
+func (x *GetLeadResponse) GetLead() *models.LeadResponse {
 	if x != nil {
 		return x.Lead
 	}
@@ -147,7 +139,7 @@ type GetLeadsRequest struct {
 
 func (x *GetLeadsRequest) Reset() {
 	*x = GetLeadsRequest{}
-	mi := &file_api_gateway_grpc_lead_grpc_lead_proto_msgTypes[2]
+	mi := &file_proto_lead_grpc_gateway_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -159,7 +151,7 @@ func (x *GetLeadsRequest) String() string {
 func (*GetLeadsRequest) ProtoMessage() {}
 
 func (x *GetLeadsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_gateway_grpc_lead_grpc_lead_proto_msgTypes[2]
+	mi := &file_proto_lead_grpc_gateway_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -172,7 +164,7 @@ func (x *GetLeadsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetLeadsRequest.ProtoReflect.Descriptor instead.
 func (*GetLeadsRequest) Descriptor() ([]byte, []int) {
-	return file_api_gateway_grpc_lead_grpc_lead_proto_rawDescGZIP(), []int{2}
+	return file_proto_lead_grpc_gateway_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetLeadsRequest) GetEmpty() *emptypb.Empty {
@@ -184,14 +176,14 @@ func (x *GetLeadsRequest) GetEmpty() *emptypb.Empty {
 
 type GetLeadsResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Leads         []*models.Lead         `protobuf:"bytes,1,rep,name=leads,proto3" json:"leads,omitempty"`
+	Leads         []*models.LeadResponse `protobuf:"bytes,1,rep,name=leads,proto3" json:"leads,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetLeadsResponse) Reset() {
 	*x = GetLeadsResponse{}
-	mi := &file_api_gateway_grpc_lead_grpc_lead_proto_msgTypes[3]
+	mi := &file_proto_lead_grpc_gateway_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -203,7 +195,7 @@ func (x *GetLeadsResponse) String() string {
 func (*GetLeadsResponse) ProtoMessage() {}
 
 func (x *GetLeadsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_gateway_grpc_lead_grpc_lead_proto_msgTypes[3]
+	mi := &file_proto_lead_grpc_gateway_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -216,10 +208,10 @@ func (x *GetLeadsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetLeadsResponse.ProtoReflect.Descriptor instead.
 func (*GetLeadsResponse) Descriptor() ([]byte, []int) {
-	return file_api_gateway_grpc_lead_grpc_lead_proto_rawDescGZIP(), []int{3}
+	return file_proto_lead_grpc_gateway_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *GetLeadsResponse) GetLeads() []*models.Lead {
+func (x *GetLeadsResponse) GetLeads() []*models.LeadResponse {
 	if x != nil {
 		return x.Leads
 	}
@@ -228,14 +220,14 @@ func (x *GetLeadsResponse) GetLeads() []*models.Lead {
 
 type NewLeadRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Lead          *models.Lead           `protobuf:"bytes,1,opt,name=lead,proto3" json:"lead,omitempty"`
+	Lead          *models.LeadRequest    `protobuf:"bytes,1,opt,name=lead,proto3" json:"lead,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *NewLeadRequest) Reset() {
 	*x = NewLeadRequest{}
-	mi := &file_api_gateway_grpc_lead_grpc_lead_proto_msgTypes[4]
+	mi := &file_proto_lead_grpc_gateway_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -247,7 +239,7 @@ func (x *NewLeadRequest) String() string {
 func (*NewLeadRequest) ProtoMessage() {}
 
 func (x *NewLeadRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_gateway_grpc_lead_grpc_lead_proto_msgTypes[4]
+	mi := &file_proto_lead_grpc_gateway_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -260,10 +252,10 @@ func (x *NewLeadRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NewLeadRequest.ProtoReflect.Descriptor instead.
 func (*NewLeadRequest) Descriptor() ([]byte, []int) {
-	return file_api_gateway_grpc_lead_grpc_lead_proto_rawDescGZIP(), []int{4}
+	return file_proto_lead_grpc_gateway_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *NewLeadRequest) GetLead() *models.Lead {
+func (x *NewLeadRequest) GetLead() *models.LeadRequest {
 	if x != nil {
 		return x.Lead
 	}
@@ -272,7 +264,7 @@ func (x *NewLeadRequest) GetLead() *models.Lead {
 
 type NewLeadResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Lead          *models.Lead           `protobuf:"bytes,1,opt,name=lead,proto3" json:"lead,omitempty"`
+	Lead          *models.LeadResponse   `protobuf:"bytes,1,opt,name=lead,proto3" json:"lead,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -280,7 +272,7 @@ type NewLeadResponse struct {
 
 func (x *NewLeadResponse) Reset() {
 	*x = NewLeadResponse{}
-	mi := &file_api_gateway_grpc_lead_grpc_lead_proto_msgTypes[5]
+	mi := &file_proto_lead_grpc_gateway_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -292,7 +284,7 @@ func (x *NewLeadResponse) String() string {
 func (*NewLeadResponse) ProtoMessage() {}
 
 func (x *NewLeadResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_gateway_grpc_lead_grpc_lead_proto_msgTypes[5]
+	mi := &file_proto_lead_grpc_gateway_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -305,10 +297,10 @@ func (x *NewLeadResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NewLeadResponse.ProtoReflect.Descriptor instead.
 func (*NewLeadResponse) Descriptor() ([]byte, []int) {
-	return file_api_gateway_grpc_lead_grpc_lead_proto_rawDescGZIP(), []int{5}
+	return file_proto_lead_grpc_gateway_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *NewLeadResponse) GetLead() *models.Lead {
+func (x *NewLeadResponse) GetLead() *models.LeadResponse {
 	if x != nil {
 		return x.Lead
 	}
@@ -325,14 +317,14 @@ func (x *NewLeadResponse) GetCreatedAt() *timestamppb.Timestamp {
 type PutLeadRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Lead          *models.Lead           `protobuf:"bytes,2,opt,name=lead,proto3" json:"lead,omitempty"`
+	Lead          *models.LeadRequest    `protobuf:"bytes,2,opt,name=lead,proto3" json:"lead,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *PutLeadRequest) Reset() {
 	*x = PutLeadRequest{}
-	mi := &file_api_gateway_grpc_lead_grpc_lead_proto_msgTypes[6]
+	mi := &file_proto_lead_grpc_gateway_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -344,7 +336,7 @@ func (x *PutLeadRequest) String() string {
 func (*PutLeadRequest) ProtoMessage() {}
 
 func (x *PutLeadRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_gateway_grpc_lead_grpc_lead_proto_msgTypes[6]
+	mi := &file_proto_lead_grpc_gateway_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -357,7 +349,7 @@ func (x *PutLeadRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PutLeadRequest.ProtoReflect.Descriptor instead.
 func (*PutLeadRequest) Descriptor() ([]byte, []int) {
-	return file_api_gateway_grpc_lead_grpc_lead_proto_rawDescGZIP(), []int{6}
+	return file_proto_lead_grpc_gateway_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *PutLeadRequest) GetId() uint32 {
@@ -367,7 +359,7 @@ func (x *PutLeadRequest) GetId() uint32 {
 	return 0
 }
 
-func (x *PutLeadRequest) GetLead() *models.Lead {
+func (x *PutLeadRequest) GetLead() *models.LeadRequest {
 	if x != nil {
 		return x.Lead
 	}
@@ -376,7 +368,7 @@ func (x *PutLeadRequest) GetLead() *models.Lead {
 
 type PutLeadResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Lead          *models.Lead           `protobuf:"bytes,1,opt,name=lead,proto3" json:"lead,omitempty"`
+	Lead          *models.LeadResponse   `protobuf:"bytes,1,opt,name=lead,proto3" json:"lead,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
 	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -385,7 +377,7 @@ type PutLeadResponse struct {
 
 func (x *PutLeadResponse) Reset() {
 	*x = PutLeadResponse{}
-	mi := &file_api_gateway_grpc_lead_grpc_lead_proto_msgTypes[7]
+	mi := &file_proto_lead_grpc_gateway_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -397,7 +389,7 @@ func (x *PutLeadResponse) String() string {
 func (*PutLeadResponse) ProtoMessage() {}
 
 func (x *PutLeadResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_gateway_grpc_lead_grpc_lead_proto_msgTypes[7]
+	mi := &file_proto_lead_grpc_gateway_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -410,10 +402,10 @@ func (x *PutLeadResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PutLeadResponse.ProtoReflect.Descriptor instead.
 func (*PutLeadResponse) Descriptor() ([]byte, []int) {
-	return file_api_gateway_grpc_lead_grpc_lead_proto_rawDescGZIP(), []int{7}
+	return file_proto_lead_grpc_gateway_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *PutLeadResponse) GetLead() *models.Lead {
+func (x *PutLeadResponse) GetLead() *models.LeadResponse {
 	if x != nil {
 		return x.Lead
 	}
@@ -443,7 +435,7 @@ type DeleteLeadRequest struct {
 
 func (x *DeleteLeadRequest) Reset() {
 	*x = DeleteLeadRequest{}
-	mi := &file_api_gateway_grpc_lead_grpc_lead_proto_msgTypes[8]
+	mi := &file_proto_lead_grpc_gateway_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -455,7 +447,7 @@ func (x *DeleteLeadRequest) String() string {
 func (*DeleteLeadRequest) ProtoMessage() {}
 
 func (x *DeleteLeadRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_gateway_grpc_lead_grpc_lead_proto_msgTypes[8]
+	mi := &file_proto_lead_grpc_gateway_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -468,7 +460,7 @@ func (x *DeleteLeadRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteLeadRequest.ProtoReflect.Descriptor instead.
 func (*DeleteLeadRequest) Descriptor() ([]byte, []int) {
-	return file_api_gateway_grpc_lead_grpc_lead_proto_rawDescGZIP(), []int{8}
+	return file_proto_lead_grpc_gateway_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *DeleteLeadRequest) GetId() uint32 {
@@ -487,7 +479,7 @@ type DeleteLeadResponse struct {
 
 func (x *DeleteLeadResponse) Reset() {
 	*x = DeleteLeadResponse{}
-	mi := &file_api_gateway_grpc_lead_grpc_lead_proto_msgTypes[9]
+	mi := &file_proto_lead_grpc_gateway_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -499,7 +491,7 @@ func (x *DeleteLeadResponse) String() string {
 func (*DeleteLeadResponse) ProtoMessage() {}
 
 func (x *DeleteLeadResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_gateway_grpc_lead_grpc_lead_proto_msgTypes[9]
+	mi := &file_proto_lead_grpc_gateway_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -512,7 +504,7 @@ func (x *DeleteLeadResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteLeadResponse.ProtoReflect.Descriptor instead.
 func (*DeleteLeadResponse) Descriptor() ([]byte, []int) {
-	return file_api_gateway_grpc_lead_grpc_lead_proto_rawDescGZIP(), []int{9}
+	return file_proto_lead_grpc_gateway_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *DeleteLeadResponse) GetMessage() string {
@@ -522,61 +514,59 @@ func (x *DeleteLeadResponse) GetMessage() string {
 	return ""
 }
 
-var File_api_gateway_grpc_lead_grpc_lead_proto protoreflect.FileDescriptor
+var File_proto_lead_grpc_gateway_proto protoreflect.FileDescriptor
 
-const file_api_gateway_grpc_lead_grpc_lead_proto_rawDesc = "" +
+const file_proto_lead_grpc_gateway_proto_rawDesc = "" +
 	"\n" +
-	"%api-gateway/grpc/lead-grpc/lead.proto\x12\x05proto\x1a\x1cgoogle/api/annotations.proto\x1a\x17validate/validate.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cgrpc/models/structures.proto\")\n" +
+	"\x1dproto/lead-grpc/gateway.proto\x12\x05proto\x1a\x1cgoogle/api/annotations.proto\x1a\x17validate/validate.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x14models/gateway.proto\")\n" +
 	"\x0eGetLeadRequest\x12\x17\n" +
-	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\"\xb7\x01\n" +
-	"\x0fGetLeadResponse\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\x12 \n" +
-	"\x04lead\x18\x02 \x01(\v2\f.models.LeadR\x04lead\x128\n" +
-	"\tcreatedAt\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x128\n" +
-	"\tupdatedAt\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"?\n" +
+	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\"\xaf\x01\n" +
+	"\x0fGetLeadResponse\x12(\n" +
+	"\x04lead\x18\x01 \x01(\v2\x14.models.LeadResponseR\x04lead\x128\n" +
+	"\tcreatedAt\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x128\n" +
+	"\tupdatedAt\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"?\n" +
 	"\x0fGetLeadsRequest\x12,\n" +
-	"\x05empty\x18\x01 \x01(\v2\x16.google.protobuf.EmptyR\x05empty\"6\n" +
-	"\x10GetLeadsResponse\x12\"\n" +
-	"\x05leads\x18\x01 \x03(\v2\f.models.LeadR\x05leads\"2\n" +
-	"\x0eNewLeadRequest\x12 \n" +
-	"\x04lead\x18\x01 \x01(\v2\f.models.LeadR\x04lead\"m\n" +
-	"\x0fNewLeadResponse\x12 \n" +
-	"\x04lead\x18\x01 \x01(\v2\f.models.LeadR\x04lead\x128\n" +
-	"\tcreatedAt\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"K\n" +
+	"\x05empty\x18\x01 \x01(\v2\x16.google.protobuf.EmptyR\x05empty\">\n" +
+	"\x10GetLeadsResponse\x12*\n" +
+	"\x05leads\x18\x01 \x03(\v2\x14.models.LeadResponseR\x05leads\"9\n" +
+	"\x0eNewLeadRequest\x12'\n" +
+	"\x04lead\x18\x01 \x01(\v2\x13.models.LeadRequestR\x04lead\"u\n" +
+	"\x0fNewLeadResponse\x12(\n" +
+	"\x04lead\x18\x01 \x01(\v2\x14.models.LeadResponseR\x04lead\x128\n" +
+	"\tcreatedAt\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"R\n" +
 	"\x0ePutLeadRequest\x12\x17\n" +
-	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\x12 \n" +
-	"\x04lead\x18\x02 \x01(\v2\f.models.LeadR\x04lead\"\xa7\x01\n" +
-	"\x0fPutLeadResponse\x12 \n" +
-	"\x04lead\x18\x01 \x01(\v2\f.models.LeadR\x04lead\x128\n" +
+	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\x12'\n" +
+	"\x04lead\x18\x02 \x01(\v2\x13.models.LeadRequestR\x04lead\"\xaf\x01\n" +
+	"\x0fPutLeadResponse\x12(\n" +
+	"\x04lead\x18\x01 \x01(\v2\x14.models.LeadResponseR\x04lead\x128\n" +
 	"\tcreatedAt\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x128\n" +
 	"\tupdatedAt\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\",\n" +
 	"\x11DeleteLeadRequest\x12\x17\n" +
 	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\".\n" +
 	"\x12DeleteLeadResponse\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage2\xb0\x03\n" +
-	"\vLeadService\x12O\n" +
-	"\aGetLead\x12\x15.proto.GetLeadRequest\x1a\x16.proto.GetLeadResponse\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/v1/lead/{id}\x12M\n" +
-	"\bGetLeads\x12\x16.proto.GetLeadsRequest\x1a\x17.proto.GetLeadsResponse\"\x10\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/v1/lead\x12X\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage2\xb5\x03\n" +
+	"\vLeadService\x12P\n" +
+	"\aGetLead\x12\x15.proto.GetLeadRequest\x1a\x16.proto.GetLeadResponse\"\x16\x82\xd3\xe4\x93\x02\x10\x12\x0e/v1/leads/{id}\x12N\n" +
+	"\bGetLeads\x12\x16.proto.GetLeadsRequest\x1a\x17.proto.GetLeadsResponse\"\x11\x82\xd3\xe4\x93\x02\v\x12\t/v1/leads\x12Y\n" +
 	"\n" +
-	"DeleteLead\x12\x18.proto.DeleteLeadRequest\x1a\x19.proto.DeleteLeadResponse\"\x15\x82\xd3\xe4\x93\x02\x0f*\r/v1/lead/{id}\x12P\n" +
-	"\aNewLead\x12\x15.proto.NewLeadRequest\x1a\x16.proto.NewLeadResponse\"\x16\x82\xd3\xe4\x93\x02\x10:\x04lead\"\b/v1/lead\x12U\n" +
-	"\aPutLead\x12\x15.proto.PutLeadRequest\x1a\x16.proto.PutLeadResponse\"\x1b\x82\xd3\xe4\x93\x02\x15:\x04lead\x1a\r/v1/lead/{id}B\x16Z\x14grpc/lead-grpc;protob\x06proto3"
+	"DeleteLead\x12\x18.proto.DeleteLeadRequest\x1a\x19.proto.DeleteLeadResponse\"\x16\x82\xd3\xe4\x93\x02\x10*\x0e/v1/leads/{id}\x12Q\n" +
+	"\aNewLead\x12\x15.proto.NewLeadRequest\x1a\x16.proto.NewLeadResponse\"\x17\x82\xd3\xe4\x93\x02\x11:\x04lead\"\t/v1/leads\x12V\n" +
+	"\aPutLead\x12\x15.proto.PutLeadRequest\x1a\x16.proto.PutLeadResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x04lead\x1a\x0e/v1/leads/{id}B\x16Z\x14grpc/lead-grpc;protob\x06proto3"
 
 var (
-	file_api_gateway_grpc_lead_grpc_lead_proto_rawDescOnce sync.Once
-	file_api_gateway_grpc_lead_grpc_lead_proto_rawDescData []byte
+	file_proto_lead_grpc_gateway_proto_rawDescOnce sync.Once
+	file_proto_lead_grpc_gateway_proto_rawDescData []byte
 )
 
-func file_api_gateway_grpc_lead_grpc_lead_proto_rawDescGZIP() []byte {
-	file_api_gateway_grpc_lead_grpc_lead_proto_rawDescOnce.Do(func() {
-		file_api_gateway_grpc_lead_grpc_lead_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_gateway_grpc_lead_grpc_lead_proto_rawDesc), len(file_api_gateway_grpc_lead_grpc_lead_proto_rawDesc)))
+func file_proto_lead_grpc_gateway_proto_rawDescGZIP() []byte {
+	file_proto_lead_grpc_gateway_proto_rawDescOnce.Do(func() {
+		file_proto_lead_grpc_gateway_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_lead_grpc_gateway_proto_rawDesc), len(file_proto_lead_grpc_gateway_proto_rawDesc)))
 	})
-	return file_api_gateway_grpc_lead_grpc_lead_proto_rawDescData
+	return file_proto_lead_grpc_gateway_proto_rawDescData
 }
 
-var file_api_gateway_grpc_lead_grpc_lead_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
-var file_api_gateway_grpc_lead_grpc_lead_proto_goTypes = []any{
+var file_proto_lead_grpc_gateway_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_proto_lead_grpc_gateway_proto_goTypes = []any{
 	(*GetLeadRequest)(nil),        // 0: proto.GetLeadRequest
 	(*GetLeadResponse)(nil),       // 1: proto.GetLeadResponse
 	(*GetLeadsRequest)(nil),       // 2: proto.GetLeadsRequest
@@ -587,21 +577,22 @@ var file_api_gateway_grpc_lead_grpc_lead_proto_goTypes = []any{
 	(*PutLeadResponse)(nil),       // 7: proto.PutLeadResponse
 	(*DeleteLeadRequest)(nil),     // 8: proto.DeleteLeadRequest
 	(*DeleteLeadResponse)(nil),    // 9: proto.DeleteLeadResponse
-	(*models.Lead)(nil),           // 10: models.Lead
+	(*models.LeadResponse)(nil),   // 10: models.LeadResponse
 	(*timestamppb.Timestamp)(nil), // 11: google.protobuf.Timestamp
 	(*emptypb.Empty)(nil),         // 12: google.protobuf.Empty
+	(*models.LeadRequest)(nil),    // 13: models.LeadRequest
 }
-var file_api_gateway_grpc_lead_grpc_lead_proto_depIdxs = []int32{
-	10, // 0: proto.GetLeadResponse.lead:type_name -> models.Lead
+var file_proto_lead_grpc_gateway_proto_depIdxs = []int32{
+	10, // 0: proto.GetLeadResponse.lead:type_name -> models.LeadResponse
 	11, // 1: proto.GetLeadResponse.createdAt:type_name -> google.protobuf.Timestamp
 	11, // 2: proto.GetLeadResponse.updatedAt:type_name -> google.protobuf.Timestamp
 	12, // 3: proto.GetLeadsRequest.empty:type_name -> google.protobuf.Empty
-	10, // 4: proto.GetLeadsResponse.leads:type_name -> models.Lead
-	10, // 5: proto.NewLeadRequest.lead:type_name -> models.Lead
-	10, // 6: proto.NewLeadResponse.lead:type_name -> models.Lead
+	10, // 4: proto.GetLeadsResponse.leads:type_name -> models.LeadResponse
+	13, // 5: proto.NewLeadRequest.lead:type_name -> models.LeadRequest
+	10, // 6: proto.NewLeadResponse.lead:type_name -> models.LeadResponse
 	11, // 7: proto.NewLeadResponse.createdAt:type_name -> google.protobuf.Timestamp
-	10, // 8: proto.PutLeadRequest.lead:type_name -> models.Lead
-	10, // 9: proto.PutLeadResponse.lead:type_name -> models.Lead
+	13, // 8: proto.PutLeadRequest.lead:type_name -> models.LeadRequest
+	10, // 9: proto.PutLeadResponse.lead:type_name -> models.LeadResponse
 	11, // 10: proto.PutLeadResponse.createdAt:type_name -> google.protobuf.Timestamp
 	11, // 11: proto.PutLeadResponse.updatedAt:type_name -> google.protobuf.Timestamp
 	0,  // 12: proto.LeadService.GetLead:input_type -> proto.GetLeadRequest
@@ -621,26 +612,26 @@ var file_api_gateway_grpc_lead_grpc_lead_proto_depIdxs = []int32{
 	0,  // [0:12] is the sub-list for field type_name
 }
 
-func init() { file_api_gateway_grpc_lead_grpc_lead_proto_init() }
-func file_api_gateway_grpc_lead_grpc_lead_proto_init() {
-	if File_api_gateway_grpc_lead_grpc_lead_proto != nil {
+func init() { file_proto_lead_grpc_gateway_proto_init() }
+func file_proto_lead_grpc_gateway_proto_init() {
+	if File_proto_lead_grpc_gateway_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_gateway_grpc_lead_grpc_lead_proto_rawDesc), len(file_api_gateway_grpc_lead_grpc_lead_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_lead_grpc_gateway_proto_rawDesc), len(file_proto_lead_grpc_gateway_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_api_gateway_grpc_lead_grpc_lead_proto_goTypes,
-		DependencyIndexes: file_api_gateway_grpc_lead_grpc_lead_proto_depIdxs,
-		MessageInfos:      file_api_gateway_grpc_lead_grpc_lead_proto_msgTypes,
+		GoTypes:           file_proto_lead_grpc_gateway_proto_goTypes,
+		DependencyIndexes: file_proto_lead_grpc_gateway_proto_depIdxs,
+		MessageInfos:      file_proto_lead_grpc_gateway_proto_msgTypes,
 	}.Build()
-	File_api_gateway_grpc_lead_grpc_lead_proto = out.File
-	file_api_gateway_grpc_lead_grpc_lead_proto_goTypes = nil
-	file_api_gateway_grpc_lead_grpc_lead_proto_depIdxs = nil
+	File_proto_lead_grpc_gateway_proto = out.File
+	file_proto_lead_grpc_gateway_proto_goTypes = nil
+	file_proto_lead_grpc_gateway_proto_depIdxs = nil
 }

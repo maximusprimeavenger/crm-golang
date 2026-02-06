@@ -55,7 +55,7 @@ func (h *GRPCHandler) GetItem(ctx context.Context, req *proto.GetItemRequest) (*
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error finding an item: %v", err)
 	}
-	respItem := helpers.ConvertModelsToGRPC(item)
+	respItem := helpers.ConvertModelsToGRPCResponse(item)
 	resp := &proto.GetItemResponse{
 		Item: respItem,
 	}
@@ -68,14 +68,14 @@ func (h *GRPCHandler) PutItem(ctx context.Context, req *proto.PutItemRequest) (*
 	}
 
 	id, item := &req.Id, req.Item
-	updatedItem, createdAt, updatedAt, err := h.service.PutItem(ctx, id, helpers.ConvertGRPCToModels(item))
+	updatedItem, createdAt, updatedAt, err := h.service.PutItem(ctx, id, helpers.ConvertGRPCToModelsRequest(*id, item))
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error putting item:%v", err)
 	}
 	resp := &proto.PutItemResponse{
 		CreatedAt: timestamppb.New(*createdAt),
 		UpdatedAt: timestamppb.New(*updatedAt),
-		Item:      helpers.ConvertModelsToGRPC(updatedItem),
+		Item:      helpers.ConvertModelsToGRPCResponse(updatedItem),
 	}
 	return resp, nil
 }

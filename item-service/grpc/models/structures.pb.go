@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v6.31.0
-// source: proto/models/structures.proto
+// source: proto/structures.proto
 
 package models
 
@@ -21,36 +21,37 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type Lead struct {
+type LeadResponse struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
-	Name             string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Email            string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
-	Phone            string                 `protobuf:"bytes,3,opt,name=phone,proto3" json:"phone,omitempty"`
-	Company          string                 `protobuf:"bytes,4,opt,name=company,proto3" json:"company,omitempty"`
-	Products         []*ResponseItem        `protobuf:"bytes,5,rep,name=products,proto3" json:"products,omitempty"`
-	Visits           uint32                 `protobuf:"varint,6,opt,name=visits,proto3" json:"visits,omitempty"`
-	LastVisit        string                 `protobuf:"bytes,7,opt,name=lastVisit,proto3" json:"lastVisit,omitempty"`
-	TotalSales       float64                `protobuf:"fixed64,8,opt,name=totalSales,proto3" json:"totalSales,omitempty"`
-	LastPurchaseDays uint32                 `protobuf:"varint,9,opt,name=lastPurchaseDays,proto3" json:"lastPurchaseDays,omitempty"`
+	Id               uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name             string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Email            string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
+	Phone            string                 `protobuf:"bytes,4,opt,name=phone,proto3" json:"phone,omitempty"`
+	Company          string                 `protobuf:"bytes,5,opt,name=company,proto3" json:"company,omitempty"`
+	Products         []*ItemResponse        `protobuf:"bytes,6,rep,name=products,proto3" json:"products,omitempty"`
+	Visits           uint32                 `protobuf:"varint,7,opt,name=visits,proto3" json:"visits,omitempty"`
+	LastVisit        string                 `protobuf:"bytes,8,opt,name=lastVisit,proto3" json:"lastVisit,omitempty"`
+	TotalSales       float64                `protobuf:"fixed64,9,opt,name=totalSales,proto3" json:"totalSales,omitempty"`
+	LastPurchaseDays uint32                 `protobuf:"varint,10,opt,name=lastPurchaseDays,proto3" json:"lastPurchaseDays,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
 
-func (x *Lead) Reset() {
-	*x = Lead{}
-	mi := &file_proto_models_structures_proto_msgTypes[0]
+func (x *LeadResponse) Reset() {
+	*x = LeadResponse{}
+	mi := &file_proto_structures_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Lead) String() string {
+func (x *LeadResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Lead) ProtoMessage() {}
+func (*LeadResponse) ProtoMessage() {}
 
-func (x *Lead) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_models_structures_proto_msgTypes[0]
+func (x *LeadResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_structures_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -61,75 +62,190 @@ func (x *Lead) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Lead.ProtoReflect.Descriptor instead.
-func (*Lead) Descriptor() ([]byte, []int) {
-	return file_proto_models_structures_proto_rawDescGZIP(), []int{0}
+// Deprecated: Use LeadResponse.ProtoReflect.Descriptor instead.
+func (*LeadResponse) Descriptor() ([]byte, []int) {
+	return file_proto_structures_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Lead) GetName() string {
+func (x *LeadResponse) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *LeadResponse) GetName() string {
 	if x != nil {
 		return x.Name
 	}
 	return ""
 }
 
-func (x *Lead) GetEmail() string {
+func (x *LeadResponse) GetEmail() string {
 	if x != nil {
 		return x.Email
 	}
 	return ""
 }
 
-func (x *Lead) GetPhone() string {
+func (x *LeadResponse) GetPhone() string {
 	if x != nil {
 		return x.Phone
 	}
 	return ""
 }
 
-func (x *Lead) GetCompany() string {
+func (x *LeadResponse) GetCompany() string {
 	if x != nil {
 		return x.Company
 	}
 	return ""
 }
 
-func (x *Lead) GetProducts() []*ResponseItem {
+func (x *LeadResponse) GetProducts() []*ItemResponse {
 	if x != nil {
 		return x.Products
 	}
 	return nil
 }
 
-func (x *Lead) GetVisits() uint32 {
+func (x *LeadResponse) GetVisits() uint32 {
 	if x != nil {
 		return x.Visits
 	}
 	return 0
 }
 
-func (x *Lead) GetLastVisit() string {
+func (x *LeadResponse) GetLastVisit() string {
 	if x != nil {
 		return x.LastVisit
 	}
 	return ""
 }
 
-func (x *Lead) GetTotalSales() float64 {
+func (x *LeadResponse) GetTotalSales() float64 {
 	if x != nil {
 		return x.TotalSales
 	}
 	return 0
 }
 
-func (x *Lead) GetLastPurchaseDays() uint32 {
+func (x *LeadResponse) GetLastPurchaseDays() uint32 {
 	if x != nil {
 		return x.LastPurchaseDays
 	}
 	return 0
 }
 
-type ResponseItem struct {
+type LeadRequest struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	Name             string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Email            string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
+	Phone            string                 `protobuf:"bytes,3,opt,name=phone,proto3" json:"phone,omitempty"`
+	Company          string                 `protobuf:"bytes,4,opt,name=company,proto3" json:"company,omitempty"`
+	Products         []*ItemResponse        `protobuf:"bytes,5,rep,name=products,proto3" json:"products,omitempty"`
+	Visits           uint32                 `protobuf:"varint,6,opt,name=visits,proto3" json:"visits,omitempty"`
+	LastVisit        string                 `protobuf:"bytes,7,opt,name=lastVisit,proto3" json:"lastVisit,omitempty"`
+	TotalSales       float64                `protobuf:"fixed64,8,opt,name=totalSales,proto3" json:"totalSales,omitempty"`
+	LastPurchaseDays uint32                 `protobuf:"varint,9,opt,name=lastPurchaseDays,proto3" json:"lastPurchaseDays,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *LeadRequest) Reset() {
+	*x = LeadRequest{}
+	mi := &file_proto_structures_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LeadRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LeadRequest) ProtoMessage() {}
+
+func (x *LeadRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_structures_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LeadRequest.ProtoReflect.Descriptor instead.
+func (*LeadRequest) Descriptor() ([]byte, []int) {
+	return file_proto_structures_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *LeadRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *LeadRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *LeadRequest) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+func (x *LeadRequest) GetCompany() string {
+	if x != nil {
+		return x.Company
+	}
+	return ""
+}
+
+func (x *LeadRequest) GetProducts() []*ItemResponse {
+	if x != nil {
+		return x.Products
+	}
+	return nil
+}
+
+func (x *LeadRequest) GetVisits() uint32 {
+	if x != nil {
+		return x.Visits
+	}
+	return 0
+}
+
+func (x *LeadRequest) GetLastVisit() string {
+	if x != nil {
+		return x.LastVisit
+	}
+	return ""
+}
+
+func (x *LeadRequest) GetTotalSales() float64 {
+	if x != nil {
+		return x.TotalSales
+	}
+	return 0
+}
+
+func (x *LeadRequest) GetLastPurchaseDays() uint32 {
+	if x != nil {
+		return x.LastPurchaseDays
+	}
+	return 0
+}
+
+type ItemResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ProductId     uint32                 `protobuf:"varint,1,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
@@ -143,21 +259,21 @@ type ResponseItem struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ResponseItem) Reset() {
-	*x = ResponseItem{}
-	mi := &file_proto_models_structures_proto_msgTypes[1]
+func (x *ItemResponse) Reset() {
+	*x = ItemResponse{}
+	mi := &file_proto_structures_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ResponseItem) String() string {
+func (x *ItemResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ResponseItem) ProtoMessage() {}
+func (*ItemResponse) ProtoMessage() {}
 
-func (x *ResponseItem) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_models_structures_proto_msgTypes[1]
+func (x *ItemResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_structures_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -168,68 +284,68 @@ func (x *ResponseItem) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ResponseItem.ProtoReflect.Descriptor instead.
-func (*ResponseItem) Descriptor() ([]byte, []int) {
-	return file_proto_models_structures_proto_rawDescGZIP(), []int{1}
+// Deprecated: Use ItemResponse.ProtoReflect.Descriptor instead.
+func (*ItemResponse) Descriptor() ([]byte, []int) {
+	return file_proto_structures_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *ResponseItem) GetProductId() uint32 {
+func (x *ItemResponse) GetProductId() uint32 {
 	if x != nil {
 		return x.ProductId
 	}
 	return 0
 }
 
-func (x *ResponseItem) GetName() string {
+func (x *ItemResponse) GetName() string {
 	if x != nil {
 		return x.Name
 	}
 	return ""
 }
 
-func (x *ResponseItem) GetDescription() string {
+func (x *ItemResponse) GetDescription() string {
 	if x != nil {
 		return x.Description
 	}
 	return ""
 }
 
-func (x *ResponseItem) GetPrice() float64 {
+func (x *ItemResponse) GetPrice() float64 {
 	if x != nil {
 		return x.Price
 	}
 	return 0
 }
 
-func (x *ResponseItem) GetCategory() string {
+func (x *ItemResponse) GetCategory() string {
 	if x != nil {
 		return x.Category
 	}
 	return ""
 }
 
-func (x *ResponseItem) GetCurrency() string {
+func (x *ItemResponse) GetCurrency() string {
 	if x != nil {
 		return x.Currency
 	}
 	return ""
 }
 
-func (x *ResponseItem) GetInStock() uint32 {
+func (x *ItemResponse) GetInStock() uint32 {
 	if x != nil {
 		return x.InStock
 	}
 	return 0
 }
 
-func (x *ResponseItem) GetStatus() string {
+func (x *ItemResponse) GetStatus() string {
 	if x != nil {
 		return x.Status
 	}
 	return ""
 }
 
-type RequestItem struct {
+type ItemRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
@@ -242,21 +358,21 @@ type RequestItem struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *RequestItem) Reset() {
-	*x = RequestItem{}
-	mi := &file_proto_models_structures_proto_msgTypes[2]
+func (x *ItemRequest) Reset() {
+	*x = ItemRequest{}
+	mi := &file_proto_structures_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *RequestItem) String() string {
+func (x *ItemRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RequestItem) ProtoMessage() {}
+func (*ItemRequest) ProtoMessage() {}
 
-func (x *RequestItem) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_models_structures_proto_msgTypes[2]
+func (x *ItemRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_structures_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -267,78 +383,92 @@ func (x *RequestItem) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RequestItem.ProtoReflect.Descriptor instead.
-func (*RequestItem) Descriptor() ([]byte, []int) {
-	return file_proto_models_structures_proto_rawDescGZIP(), []int{2}
+// Deprecated: Use ItemRequest.ProtoReflect.Descriptor instead.
+func (*ItemRequest) Descriptor() ([]byte, []int) {
+	return file_proto_structures_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *RequestItem) GetName() string {
+func (x *ItemRequest) GetName() string {
 	if x != nil {
 		return x.Name
 	}
 	return ""
 }
 
-func (x *RequestItem) GetDescription() string {
+func (x *ItemRequest) GetDescription() string {
 	if x != nil {
 		return x.Description
 	}
 	return ""
 }
 
-func (x *RequestItem) GetPrice() float64 {
+func (x *ItemRequest) GetPrice() float64 {
 	if x != nil {
 		return x.Price
 	}
 	return 0
 }
 
-func (x *RequestItem) GetCategory() string {
+func (x *ItemRequest) GetCategory() string {
 	if x != nil {
 		return x.Category
 	}
 	return ""
 }
 
-func (x *RequestItem) GetCurrency() string {
+func (x *ItemRequest) GetCurrency() string {
 	if x != nil {
 		return x.Currency
 	}
 	return ""
 }
 
-func (x *RequestItem) GetInStock() uint32 {
+func (x *ItemRequest) GetInStock() uint32 {
 	if x != nil {
 		return x.InStock
 	}
 	return 0
 }
 
-func (x *RequestItem) GetStatus() string {
+func (x *ItemRequest) GetStatus() string {
 	if x != nil {
 		return x.Status
 	}
 	return ""
 }
 
-var File_proto_models_structures_proto protoreflect.FileDescriptor
+var File_proto_structures_proto protoreflect.FileDescriptor
 
-const file_proto_models_structures_proto_rawDesc = "" +
+const file_proto_structures_proto_rawDesc = "" +
 	"\n" +
-	"\x1dproto/models/structures.proto\x12\x06models\"\x94\x02\n" +
-	"\x04Lead\x12\x12\n" +
+	"\x16proto/structures.proto\x12\x06models\"\xac\x02\n" +
+	"\fLeadResponse\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
+	"\x05email\x18\x03 \x01(\tR\x05email\x12\x14\n" +
+	"\x05phone\x18\x04 \x01(\tR\x05phone\x12\x18\n" +
+	"\acompany\x18\x05 \x01(\tR\acompany\x120\n" +
+	"\bproducts\x18\x06 \x03(\v2\x14.models.ItemResponseR\bproducts\x12\x16\n" +
+	"\x06visits\x18\a \x01(\rR\x06visits\x12\x1c\n" +
+	"\tlastVisit\x18\b \x01(\tR\tlastVisit\x12\x1e\n" +
+	"\n" +
+	"totalSales\x18\t \x01(\x01R\n" +
+	"totalSales\x12*\n" +
+	"\x10lastPurchaseDays\x18\n" +
+	" \x01(\rR\x10lastPurchaseDays\"\x9b\x02\n" +
+	"\vLeadRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x14\n" +
 	"\x05phone\x18\x03 \x01(\tR\x05phone\x12\x18\n" +
 	"\acompany\x18\x04 \x01(\tR\acompany\x120\n" +
-	"\bproducts\x18\x05 \x03(\v2\x14.models.ResponseItemR\bproducts\x12\x16\n" +
+	"\bproducts\x18\x05 \x03(\v2\x14.models.ItemResponseR\bproducts\x12\x16\n" +
 	"\x06visits\x18\x06 \x01(\rR\x06visits\x12\x1c\n" +
 	"\tlastVisit\x18\a \x01(\tR\tlastVisit\x12\x1e\n" +
 	"\n" +
 	"totalSales\x18\b \x01(\x01R\n" +
 	"totalSales\x12*\n" +
 	"\x10lastPurchaseDays\x18\t \x01(\rR\x10lastPurchaseDays\"\xe3\x01\n" +
-	"\fResponseItem\x12\x1d\n" +
+	"\fItemResponse\x12\x1d\n" +
 	"\n" +
 	"product_id\x18\x01 \x01(\rR\tproductId\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
@@ -348,7 +478,7 @@ const file_proto_models_structures_proto_rawDesc = "" +
 	"\bcurrency\x18\x06 \x01(\tR\bcurrency\x12\x18\n" +
 	"\ainStock\x18\a \x01(\rR\ainStock\x12\x16\n" +
 	"\x06status\x18\b \x01(\tR\x06status\"\xc3\x01\n" +
-	"\vRequestItem\x12\x12\n" +
+	"\vItemRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x14\n" +
 	"\x05price\x18\x03 \x01(\x01R\x05price\x12\x1a\n" +
@@ -358,52 +488,54 @@ const file_proto_models_structures_proto_rawDesc = "" +
 	"\x06status\x18\a \x01(\tR\x06statusB\x15Z\x13grpc/models; modelsb\x06proto3"
 
 var (
-	file_proto_models_structures_proto_rawDescOnce sync.Once
-	file_proto_models_structures_proto_rawDescData []byte
+	file_proto_structures_proto_rawDescOnce sync.Once
+	file_proto_structures_proto_rawDescData []byte
 )
 
-func file_proto_models_structures_proto_rawDescGZIP() []byte {
-	file_proto_models_structures_proto_rawDescOnce.Do(func() {
-		file_proto_models_structures_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_models_structures_proto_rawDesc), len(file_proto_models_structures_proto_rawDesc)))
+func file_proto_structures_proto_rawDescGZIP() []byte {
+	file_proto_structures_proto_rawDescOnce.Do(func() {
+		file_proto_structures_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_structures_proto_rawDesc), len(file_proto_structures_proto_rawDesc)))
 	})
-	return file_proto_models_structures_proto_rawDescData
+	return file_proto_structures_proto_rawDescData
 }
 
-var file_proto_models_structures_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
-var file_proto_models_structures_proto_goTypes = []any{
-	(*Lead)(nil),         // 0: models.Lead
-	(*ResponseItem)(nil), // 1: models.ResponseItem
-	(*RequestItem)(nil),  // 2: models.RequestItem
+var file_proto_structures_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_proto_structures_proto_goTypes = []any{
+	(*LeadResponse)(nil), // 0: models.LeadResponse
+	(*LeadRequest)(nil),  // 1: models.LeadRequest
+	(*ItemResponse)(nil), // 2: models.ItemResponse
+	(*ItemRequest)(nil),  // 3: models.ItemRequest
 }
-var file_proto_models_structures_proto_depIdxs = []int32{
-	1, // 0: models.Lead.products:type_name -> models.ResponseItem
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+var file_proto_structures_proto_depIdxs = []int32{
+	2, // 0: models.LeadResponse.products:type_name -> models.ItemResponse
+	2, // 1: models.LeadRequest.products:type_name -> models.ItemResponse
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
-func init() { file_proto_models_structures_proto_init() }
-func file_proto_models_structures_proto_init() {
-	if File_proto_models_structures_proto != nil {
+func init() { file_proto_structures_proto_init() }
+func file_proto_structures_proto_init() {
+	if File_proto_structures_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_models_structures_proto_rawDesc), len(file_proto_models_structures_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_structures_proto_rawDesc), len(file_proto_structures_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_proto_models_structures_proto_goTypes,
-		DependencyIndexes: file_proto_models_structures_proto_depIdxs,
-		MessageInfos:      file_proto_models_structures_proto_msgTypes,
+		GoTypes:           file_proto_structures_proto_goTypes,
+		DependencyIndexes: file_proto_structures_proto_depIdxs,
+		MessageInfos:      file_proto_structures_proto_msgTypes,
 	}.Build()
-	File_proto_models_structures_proto = out.File
-	file_proto_models_structures_proto_goTypes = nil
-	file_proto_models_structures_proto_depIdxs = nil
+	File_proto_structures_proto = out.File
+	file_proto_structures_proto_goTypes = nil
+	file_proto_structures_proto_depIdxs = nil
 }

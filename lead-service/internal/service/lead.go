@@ -1,15 +1,13 @@
 package service
 
 import (
-	"time"
-
 	"github.com/fiveret/crm-golang/internal/helpers"
 	"github.com/fiveret/crm-golang/internal/models"
 	"github.com/fiveret/crm-golang/internal/repository"
 )
 
 type LeadService interface {
-	NewLead(lead *models.Lead) (*time.Time, error)
+	NewLead(lead *models.Lead) (*models.Lead, error)
 	AddProducts(leadID uint32, productIDs []uint32) (*models.Lead, error)
 	DeleteLeadProduct(leadID, productID uint32) (string, error)
 	DeleteLeadProducts(leadID uint32) (string, error)
@@ -27,7 +25,7 @@ func NewLeadService(repo repository.LeadRepo) LeadService {
 	return &leadService{repo: repo}
 }
 
-func (s *leadService) NewLead(lead *models.Lead) (*time.Time, error) {
+func (s *leadService) NewLead(lead *models.Lead) (*models.Lead, error) {
 	if err := helpers.ValidateNewLead(lead); err != nil {
 		return nil, err
 	}

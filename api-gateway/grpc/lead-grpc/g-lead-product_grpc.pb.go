@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v6.31.0
-// source: item-service/grpc/lead-grpc/lead-product.proto
+// source: proto/lead-grpc/g-lead-product.proto
 
 package proto
 
@@ -20,9 +20,10 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	LeadProductService_AddProductsToLead_FullMethodName  = "/proto.LeadProductService/AddProductsToLead"
+	LeadProductService_DeleteLeadProducts_FullMethodName = "/proto.LeadProductService/DeleteLeadProducts"
+	LeadProductService_DeleteLeadProduct_FullMethodName  = "/proto.LeadProductService/DeleteLeadProduct"
 	LeadProductService_GetLeadProducts_FullMethodName    = "/proto.LeadProductService/GetLeadProducts"
 	LeadProductService_GetLeadsProducts_FullMethodName   = "/proto.LeadProductService/GetLeadsProducts"
-	LeadProductService_DeleteLeadProducts_FullMethodName = "/proto.LeadProductService/DeleteLeadProducts"
 	LeadProductService_PutProductsLead_FullMethodName    = "/proto.LeadProductService/PutProductsLead"
 )
 
@@ -31,9 +32,10 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type LeadProductServiceClient interface {
 	AddProductsToLead(ctx context.Context, in *AddProductsToLeadRequest, opts ...grpc.CallOption) (*AddProductsToLeadResponse, error)
+	DeleteLeadProducts(ctx context.Context, in *DeleteLeadProductsRequest, opts ...grpc.CallOption) (*DeleteLeadProductsResponse, error)
+	DeleteLeadProduct(ctx context.Context, in *DeleteLeadProductRequest, opts ...grpc.CallOption) (*DeleteLeadProductResponse, error)
 	GetLeadProducts(ctx context.Context, in *GetLeadProductsRequest, opts ...grpc.CallOption) (*GetLeadProductsResponse, error)
 	GetLeadsProducts(ctx context.Context, in *GetLeadsProductsRequest, opts ...grpc.CallOption) (*GetLeadsProductsResponse, error)
-	DeleteLeadProducts(ctx context.Context, in *DeleteLeadProductsRequest, opts ...grpc.CallOption) (*DeleteLeadProductsResponse, error)
 	PutProductsLead(ctx context.Context, in *PutProductsLeadRequest, opts ...grpc.CallOption) (*PutProductsLeadResponse, error)
 }
 
@@ -49,6 +51,26 @@ func (c *leadProductServiceClient) AddProductsToLead(ctx context.Context, in *Ad
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(AddProductsToLeadResponse)
 	err := c.cc.Invoke(ctx, LeadProductService_AddProductsToLead_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *leadProductServiceClient) DeleteLeadProducts(ctx context.Context, in *DeleteLeadProductsRequest, opts ...grpc.CallOption) (*DeleteLeadProductsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteLeadProductsResponse)
+	err := c.cc.Invoke(ctx, LeadProductService_DeleteLeadProducts_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *leadProductServiceClient) DeleteLeadProduct(ctx context.Context, in *DeleteLeadProductRequest, opts ...grpc.CallOption) (*DeleteLeadProductResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteLeadProductResponse)
+	err := c.cc.Invoke(ctx, LeadProductService_DeleteLeadProduct_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -75,16 +97,6 @@ func (c *leadProductServiceClient) GetLeadsProducts(ctx context.Context, in *Get
 	return out, nil
 }
 
-func (c *leadProductServiceClient) DeleteLeadProducts(ctx context.Context, in *DeleteLeadProductsRequest, opts ...grpc.CallOption) (*DeleteLeadProductsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeleteLeadProductsResponse)
-	err := c.cc.Invoke(ctx, LeadProductService_DeleteLeadProducts_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *leadProductServiceClient) PutProductsLead(ctx context.Context, in *PutProductsLeadRequest, opts ...grpc.CallOption) (*PutProductsLeadResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(PutProductsLeadResponse)
@@ -100,9 +112,10 @@ func (c *leadProductServiceClient) PutProductsLead(ctx context.Context, in *PutP
 // for forward compatibility.
 type LeadProductServiceServer interface {
 	AddProductsToLead(context.Context, *AddProductsToLeadRequest) (*AddProductsToLeadResponse, error)
+	DeleteLeadProducts(context.Context, *DeleteLeadProductsRequest) (*DeleteLeadProductsResponse, error)
+	DeleteLeadProduct(context.Context, *DeleteLeadProductRequest) (*DeleteLeadProductResponse, error)
 	GetLeadProducts(context.Context, *GetLeadProductsRequest) (*GetLeadProductsResponse, error)
 	GetLeadsProducts(context.Context, *GetLeadsProductsRequest) (*GetLeadsProductsResponse, error)
-	DeleteLeadProducts(context.Context, *DeleteLeadProductsRequest) (*DeleteLeadProductsResponse, error)
 	PutProductsLead(context.Context, *PutProductsLeadRequest) (*PutProductsLeadResponse, error)
 	mustEmbedUnimplementedLeadProductServiceServer()
 }
@@ -117,14 +130,17 @@ type UnimplementedLeadProductServiceServer struct{}
 func (UnimplementedLeadProductServiceServer) AddProductsToLead(context.Context, *AddProductsToLeadRequest) (*AddProductsToLeadResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddProductsToLead not implemented")
 }
+func (UnimplementedLeadProductServiceServer) DeleteLeadProducts(context.Context, *DeleteLeadProductsRequest) (*DeleteLeadProductsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteLeadProducts not implemented")
+}
+func (UnimplementedLeadProductServiceServer) DeleteLeadProduct(context.Context, *DeleteLeadProductRequest) (*DeleteLeadProductResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteLeadProduct not implemented")
+}
 func (UnimplementedLeadProductServiceServer) GetLeadProducts(context.Context, *GetLeadProductsRequest) (*GetLeadProductsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetLeadProducts not implemented")
 }
 func (UnimplementedLeadProductServiceServer) GetLeadsProducts(context.Context, *GetLeadsProductsRequest) (*GetLeadsProductsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetLeadsProducts not implemented")
-}
-func (UnimplementedLeadProductServiceServer) DeleteLeadProducts(context.Context, *DeleteLeadProductsRequest) (*DeleteLeadProductsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteLeadProducts not implemented")
 }
 func (UnimplementedLeadProductServiceServer) PutProductsLead(context.Context, *PutProductsLeadRequest) (*PutProductsLeadResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PutProductsLead not implemented")
@@ -168,6 +184,42 @@ func _LeadProductService_AddProductsToLead_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _LeadProductService_DeleteLeadProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteLeadProductsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LeadProductServiceServer).DeleteLeadProducts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LeadProductService_DeleteLeadProducts_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LeadProductServiceServer).DeleteLeadProducts(ctx, req.(*DeleteLeadProductsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LeadProductService_DeleteLeadProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteLeadProductRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LeadProductServiceServer).DeleteLeadProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LeadProductService_DeleteLeadProduct_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LeadProductServiceServer).DeleteLeadProduct(ctx, req.(*DeleteLeadProductRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _LeadProductService_GetLeadProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetLeadProductsRequest)
 	if err := dec(in); err != nil {
@@ -204,24 +256,6 @@ func _LeadProductService_GetLeadsProducts_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
-func _LeadProductService_DeleteLeadProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteLeadProductsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(LeadProductServiceServer).DeleteLeadProducts(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: LeadProductService_DeleteLeadProducts_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LeadProductServiceServer).DeleteLeadProducts(ctx, req.(*DeleteLeadProductsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _LeadProductService_PutProductsLead_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PutProductsLeadRequest)
 	if err := dec(in); err != nil {
@@ -252,6 +286,14 @@ var LeadProductService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _LeadProductService_AddProductsToLead_Handler,
 		},
 		{
+			MethodName: "DeleteLeadProducts",
+			Handler:    _LeadProductService_DeleteLeadProducts_Handler,
+		},
+		{
+			MethodName: "DeleteLeadProduct",
+			Handler:    _LeadProductService_DeleteLeadProduct_Handler,
+		},
+		{
 			MethodName: "GetLeadProducts",
 			Handler:    _LeadProductService_GetLeadProducts_Handler,
 		},
@@ -260,14 +302,10 @@ var LeadProductService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _LeadProductService_GetLeadsProducts_Handler,
 		},
 		{
-			MethodName: "DeleteLeadProducts",
-			Handler:    _LeadProductService_DeleteLeadProducts_Handler,
-		},
-		{
 			MethodName: "PutProductsLead",
 			Handler:    _LeadProductService_PutProductsLead_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "item-service/grpc/lead-grpc/lead-product.proto",
+	Metadata: "proto/lead-grpc/g-lead-product.proto",
 }

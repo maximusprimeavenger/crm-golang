@@ -2,21 +2,34 @@ syntax = "proto3";
 
 package models;
 
-option go_package = "grpc/models; models";
+option go_package = "github.com/fiveret/api-gateway/grpc/models; models";
 
-message Lead {
+message LeadResponse{
+    uint32 id = 1;
+    string name = 2;
+    string email = 3;
+    string phone = 4;
+    string company = 5;
+    repeated ItemResponse products = 6;
+    uint32 visits = 7;
+    string lastVisit = 8;
+    double totalSales = 9;
+    uint32 lastPurchaseDays = 10;
+}
+
+message LeadRequest{
     string name = 1;
     string email = 2;
     string phone = 3;
     string company = 4;
-    repeated ResponseItem products = 5;
+    repeated ItemResponse products = 5;
     uint32 visits = 6;
     string lastVisit = 7;
     double totalSales = 8;
     uint32 lastPurchaseDays = 9;
 }
 
-message ResponseItem{
+message ItemResponse{
     uint32 product_id = 1;
     string name = 2;
     string description = 3;
@@ -28,7 +41,7 @@ message ResponseItem{
 }
 
 
-message RequestItem{
+message ItemRequest{
     string name = 1;
     string description = 2;
     double price = 3;

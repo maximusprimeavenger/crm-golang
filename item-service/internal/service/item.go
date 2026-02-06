@@ -16,7 +16,7 @@ type ItemService interface {
 	CreateItem(context.Context, *models.Item) (*time.Time, error)
 	DeleteItem(context.Context, *uint32) (string, error)
 	GetItem(context.Context, *uint32) (*models.Item, error)
-	GetItems(context.Context) ([]*grpcModels.Item, error)
+	GetItems(context.Context) ([]*grpcModels.ItemResponse, error)
 	PutItem(context.Context, *uint32, *models.Item) (*models.Item, *time.Time, *time.Time, error)
 }
 
@@ -55,18 +55,18 @@ func (s *itemService) GetItem(ctx context.Context, id *uint32) (*models.Item, er
 	return s.repo.GetItem(id)
 }
 
-func (s *itemService) GetItems(ctx context.Context) ([]*grpcModels.Item, error) {
+func (s *itemService) GetItems(ctx context.Context) ([]*grpcModels.ItemResponse, error) {
 	items, err := s.repo.GetItems()
 	if err != nil {
 		return nil, err
 	}
-	returnItems := make([]*grpcModels.Item, len(items))
+	returnItems := make([]*grpcModels.ItemResponse, len(items))
 	var wg sync.WaitGroup
 	for i, item := range items {
 		wg.Add(1)
 		go func(i int, item *models.Item) {
 			defer wg.Done()
-			returnItems[i] = helpers.ConvertModelsToGRPC(item)
+			returnItems[i] = helpers.ConvertModelsToGRPCResponse(item)
 		}(i, item)
 	}
 

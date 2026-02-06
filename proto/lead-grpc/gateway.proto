@@ -6,7 +6,7 @@ import "google/api/annotations.proto";
 import "validate/validate.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
-import "grpc/models/structures.proto";
+import "models/gateway.proto";
 
 option go_package = "grpc/lead-grpc;proto";
 
@@ -45,10 +45,9 @@ message GetLeadRequest{
 }
 
 message GetLeadResponse{
-    uint32 id = 1;
-    models.Lead lead = 2;
-    google.protobuf.Timestamp createdAt = 3;
-    google.protobuf.Timestamp updatedAt = 4;
+    models.LeadResponse lead = 1;
+    google.protobuf.Timestamp createdAt = 2;
+    google.protobuf.Timestamp updatedAt = 3;
 }
 
 message GetLeadsRequest{
@@ -56,25 +55,25 @@ message GetLeadsRequest{
 }
 
 message GetLeadsResponse{
-    repeated models.Lead leads = 1;
+    repeated models.LeadResponse leads = 1;
 }
 
 message NewLeadRequest{
-    models.Lead lead = 1;
+    models.LeadRequest lead = 1;
 }
 
 message NewLeadResponse{
-    models.Lead lead = 1;
+    models.LeadResponse lead = 1;
     google.protobuf.Timestamp createdAt = 2;
 }
 
 message PutLeadRequest{
     uint32 id = 1 [(validate.rules).uint32.gt = 0];
-    models.Lead lead = 2;
+    models.LeadRequest lead = 2;
 }
 
 message PutLeadResponse{
-    models.Lead lead = 1;
+    models.LeadResponse lead = 1;
     google.protobuf.Timestamp createdAt = 2;
     google.protobuf.Timestamp updatedAt = 3;
 }

@@ -3,7 +3,6 @@ package repository
 import (
 	"fmt"
 	"log/slog"
-	"time"
 
 	"github.com/fiveret/crm-golang/internal/db"
 	"github.com/fiveret/crm-golang/internal/models"
@@ -11,7 +10,7 @@ import (
 
 type LeadRepo interface {
 	AddProducts(id uint32, product_id []uint32) (*models.Lead, error)
-	CreateLead(lead *models.Lead) (*time.Time, error)
+	CreateLead(lead *models.Lead) (*models.Lead, error)
 	DeleteLead(id uint32) (string, error)
 	DeleteLeadProduct(id, productId uint32) (string, error)
 	DeleteLeadProducts(id uint32) (string, error)
@@ -27,7 +26,7 @@ type leadRepo struct {
 func NewLeadRepository(db *db.DBConnection, log *slog.Logger) LeadRepo {
 	return &leadRepo{db: db, logger: log}
 }
-func (repo *leadRepo) CreateLead(lead *models.Lead) (*time.Time, error) {
+func (repo *leadRepo) CreateLead(lead *models.Lead) (*models.Lead, error) {
 	err := repo.db.SaveLead(lead)
 	if err != nil {
 		return nil, err
@@ -37,7 +36,7 @@ func (repo *leadRepo) CreateLead(lead *models.Lead) (*time.Time, error) {
 		return nil, err
 	}
 
-	return &foundLead.CreatedAt, err
+	return foundLead, err
 }
 
 func (repo *leadRepo) DeleteLead(id uint32) (string, error) {
