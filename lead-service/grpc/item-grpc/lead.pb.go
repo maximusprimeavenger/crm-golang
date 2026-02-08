@@ -2,13 +2,13 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v6.31.0
-// source: proto/item-grpc/gateway.proto
+// source: proto/item-grpc/lead.proto
 
 package proto
 
 import (
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
-	models "github.com/fiveret/api-gateway/grpc/models"
+	models "github.com/fiveret/crm-golang/grpc/models"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -35,7 +35,7 @@ type CreateItemRequest struct {
 
 func (x *CreateItemRequest) Reset() {
 	*x = CreateItemRequest{}
-	mi := &file_proto_item_grpc_gateway_proto_msgTypes[0]
+	mi := &file_proto_item_grpc_lead_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -47,7 +47,7 @@ func (x *CreateItemRequest) String() string {
 func (*CreateItemRequest) ProtoMessage() {}
 
 func (x *CreateItemRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_item_grpc_gateway_proto_msgTypes[0]
+	mi := &file_proto_item_grpc_lead_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -60,7 +60,7 @@ func (x *CreateItemRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateItemRequest.ProtoReflect.Descriptor instead.
 func (*CreateItemRequest) Descriptor() ([]byte, []int) {
-	return file_proto_item_grpc_gateway_proto_rawDescGZIP(), []int{0}
+	return file_proto_item_grpc_lead_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *CreateItemRequest) GetItem() *models.ItemRequest {
@@ -80,7 +80,7 @@ type CreateItemResponse struct {
 
 func (x *CreateItemResponse) Reset() {
 	*x = CreateItemResponse{}
-	mi := &file_proto_item_grpc_gateway_proto_msgTypes[1]
+	mi := &file_proto_item_grpc_lead_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -92,7 +92,7 @@ func (x *CreateItemResponse) String() string {
 func (*CreateItemResponse) ProtoMessage() {}
 
 func (x *CreateItemResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_item_grpc_gateway_proto_msgTypes[1]
+	mi := &file_proto_item_grpc_lead_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -105,7 +105,7 @@ func (x *CreateItemResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateItemResponse.ProtoReflect.Descriptor instead.
 func (*CreateItemResponse) Descriptor() ([]byte, []int) {
-	return file_proto_item_grpc_gateway_proto_rawDescGZIP(), []int{1}
+	return file_proto_item_grpc_lead_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *CreateItemResponse) GetMessage() string {
@@ -131,7 +131,7 @@ type GetItemRequest struct {
 
 func (x *GetItemRequest) Reset() {
 	*x = GetItemRequest{}
-	mi := &file_proto_item_grpc_gateway_proto_msgTypes[2]
+	mi := &file_proto_item_grpc_lead_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -143,7 +143,7 @@ func (x *GetItemRequest) String() string {
 func (*GetItemRequest) ProtoMessage() {}
 
 func (x *GetItemRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_item_grpc_gateway_proto_msgTypes[2]
+	mi := &file_proto_item_grpc_lead_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -156,7 +156,7 @@ func (x *GetItemRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetItemRequest.ProtoReflect.Descriptor instead.
 func (*GetItemRequest) Descriptor() ([]byte, []int) {
-	return file_proto_item_grpc_gateway_proto_rawDescGZIP(), []int{2}
+	return file_proto_item_grpc_lead_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetItemRequest) GetId() uint32 {
@@ -177,7 +177,7 @@ type GetItemResponse struct {
 
 func (x *GetItemResponse) Reset() {
 	*x = GetItemResponse{}
-	mi := &file_proto_item_grpc_gateway_proto_msgTypes[3]
+	mi := &file_proto_item_grpc_lead_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -189,7 +189,7 @@ func (x *GetItemResponse) String() string {
 func (*GetItemResponse) ProtoMessage() {}
 
 func (x *GetItemResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_item_grpc_gateway_proto_msgTypes[3]
+	mi := &file_proto_item_grpc_lead_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -202,7 +202,7 @@ func (x *GetItemResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetItemResponse.ProtoReflect.Descriptor instead.
 func (*GetItemResponse) Descriptor() ([]byte, []int) {
-	return file_proto_item_grpc_gateway_proto_rawDescGZIP(), []int{3}
+	return file_proto_item_grpc_lead_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *GetItemResponse) GetItem() *models.ItemResponse {
@@ -235,7 +235,7 @@ type GetItemsRequest struct {
 
 func (x *GetItemsRequest) Reset() {
 	*x = GetItemsRequest{}
-	mi := &file_proto_item_grpc_gateway_proto_msgTypes[4]
+	mi := &file_proto_item_grpc_lead_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -247,7 +247,7 @@ func (x *GetItemsRequest) String() string {
 func (*GetItemsRequest) ProtoMessage() {}
 
 func (x *GetItemsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_item_grpc_gateway_proto_msgTypes[4]
+	mi := &file_proto_item_grpc_lead_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -260,7 +260,7 @@ func (x *GetItemsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetItemsRequest.ProtoReflect.Descriptor instead.
 func (*GetItemsRequest) Descriptor() ([]byte, []int) {
-	return file_proto_item_grpc_gateway_proto_rawDescGZIP(), []int{4}
+	return file_proto_item_grpc_lead_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetItemsRequest) GetEmpty() *emptypb.Empty {
@@ -279,7 +279,7 @@ type GetItemsResponse struct {
 
 func (x *GetItemsResponse) Reset() {
 	*x = GetItemsResponse{}
-	mi := &file_proto_item_grpc_gateway_proto_msgTypes[5]
+	mi := &file_proto_item_grpc_lead_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -291,7 +291,7 @@ func (x *GetItemsResponse) String() string {
 func (*GetItemsResponse) ProtoMessage() {}
 
 func (x *GetItemsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_item_grpc_gateway_proto_msgTypes[5]
+	mi := &file_proto_item_grpc_lead_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -304,7 +304,7 @@ func (x *GetItemsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetItemsResponse.ProtoReflect.Descriptor instead.
 func (*GetItemsResponse) Descriptor() ([]byte, []int) {
-	return file_proto_item_grpc_gateway_proto_rawDescGZIP(), []int{5}
+	return file_proto_item_grpc_lead_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *GetItemsResponse) GetItems() []*models.ItemResponse {
@@ -324,7 +324,7 @@ type PutItemRequest struct {
 
 func (x *PutItemRequest) Reset() {
 	*x = PutItemRequest{}
-	mi := &file_proto_item_grpc_gateway_proto_msgTypes[6]
+	mi := &file_proto_item_grpc_lead_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -336,7 +336,7 @@ func (x *PutItemRequest) String() string {
 func (*PutItemRequest) ProtoMessage() {}
 
 func (x *PutItemRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_item_grpc_gateway_proto_msgTypes[6]
+	mi := &file_proto_item_grpc_lead_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -349,7 +349,7 @@ func (x *PutItemRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PutItemRequest.ProtoReflect.Descriptor instead.
 func (*PutItemRequest) Descriptor() ([]byte, []int) {
-	return file_proto_item_grpc_gateway_proto_rawDescGZIP(), []int{6}
+	return file_proto_item_grpc_lead_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *PutItemRequest) GetId() uint32 {
@@ -377,7 +377,7 @@ type PutItemResponse struct {
 
 func (x *PutItemResponse) Reset() {
 	*x = PutItemResponse{}
-	mi := &file_proto_item_grpc_gateway_proto_msgTypes[7]
+	mi := &file_proto_item_grpc_lead_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -389,7 +389,7 @@ func (x *PutItemResponse) String() string {
 func (*PutItemResponse) ProtoMessage() {}
 
 func (x *PutItemResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_item_grpc_gateway_proto_msgTypes[7]
+	mi := &file_proto_item_grpc_lead_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -402,7 +402,7 @@ func (x *PutItemResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PutItemResponse.ProtoReflect.Descriptor instead.
 func (*PutItemResponse) Descriptor() ([]byte, []int) {
-	return file_proto_item_grpc_gateway_proto_rawDescGZIP(), []int{7}
+	return file_proto_item_grpc_lead_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *PutItemResponse) GetItem() *models.ItemResponse {
@@ -435,7 +435,7 @@ type DeleteItemRequest struct {
 
 func (x *DeleteItemRequest) Reset() {
 	*x = DeleteItemRequest{}
-	mi := &file_proto_item_grpc_gateway_proto_msgTypes[8]
+	mi := &file_proto_item_grpc_lead_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -447,7 +447,7 @@ func (x *DeleteItemRequest) String() string {
 func (*DeleteItemRequest) ProtoMessage() {}
 
 func (x *DeleteItemRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_item_grpc_gateway_proto_msgTypes[8]
+	mi := &file_proto_item_grpc_lead_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -460,7 +460,7 @@ func (x *DeleteItemRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteItemRequest.ProtoReflect.Descriptor instead.
 func (*DeleteItemRequest) Descriptor() ([]byte, []int) {
-	return file_proto_item_grpc_gateway_proto_rawDescGZIP(), []int{8}
+	return file_proto_item_grpc_lead_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *DeleteItemRequest) GetId() uint32 {
@@ -479,7 +479,7 @@ type DeleteItemResponse struct {
 
 func (x *DeleteItemResponse) Reset() {
 	*x = DeleteItemResponse{}
-	mi := &file_proto_item_grpc_gateway_proto_msgTypes[9]
+	mi := &file_proto_item_grpc_lead_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -491,7 +491,7 @@ func (x *DeleteItemResponse) String() string {
 func (*DeleteItemResponse) ProtoMessage() {}
 
 func (x *DeleteItemResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_item_grpc_gateway_proto_msgTypes[9]
+	mi := &file_proto_item_grpc_lead_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -504,7 +504,7 @@ func (x *DeleteItemResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteItemResponse.ProtoReflect.Descriptor instead.
 func (*DeleteItemResponse) Descriptor() ([]byte, []int) {
-	return file_proto_item_grpc_gateway_proto_rawDescGZIP(), []int{9}
+	return file_proto_item_grpc_lead_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *DeleteItemResponse) GetMessage() string {
@@ -514,11 +514,11 @@ func (x *DeleteItemResponse) GetMessage() string {
 	return ""
 }
 
-var File_proto_item_grpc_gateway_proto protoreflect.FileDescriptor
+var File_proto_item_grpc_lead_proto protoreflect.FileDescriptor
 
-const file_proto_item_grpc_gateway_proto_rawDesc = "" +
+const file_proto_item_grpc_lead_proto_rawDesc = "" +
 	"\n" +
-	"\x1dproto/item-grpc/gateway.proto\x12\x05proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x14models/gateway.proto\x1a\x17validate/validate.proto\"<\n" +
+	"\x1aproto/item-grpc/lead.proto\x12\x05proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x19models/lead-service.proto\x1a\x17validate/validate.proto\"<\n" +
 	"\x11CreateItemRequest\x12'\n" +
 	"\x04item\x18\x01 \x01(\v2\x13.models.ItemRequestR\x04item\"q\n" +
 	"\x12CreateItemResponse\x12!\n" +
@@ -555,19 +555,19 @@ const file_proto_item_grpc_gateway_proto_rawDesc = "" +
 	"DeleteItem\x12\x18.proto.DeleteItemRequest\x1a\x19.proto.DeleteItemResponse\"\x16\x82\xd3\xe4\x93\x02\x10*\x0e/v1/items/{id}B\x16Z\x14grpc/item-grpc;protob\x06proto3"
 
 var (
-	file_proto_item_grpc_gateway_proto_rawDescOnce sync.Once
-	file_proto_item_grpc_gateway_proto_rawDescData []byte
+	file_proto_item_grpc_lead_proto_rawDescOnce sync.Once
+	file_proto_item_grpc_lead_proto_rawDescData []byte
 )
 
-func file_proto_item_grpc_gateway_proto_rawDescGZIP() []byte {
-	file_proto_item_grpc_gateway_proto_rawDescOnce.Do(func() {
-		file_proto_item_grpc_gateway_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_item_grpc_gateway_proto_rawDesc), len(file_proto_item_grpc_gateway_proto_rawDesc)))
+func file_proto_item_grpc_lead_proto_rawDescGZIP() []byte {
+	file_proto_item_grpc_lead_proto_rawDescOnce.Do(func() {
+		file_proto_item_grpc_lead_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_item_grpc_lead_proto_rawDesc), len(file_proto_item_grpc_lead_proto_rawDesc)))
 	})
-	return file_proto_item_grpc_gateway_proto_rawDescData
+	return file_proto_item_grpc_lead_proto_rawDescData
 }
 
-var file_proto_item_grpc_gateway_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
-var file_proto_item_grpc_gateway_proto_goTypes = []any{
+var file_proto_item_grpc_lead_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_proto_item_grpc_lead_proto_goTypes = []any{
 	(*CreateItemRequest)(nil),     // 0: proto.CreateItemRequest
 	(*CreateItemResponse)(nil),    // 1: proto.CreateItemResponse
 	(*GetItemRequest)(nil),        // 2: proto.GetItemRequest
@@ -583,7 +583,7 @@ var file_proto_item_grpc_gateway_proto_goTypes = []any{
 	(*models.ItemResponse)(nil),   // 12: models.ItemResponse
 	(*emptypb.Empty)(nil),         // 13: google.protobuf.Empty
 }
-var file_proto_item_grpc_gateway_proto_depIdxs = []int32{
+var file_proto_item_grpc_lead_proto_depIdxs = []int32{
 	10, // 0: proto.CreateItemRequest.item:type_name -> models.ItemRequest
 	11, // 1: proto.CreateItemResponse.createdAt:type_name -> google.protobuf.Timestamp
 	12, // 2: proto.GetItemResponse.item:type_name -> models.ItemResponse
@@ -612,26 +612,26 @@ var file_proto_item_grpc_gateway_proto_depIdxs = []int32{
 	0,  // [0:11] is the sub-list for field type_name
 }
 
-func init() { file_proto_item_grpc_gateway_proto_init() }
-func file_proto_item_grpc_gateway_proto_init() {
-	if File_proto_item_grpc_gateway_proto != nil {
+func init() { file_proto_item_grpc_lead_proto_init() }
+func file_proto_item_grpc_lead_proto_init() {
+	if File_proto_item_grpc_lead_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_item_grpc_gateway_proto_rawDesc), len(file_proto_item_grpc_gateway_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_item_grpc_lead_proto_rawDesc), len(file_proto_item_grpc_lead_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_proto_item_grpc_gateway_proto_goTypes,
-		DependencyIndexes: file_proto_item_grpc_gateway_proto_depIdxs,
-		MessageInfos:      file_proto_item_grpc_gateway_proto_msgTypes,
+		GoTypes:           file_proto_item_grpc_lead_proto_goTypes,
+		DependencyIndexes: file_proto_item_grpc_lead_proto_depIdxs,
+		MessageInfos:      file_proto_item_grpc_lead_proto_msgTypes,
 	}.Build()
-	File_proto_item_grpc_gateway_proto = out.File
-	file_proto_item_grpc_gateway_proto_goTypes = nil
-	file_proto_item_grpc_gateway_proto_depIdxs = nil
+	File_proto_item_grpc_lead_proto = out.File
+	file_proto_item_grpc_lead_proto_goTypes = nil
+	file_proto_item_grpc_lead_proto_depIdxs = nil
 }

@@ -3,6 +3,7 @@ package repository
 import (
 	"fmt"
 	"log/slog"
+	"time"
 
 	"github.com/fiveret/crm-golang/internal/db"
 	"github.com/fiveret/crm-golang/internal/models"
@@ -10,7 +11,7 @@ import (
 
 type LeadRepo interface {
 	AddProducts(id uint32, product_id []uint32) (*models.Lead, error)
-	CreateLead(lead *models.Lead) (*models.Lead, error)
+	CreateLead(lead *models.Lead) (string, *time.Time, error)
 	DeleteLead(id uint32) (string, error)
 	DeleteLeadProduct(id, productId uint32) (string, error)
 	DeleteLeadProducts(id uint32) (string, error)
@@ -26,17 +27,16 @@ type leadRepo struct {
 func NewLeadRepository(db *db.DBConnection, log *slog.Logger) LeadRepo {
 	return &leadRepo{db: db, logger: log}
 }
-func (repo *leadRepo) CreateLead(lead *models.Lead) (*models.Lead, error) {
+func (repo *leadRepo) CreateLead(lead *models.Lead) (string, *time.Time, error) {
 	err := repo.db.SaveLead(lead)
 	if err != nil {
-		return nil, err
+		return "", nil, err
 	}
 	foundLead, err := repo.db.FindLeadById(uint32(lead.ID))
 	if err != nil {
-		return nil, err
+		return "", nil, err
 	}
-
-	return foundLead, err
+	return fmt.Sprintf("Lead %s has successfully created!", lead.Name), &foundLead.CreatedAt, err
 }
 
 func (repo *leadRepo) DeleteLead(id uint32) (string, error) {
@@ -96,7 +96,7 @@ func (repo *leadRepo) UpdateLead(lead *models.Lead) (*models.Lead, error) {
 		existingLead.Products = lead.Products
 	}
 
-	err = repo.db.SaveLead(existingLead)
+	err = repo.db.SaveUpdatedLead(existingLead)
 	if err != nil {
 		return nil, err
 	}

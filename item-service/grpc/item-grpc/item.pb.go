@@ -169,6 +169,8 @@ func (x *GetItemRequest) GetId() uint32 {
 type GetItemResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Item          *models.ItemResponse   `protobuf:"bytes,1,opt,name=item,proto3" json:"item,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -206,6 +208,20 @@ func (*GetItemResponse) Descriptor() ([]byte, []int) {
 func (x *GetItemResponse) GetItem() *models.ItemResponse {
 	if x != nil {
 		return x.Item
+	}
+	return nil
+}
+
+func (x *GetItemResponse) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *GetItemResponse) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
 	}
 	return nil
 }
@@ -509,9 +525,11 @@ const file_proto_item_grpc_item_proto_rawDesc = "" +
 	"\amessage\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x05R\amessage\x128\n" +
 	"\tcreatedAt\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\")\n" +
 	"\x0eGetItemRequest\x12\x17\n" +
-	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\";\n" +
+	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\"\xaf\x01\n" +
 	"\x0fGetItemResponse\x12(\n" +
-	"\x04item\x18\x01 \x01(\v2\x14.models.ItemResponseR\x04item\"?\n" +
+	"\x04item\x18\x01 \x01(\v2\x14.models.ItemResponseR\x04item\x128\n" +
+	"\tcreatedAt\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x128\n" +
+	"\tupdatedAt\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"?\n" +
 	"\x0fGetItemsRequest\x12,\n" +
 	"\x05empty\x18\x01 \x01(\v2\x16.google.protobuf.EmptyR\x05empty\">\n" +
 	"\x10GetItemsResponse\x12*\n" +
@@ -569,27 +587,29 @@ var file_proto_item_grpc_item_proto_depIdxs = []int32{
 	10, // 0: proto.CreateItemRequest.item:type_name -> models.ItemRequest
 	11, // 1: proto.CreateItemResponse.createdAt:type_name -> google.protobuf.Timestamp
 	12, // 2: proto.GetItemResponse.item:type_name -> models.ItemResponse
-	13, // 3: proto.GetItemsRequest.empty:type_name -> google.protobuf.Empty
-	12, // 4: proto.GetItemsResponse.items:type_name -> models.ItemResponse
-	10, // 5: proto.PutItemRequest.item:type_name -> models.ItemRequest
-	12, // 6: proto.PutItemResponse.item:type_name -> models.ItemResponse
-	11, // 7: proto.PutItemResponse.createdAt:type_name -> google.protobuf.Timestamp
-	11, // 8: proto.PutItemResponse.updatedAt:type_name -> google.protobuf.Timestamp
-	0,  // 9: proto.ItemService.CreateItem:input_type -> proto.CreateItemRequest
-	2,  // 10: proto.ItemService.GetItem:input_type -> proto.GetItemRequest
-	4,  // 11: proto.ItemService.GetItems:input_type -> proto.GetItemsRequest
-	6,  // 12: proto.ItemService.PutItem:input_type -> proto.PutItemRequest
-	8,  // 13: proto.ItemService.DeleteItem:input_type -> proto.DeleteItemRequest
-	1,  // 14: proto.ItemService.CreateItem:output_type -> proto.CreateItemResponse
-	3,  // 15: proto.ItemService.GetItem:output_type -> proto.GetItemResponse
-	5,  // 16: proto.ItemService.GetItems:output_type -> proto.GetItemsResponse
-	7,  // 17: proto.ItemService.PutItem:output_type -> proto.PutItemResponse
-	9,  // 18: proto.ItemService.DeleteItem:output_type -> proto.DeleteItemResponse
-	14, // [14:19] is the sub-list for method output_type
-	9,  // [9:14] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	11, // 3: proto.GetItemResponse.createdAt:type_name -> google.protobuf.Timestamp
+	11, // 4: proto.GetItemResponse.updatedAt:type_name -> google.protobuf.Timestamp
+	13, // 5: proto.GetItemsRequest.empty:type_name -> google.protobuf.Empty
+	12, // 6: proto.GetItemsResponse.items:type_name -> models.ItemResponse
+	10, // 7: proto.PutItemRequest.item:type_name -> models.ItemRequest
+	12, // 8: proto.PutItemResponse.item:type_name -> models.ItemResponse
+	11, // 9: proto.PutItemResponse.createdAt:type_name -> google.protobuf.Timestamp
+	11, // 10: proto.PutItemResponse.updatedAt:type_name -> google.protobuf.Timestamp
+	0,  // 11: proto.ItemService.CreateItem:input_type -> proto.CreateItemRequest
+	2,  // 12: proto.ItemService.GetItem:input_type -> proto.GetItemRequest
+	4,  // 13: proto.ItemService.GetItems:input_type -> proto.GetItemsRequest
+	6,  // 14: proto.ItemService.PutItem:input_type -> proto.PutItemRequest
+	8,  // 15: proto.ItemService.DeleteItem:input_type -> proto.DeleteItemRequest
+	1,  // 16: proto.ItemService.CreateItem:output_type -> proto.CreateItemResponse
+	3,  // 17: proto.ItemService.GetItem:output_type -> proto.GetItemResponse
+	5,  // 18: proto.ItemService.GetItems:output_type -> proto.GetItemsResponse
+	7,  // 19: proto.ItemService.PutItem:output_type -> proto.PutItemResponse
+	9,  // 20: proto.ItemService.DeleteItem:output_type -> proto.DeleteItemResponse
+	16, // [16:21] is the sub-list for method output_type
+	11, // [11:16] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_proto_item_grpc_item_proto_init() }

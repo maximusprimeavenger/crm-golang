@@ -15,27 +15,25 @@ import (
 type GRPCHandler struct {
 	proto.UnimplementedLeadServiceServer
 	proto.UnimplementedLeadProductServiceServer
-	leadService        service.LeadService
-	leadProductService service.LeadProductService
+	leadService service.LeadService
 }
 
-func NewGRPCHandler(serv1 service.LeadService, serv2 service.LeadProductService) *GRPCHandler {
-	return &GRPCHandler{leadService: serv1, leadProductService: serv2}
+func NewGRPCHandler(serv1 service.LeadService) *GRPCHandler {
+	return &GRPCHandler{leadService: serv1}
 }
 
 func (h *GRPCHandler) NewLead(ctx context.Context, req *proto.NewLeadRequest) (*proto.NewLeadResponse, error) {
-	err := req.Validate()
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error occured during validating")
-	}
 	lead := req.Lead
-	newLead, err := h.leadService.NewLead(helpers.LeadRequest(lead))
+	if lead == nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error occured during validating, lead is nil")
+	}
+	msg, createdAt, err := h.leadService.NewLead(helpers.LeadRequest(lead))
 	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error occured during saving the lead")
+		return nil, status.Errorf(codes.InvalidArgument, "error occured during saving the lead: %v", err)
 	}
 	return &proto.NewLeadResponse{
-		Lead:      helpers.LeadResponse(newLead),
-		CreatedAt: timestamppb.New(newLead.CreatedAt),
+		Message:   msg,
+		CreatedAt: timestamppb.New(*createdAt),
 	}, nil
 }
 
@@ -68,7 +66,7 @@ func (h *GRPCHandler) GetLeads(ctx context.Context, req *proto.GetLeadsRequest) 
 	return &proto.GetLeadsResponse{Leads: respLeads}, nil
 }
 
-func (h *GRPCHandler) UpdateLead(ctx context.Context, req *proto.PutLeadRequest) (*proto.PutLeadResponse, error) {
+func (h *GRPCHandler) PutLead(ctx context.Context, req *proto.PutLeadRequest) (*proto.PutLeadResponse, error) {
 	err := req.Validate()
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "invalid request: %v", err)
@@ -81,7 +79,7 @@ func (h *GRPCHandler) UpdateLead(ctx context.Context, req *proto.PutLeadRequest)
 	}
 	leadResponse := helpers.LeadResponse(updatedLead)
 
-	return &proto.PutLeadResponse{Lead: leadResponse}, nil
+	return &proto.PutLeadResponse{Lead: leadResponse, UpdatedAt: timestamppb.New(updatedLead.UpdatedAt), CreatedAt: timestamppb.New(updatedLead.CreatedAt)}, nil
 }
 
 func (h *GRPCHandler) DeleteLead(ctx context.Context, req *proto.DeleteLeadRequest) (*proto.DeleteLeadResponse, error) {

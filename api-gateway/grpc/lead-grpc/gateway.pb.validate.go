@@ -747,34 +747,7 @@ func (m *NewLeadResponse) validate(all bool) error {
 
 	var errors []error
 
-	if all {
-		switch v := interface{}(m.GetLead()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, NewLeadResponseValidationError{
-					field:  "Lead",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, NewLeadResponseValidationError{
-					field:  "Lead",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetLead()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return NewLeadResponseValidationError{
-				field:  "Lead",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
+	// no validation rules for Message
 
 	if all {
 		switch v := interface{}(m.GetCreatedAt()).(type) {

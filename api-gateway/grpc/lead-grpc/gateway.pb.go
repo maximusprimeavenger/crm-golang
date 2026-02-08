@@ -264,7 +264,7 @@ func (x *NewLeadRequest) GetLead() *models.LeadRequest {
 
 type NewLeadResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Lead          *models.LeadResponse   `protobuf:"bytes,1,opt,name=lead,proto3" json:"lead,omitempty"`
+	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -300,11 +300,11 @@ func (*NewLeadResponse) Descriptor() ([]byte, []int) {
 	return file_proto_lead_grpc_gateway_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *NewLeadResponse) GetLead() *models.LeadResponse {
+func (x *NewLeadResponse) GetMessage() string {
 	if x != nil {
-		return x.Lead
+		return x.Message
 	}
-	return nil
+	return ""
 }
 
 func (x *NewLeadResponse) GetCreatedAt() *timestamppb.Timestamp {
@@ -530,9 +530,9 @@ const file_proto_lead_grpc_gateway_proto_rawDesc = "" +
 	"\x10GetLeadsResponse\x12*\n" +
 	"\x05leads\x18\x01 \x03(\v2\x14.models.LeadResponseR\x05leads\"9\n" +
 	"\x0eNewLeadRequest\x12'\n" +
-	"\x04lead\x18\x01 \x01(\v2\x13.models.LeadRequestR\x04lead\"u\n" +
-	"\x0fNewLeadResponse\x12(\n" +
-	"\x04lead\x18\x01 \x01(\v2\x14.models.LeadResponseR\x04lead\x128\n" +
+	"\x04lead\x18\x01 \x01(\v2\x13.models.LeadRequestR\x04lead\"e\n" +
+	"\x0fNewLeadResponse\x12\x18\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage\x128\n" +
 	"\tcreatedAt\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"R\n" +
 	"\x0ePutLeadRequest\x12\x17\n" +
 	"\x02id\x18\x01 \x01(\rB\a\xfaB\x04*\x02 \x00R\x02id\x12'\n" +
@@ -589,27 +589,26 @@ var file_proto_lead_grpc_gateway_proto_depIdxs = []int32{
 	12, // 3: proto.GetLeadsRequest.empty:type_name -> google.protobuf.Empty
 	10, // 4: proto.GetLeadsResponse.leads:type_name -> models.LeadResponse
 	13, // 5: proto.NewLeadRequest.lead:type_name -> models.LeadRequest
-	10, // 6: proto.NewLeadResponse.lead:type_name -> models.LeadResponse
-	11, // 7: proto.NewLeadResponse.createdAt:type_name -> google.protobuf.Timestamp
-	13, // 8: proto.PutLeadRequest.lead:type_name -> models.LeadRequest
-	10, // 9: proto.PutLeadResponse.lead:type_name -> models.LeadResponse
-	11, // 10: proto.PutLeadResponse.createdAt:type_name -> google.protobuf.Timestamp
-	11, // 11: proto.PutLeadResponse.updatedAt:type_name -> google.protobuf.Timestamp
-	0,  // 12: proto.LeadService.GetLead:input_type -> proto.GetLeadRequest
-	2,  // 13: proto.LeadService.GetLeads:input_type -> proto.GetLeadsRequest
-	8,  // 14: proto.LeadService.DeleteLead:input_type -> proto.DeleteLeadRequest
-	4,  // 15: proto.LeadService.NewLead:input_type -> proto.NewLeadRequest
-	6,  // 16: proto.LeadService.PutLead:input_type -> proto.PutLeadRequest
-	1,  // 17: proto.LeadService.GetLead:output_type -> proto.GetLeadResponse
-	3,  // 18: proto.LeadService.GetLeads:output_type -> proto.GetLeadsResponse
-	9,  // 19: proto.LeadService.DeleteLead:output_type -> proto.DeleteLeadResponse
-	5,  // 20: proto.LeadService.NewLead:output_type -> proto.NewLeadResponse
-	7,  // 21: proto.LeadService.PutLead:output_type -> proto.PutLeadResponse
-	17, // [17:22] is the sub-list for method output_type
-	12, // [12:17] is the sub-list for method input_type
-	12, // [12:12] is the sub-list for extension type_name
-	12, // [12:12] is the sub-list for extension extendee
-	0,  // [0:12] is the sub-list for field type_name
+	11, // 6: proto.NewLeadResponse.createdAt:type_name -> google.protobuf.Timestamp
+	13, // 7: proto.PutLeadRequest.lead:type_name -> models.LeadRequest
+	10, // 8: proto.PutLeadResponse.lead:type_name -> models.LeadResponse
+	11, // 9: proto.PutLeadResponse.createdAt:type_name -> google.protobuf.Timestamp
+	11, // 10: proto.PutLeadResponse.updatedAt:type_name -> google.protobuf.Timestamp
+	0,  // 11: proto.LeadService.GetLead:input_type -> proto.GetLeadRequest
+	2,  // 12: proto.LeadService.GetLeads:input_type -> proto.GetLeadsRequest
+	8,  // 13: proto.LeadService.DeleteLead:input_type -> proto.DeleteLeadRequest
+	4,  // 14: proto.LeadService.NewLead:input_type -> proto.NewLeadRequest
+	6,  // 15: proto.LeadService.PutLead:input_type -> proto.PutLeadRequest
+	1,  // 16: proto.LeadService.GetLead:output_type -> proto.GetLeadResponse
+	3,  // 17: proto.LeadService.GetLeads:output_type -> proto.GetLeadsResponse
+	9,  // 18: proto.LeadService.DeleteLead:output_type -> proto.DeleteLeadResponse
+	5,  // 19: proto.LeadService.NewLead:output_type -> proto.NewLeadResponse
+	7,  // 20: proto.LeadService.PutLead:output_type -> proto.PutLeadResponse
+	16, // [16:21] is the sub-list for method output_type
+	11, // [11:16] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_proto_lead_grpc_gateway_proto_init() }

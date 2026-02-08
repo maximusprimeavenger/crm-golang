@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package models;
 
+import "google/protobuf/timestamp.proto";
+
 option go_package = "grpc/models; models";
 
 message LeadResponse{
@@ -12,7 +14,7 @@ message LeadResponse{
     string company = 5;
     repeated ItemResponse products = 6;
     uint32 visits = 7;
-    string lastVisit = 8;
+    google.protobuf.Timestamp lastVisit = 8;
     double totalSales = 9;
     uint32 lastPurchaseDays = 10;
 }
@@ -24,7 +26,7 @@ message LeadRequest{
     string company = 4;
     repeated ItemResponse products = 5;
     uint32 visits = 6;
-    string lastVisit = 7;
+    google.protobuf.Timestamp lastVisit = 7;
     double totalSales = 8;
     uint32 lastPurchaseDays = 9;
 }

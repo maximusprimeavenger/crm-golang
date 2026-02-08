@@ -12,7 +12,7 @@ type Lead struct {
 	Company          string     `gorm:"varchar(50);not null"`
 	Products         []*Product `gorm:"foreignKey:LeadID;constraint:OnDelete:CASCADE"`
 	Visits           uint       `gorm:"default:0"`
-	LastVisit        *string
+	LastVisit        *time.Time
 	TotalSales       float64 `gorm:"default:0"`
 	LastPurchaseDays *uint
 	CreatedAt        time.Time

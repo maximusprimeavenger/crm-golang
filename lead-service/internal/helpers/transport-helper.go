@@ -1,9 +1,12 @@
 package helpers
 
 import (
+	"time"
+
 	grpcModels "github.com/fiveret/crm-golang/grpc/models"
 	"github.com/fiveret/crm-golang/internal/models"
 	"golang.org/x/text/encoding/charmap"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func CP1251ToUTF8(s []byte) string {
@@ -37,11 +40,10 @@ func LeadRequest(lead *grpcModels.LeadRequest) *models.Lead {
 		v := uint(lead.LastPurchaseDays)
 		lastPurchaseDays = &v
 	}
-
-	var lastVisit *string
-	if lead.LastVisit != "" {
-		v := CP1251ToUTF8([]byte(lead.LastVisit))
-		lastVisit = &v
+	var lastVisit *time.Time
+	if lead.LastVisit != nil {
+		t := lead.LastVisit.AsTime()
+		lastVisit = &t
 	}
 
 	return &models.Lead{
@@ -58,24 +60,33 @@ func LeadRequest(lead *grpcModels.LeadRequest) *models.Lead {
 }
 
 func LeadResponse(lead *models.Lead) *grpcModels.LeadResponse {
+	products := make([]*grpcModels.ItemResponse, 0)
 	if lead == nil {
 		return nil
 	}
-
-	products := make([]*grpcModels.ItemResponse, len(lead.Products))
-	for i, p := range lead.Products {
-		products[i] = &grpcModels.ItemResponse{
-			ProductId:   uint32(p.ID),
-			Name:        p.Name,
-			Description: p.Description,
-			Price:       p.Price,
-			Category:    p.Category,
-			Currency:    p.Currency,
-			InStock:     uint32(p.InStock),
-			Status:      p.Status,
+	if lead.Products != nil {
+		products = make([]*grpcModels.ItemResponse, len(lead.Products))
+		for i, p := range lead.Products {
+			products[i] = &grpcModels.ItemResponse{
+				ProductId:   uint32(p.ID),
+				Name:        p.Name,
+				Description: p.Description,
+				Price:       p.Price,
+				Category:    p.Category,
+				Currency:    p.Currency,
+				InStock:     uint32(p.InStock),
+				Status:      p.Status,
+			}
 		}
 	}
-
+	var lastVisit *timestamppb.Timestamp
+	if lead.LastVisit != nil {
+		lastVisit = timestamppb.New(*lead.LastVisit)
+	}
+	var lastPurchaseDays uint32
+	if lead.LastPurchaseDays != nil {
+		lastPurchaseDays = uint32Ptr(lead.LastPurchaseDays)
+	}
 	return &grpcModels.LeadResponse{
 		Id:               uint32(lead.ID),
 		Name:             lead.Name,
@@ -85,8 +96,8 @@ func LeadResponse(lead *models.Lead) *grpcModels.LeadResponse {
 		Products:         products,
 		Visits:           uint32(lead.Visits),
 		TotalSales:       lead.TotalSales,
-		LastPurchaseDays: uint32Ptr(lead.LastPurchaseDays),
-		LastVisit:        *lead.LastVisit,
+		LastPurchaseDays: lastPurchaseDays,
+		LastVisit:        lastVisit,
 	}
 }
 

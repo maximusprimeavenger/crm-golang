@@ -63,7 +63,7 @@ message NewLeadRequest{
 }
 
 message NewLeadResponse{
-    models.LeadResponse lead = 1;
+    string message = 1;
     google.protobuf.Timestamp createdAt = 2;
 }
 

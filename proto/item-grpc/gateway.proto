@@ -57,6 +57,8 @@ message GetItemRequest{
 
 message GetItemResponse{
     models.ItemResponse item = 1;
+    google.protobuf.Timestamp createdAt = 2;
+    google.protobuf.Timestamp updatedAt = 3;
 }
 
 message GetItemsRequest{

@@ -19,7 +19,7 @@ func (repo *leadRepo) AddProducts(id uint32, product_id []uint32) (*models.Lead,
 		if product != nil {
 			lead.Products = append(lead.Products, product)
 		} else if product.ID != 0 && product.Name == "" {
-			repo.logger.Warn(fmt.Sprintf("the product with id: %d is null", product.ID))
+			repo.logger.Warn(fmt.Sprintf("the product's name with id: %d is null", product.ID))
 		}
 	}
 	return lead, nil

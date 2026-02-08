@@ -54,6 +54,7 @@ tasks:
       - protoc -I . -I ./proto/lead-grpc -I ./third-party -I ./third-party/googleapis --go_out=./api-gateway/ --go-grpc_out=./api-gateway/ ./proto/structures.proto
       - protoc -I . -I ./proto/lead-grpc -I ./third-party -I ./third-party/googleapis -I ./api-gateway --go_out=./api-gateway --go-grpc_out=./api-gateway --grpc-gateway_out=./api-gateway  --validate_out="lang=go:./api-gateway" ./proto/lead-grpc/g-lead-product.proto
       - protoc -I . -I ./proto/lead-grpc -I ./third-party -I ./third-party/googleapis -I ./api-gateway --go_out=./api-gateway --go-grpc_out=./api-gateway --grpc-gateway_out=./api-gateway  --validate_out="lang=go:./api-gateway" ./proto/lead-grpc/gateway.proto
+      - protoc -I . -I proto/item-grpc -I ./third-party -I ./third-party/googleapis --go_out=./lead-service --go-grpc_out=./lead-service ./proto/item-grpc/lead.proto
 
   proto-structures:
     desc: "Compile structures.proto for all services"

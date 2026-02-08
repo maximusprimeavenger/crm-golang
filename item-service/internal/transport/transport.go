@@ -57,7 +57,9 @@ func (h *GRPCHandler) GetItem(ctx context.Context, req *proto.GetItemRequest) (*
 	}
 	respItem := helpers.ConvertModelsToGRPCResponse(item)
 	resp := &proto.GetItemResponse{
-		Item: respItem,
+		Item:      respItem,
+		CreatedAt: timestamppb.New(item.CreatedAt),
+		UpdatedAt: timestamppb.New(item.UpdatedAt),
 	}
 	return resp, nil
 }
@@ -86,4 +88,17 @@ func (h *GRPCHandler) GetItems(ctx context.Context, req *proto.GetItemsRequest) 
 		return nil, status.Errorf(codes.Internal, "failed to get items: %v", err)
 	}
 	return &proto.GetItemsResponse{Items: items}, nil
+}
+
+func (h *GRPCHandler) DeleteItem(ctx context.Context, req *proto.DeleteItemRequest) (*proto.DeleteItemResponse, error) {
+	err := req.Validate()
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "failed to delete: %v", err)
+	}
+	id := req.Id
+	msg, err := h.service.DeleteItem(ctx, &id)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "failed to delete: %v", err)
+	}
+	return &proto.DeleteItemResponse{Message: msg}, nil
 }

@@ -9,6 +9,7 @@ package models
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -30,7 +31,7 @@ type LeadResponse struct {
 	Company          string                 `protobuf:"bytes,5,opt,name=company,proto3" json:"company,omitempty"`
 	Products         []*ItemResponse        `protobuf:"bytes,6,rep,name=products,proto3" json:"products,omitempty"`
 	Visits           uint32                 `protobuf:"varint,7,opt,name=visits,proto3" json:"visits,omitempty"`
-	LastVisit        string                 `protobuf:"bytes,8,opt,name=lastVisit,proto3" json:"lastVisit,omitempty"`
+	LastVisit        *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=lastVisit,proto3" json:"lastVisit,omitempty"`
 	TotalSales       float64                `protobuf:"fixed64,9,opt,name=totalSales,proto3" json:"totalSales,omitempty"`
 	LastPurchaseDays uint32                 `protobuf:"varint,10,opt,name=lastPurchaseDays,proto3" json:"lastPurchaseDays,omitempty"`
 	unknownFields    protoimpl.UnknownFields
@@ -116,11 +117,11 @@ func (x *LeadResponse) GetVisits() uint32 {
 	return 0
 }
 
-func (x *LeadResponse) GetLastVisit() string {
+func (x *LeadResponse) GetLastVisit() *timestamppb.Timestamp {
 	if x != nil {
 		return x.LastVisit
 	}
-	return ""
+	return nil
 }
 
 func (x *LeadResponse) GetTotalSales() float64 {
@@ -145,7 +146,7 @@ type LeadRequest struct {
 	Company          string                 `protobuf:"bytes,4,opt,name=company,proto3" json:"company,omitempty"`
 	Products         []*ItemResponse        `protobuf:"bytes,5,rep,name=products,proto3" json:"products,omitempty"`
 	Visits           uint32                 `protobuf:"varint,6,opt,name=visits,proto3" json:"visits,omitempty"`
-	LastVisit        string                 `protobuf:"bytes,7,opt,name=lastVisit,proto3" json:"lastVisit,omitempty"`
+	LastVisit        *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=lastVisit,proto3" json:"lastVisit,omitempty"`
 	TotalSales       float64                `protobuf:"fixed64,8,opt,name=totalSales,proto3" json:"totalSales,omitempty"`
 	LastPurchaseDays uint32                 `protobuf:"varint,9,opt,name=lastPurchaseDays,proto3" json:"lastPurchaseDays,omitempty"`
 	unknownFields    protoimpl.UnknownFields
@@ -224,11 +225,11 @@ func (x *LeadRequest) GetVisits() uint32 {
 	return 0
 }
 
-func (x *LeadRequest) GetLastVisit() string {
+func (x *LeadRequest) GetLastVisit() *timestamppb.Timestamp {
 	if x != nil {
 		return x.LastVisit
 	}
-	return ""
+	return nil
 }
 
 func (x *LeadRequest) GetTotalSales() float64 {
@@ -441,7 +442,7 @@ var File_proto_structures_proto protoreflect.FileDescriptor
 
 const file_proto_structures_proto_rawDesc = "" +
 	"\n" +
-	"\x16proto/structures.proto\x12\x06models\"\xac\x02\n" +
+	"\x16proto/structures.proto\x12\x06models\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc8\x02\n" +
 	"\fLeadResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
@@ -449,21 +450,21 @@ const file_proto_structures_proto_rawDesc = "" +
 	"\x05phone\x18\x04 \x01(\tR\x05phone\x12\x18\n" +
 	"\acompany\x18\x05 \x01(\tR\acompany\x120\n" +
 	"\bproducts\x18\x06 \x03(\v2\x14.models.ItemResponseR\bproducts\x12\x16\n" +
-	"\x06visits\x18\a \x01(\rR\x06visits\x12\x1c\n" +
-	"\tlastVisit\x18\b \x01(\tR\tlastVisit\x12\x1e\n" +
+	"\x06visits\x18\a \x01(\rR\x06visits\x128\n" +
+	"\tlastVisit\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tlastVisit\x12\x1e\n" +
 	"\n" +
 	"totalSales\x18\t \x01(\x01R\n" +
 	"totalSales\x12*\n" +
 	"\x10lastPurchaseDays\x18\n" +
-	" \x01(\rR\x10lastPurchaseDays\"\x9b\x02\n" +
+	" \x01(\rR\x10lastPurchaseDays\"\xb7\x02\n" +
 	"\vLeadRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x14\n" +
 	"\x05phone\x18\x03 \x01(\tR\x05phone\x12\x18\n" +
 	"\acompany\x18\x04 \x01(\tR\acompany\x120\n" +
 	"\bproducts\x18\x05 \x03(\v2\x14.models.ItemResponseR\bproducts\x12\x16\n" +
-	"\x06visits\x18\x06 \x01(\rR\x06visits\x12\x1c\n" +
-	"\tlastVisit\x18\a \x01(\tR\tlastVisit\x12\x1e\n" +
+	"\x06visits\x18\x06 \x01(\rR\x06visits\x128\n" +
+	"\tlastVisit\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tlastVisit\x12\x1e\n" +
 	"\n" +
 	"totalSales\x18\b \x01(\x01R\n" +
 	"totalSales\x12*\n" +
@@ -501,19 +502,22 @@ func file_proto_structures_proto_rawDescGZIP() []byte {
 
 var file_proto_structures_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_proto_structures_proto_goTypes = []any{
-	(*LeadResponse)(nil), // 0: models.LeadResponse
-	(*LeadRequest)(nil),  // 1: models.LeadRequest
-	(*ItemResponse)(nil), // 2: models.ItemResponse
-	(*ItemRequest)(nil),  // 3: models.ItemRequest
+	(*LeadResponse)(nil),          // 0: models.LeadResponse
+	(*LeadRequest)(nil),           // 1: models.LeadRequest
+	(*ItemResponse)(nil),          // 2: models.ItemResponse
+	(*ItemRequest)(nil),           // 3: models.ItemRequest
+	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
 }
 var file_proto_structures_proto_depIdxs = []int32{
 	2, // 0: models.LeadResponse.products:type_name -> models.ItemResponse
-	2, // 1: models.LeadRequest.products:type_name -> models.ItemResponse
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	4, // 1: models.LeadResponse.lastVisit:type_name -> google.protobuf.Timestamp
+	2, // 2: models.LeadRequest.products:type_name -> models.ItemResponse
+	4, // 3: models.LeadRequest.lastVisit:type_name -> google.protobuf.Timestamp
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_proto_structures_proto_init() }

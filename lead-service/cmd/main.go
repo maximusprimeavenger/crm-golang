@@ -6,6 +6,7 @@ import (
 	"net"
 	"os"
 
+	itemproto "github.com/fiveret/crm-golang/grpc/item-grpc"
 	proto "github.com/fiveret/crm-golang/grpc/lead-grpc"
 	"github.com/fiveret/crm-golang/internal/db"
 	"github.com/fiveret/crm-golang/internal/repository"
@@ -36,11 +37,17 @@ func main() {
 		os.Exit(1)
 	}
 	repo := repository.NewLeadRepository(dbConn, logger)
+	conn, err := grpc.Dial("item-service:9090", grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("failed to connect item-service: %v", err)
+	}
+	defer conn.Close()
 
-	serv := service.NewLeadService(repo)
-	productServ := service.NewLeadProductService(repo)
+	itemClient := itemproto.NewItemServiceClient(conn)
 
-	handler := transport.NewGRPCHandler(serv, productServ)
+	serv := service.NewLeadService(repo, logger, itemClient)
+
+	handler := transport.NewGRPCHandler(serv)
 
 	proto.RegisterLeadServiceServer(s, handler)
 	proto.RegisterLeadProductServiceServer(s, handler)

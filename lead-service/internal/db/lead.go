@@ -37,6 +37,12 @@ func (db *DBConnection) DeleteLead(id uint) error {
 	}
 	return nil
 }
+func (db *DBConnection) SaveUpdatedLead(lead *models.Lead) error {
+	if err := db.db.Save(&lead).Error; err != nil {
+		return err
+	}
+	return nil
+}
 
 func (db *DBConnection) SaveLead(lead *models.Lead) error {
 	err := db.db.Create(&lead).Error
