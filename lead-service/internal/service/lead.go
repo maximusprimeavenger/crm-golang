@@ -12,7 +12,6 @@ import (
 
 type LeadService interface {
 	NewLead(lead *models.Lead) (string, *time.Time, error)
-	AddProducts(leadID uint32, productIDs []uint32) (*models.Lead, error)
 	DeleteLead(leadID uint32) (string, error)
 	UpdateLead(lead *models.Lead) (*models.Lead, error)
 	GetLead(leadID uint32) (*models.Lead, error)
@@ -37,10 +36,6 @@ func (s *leadService) NewLead(lead *models.Lead) (string, *time.Time, error) {
 		return "", nil, err
 	}
 	return s.repo.CreateLead(lead)
-}
-
-func (s *leadService) AddProducts(leadID uint32, productIDs []uint32) (*models.Lead, error) {
-	return s.repo.AddProducts(leadID, productIDs)
 }
 
 func (s *leadService) DeleteLead(leadID uint32) (string, error) {

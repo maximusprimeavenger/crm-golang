@@ -6,36 +6,20 @@ import (
 	"github.com/fiveret/crm-golang/internal/models"
 )
 
-func (repo *leadRepo) AddProducts(id uint32, product_id []uint32) (*models.Lead, error) {
-	products, err := repo.db.GetProducts(product_id)
-	if err != nil {
-		return nil, err
-	}
-	lead, err := repo.db.FindLeadById(id)
-	if err != nil {
-		return nil, err
-	}
-	for _, product := range products {
-		if product != nil {
-			lead.Products = append(lead.Products, product)
-		} else if product.ID != 0 && product.Name == "" {
-			repo.logger.Warn(fmt.Sprintf("the product's name with id: %d is null", product.ID))
-		}
-	}
-	return lead, nil
-}
-
 func (repo *leadRepo) DeleteLeadProducts(id uint32) (string, error) {
-	lead, err := repo.db.FindLeadById(id)
+	lead, err := repo.GetLead(id)
 	if err != nil {
 		return "failure", err
+	}
+	if len(lead.Products) == 0 {
+		return "nothing to delete", nil
 	}
 	lead.Products = []*models.Product{}
 	return "lead's products have been successfully deleted", nil
 }
 
 func (repo *leadRepo) DeleteLeadProduct(id, productId uint32) (string, error) {
-	lead, err := repo.db.FindLeadById(id)
+	lead, err := repo.GetLead(id)
 	if err != nil {
 		return "", err
 	}
@@ -58,6 +42,10 @@ func (repo *leadRepo) DeleteLeadProduct(id, productId uint32) (string, error) {
 	}
 
 	lead.Products = newProducts
+	err = repo.db.Save(lead).Error
+	if err != nil {
+		return "", fmt.Errorf("error saving updated lead")
+	}
 
 	return fmt.Sprintf("lead's product %s has successfully deleted", deletedProductName), nil
 }

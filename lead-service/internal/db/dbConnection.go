@@ -9,11 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type DBConnection struct {
-	db *gorm.DB
-}
-
-func Init() (*DBConnection, error) {
+func Init() (*gorm.DB, error) {
 	dbPath := os.Getenv("SQLITE_PATH")
 	if dbPath == "" {
 		return nil, fmt.Errorf("error finding the SQLITE_PATH")
@@ -27,5 +23,5 @@ func Init() (*DBConnection, error) {
 		return nil, fmt.Errorf("migration failed: %v", err)
 	}
 	fmt.Println("Successfully migrated!")
-	return &DBConnection{db: db}, nil
+	return db, nil
 }

@@ -32,8 +32,9 @@ func (s *leadService) AddProductsToLead(leadID uint32, productIDs []uint32) (str
 				s.logger.Error(fmt.Sprintf("error getting item %d: %v", id, err))
 				return
 			}
-
-			product := helpers.GRPCProductToModels(uint(id), resp.Item, *resp.CreatedAt, *resp.UpdatedAt)
+			createdAt := resp.CreatedAt.AsTime()
+			updatedAt := resp.UpdatedAt.AsTime()
+			product := helpers.GRPCProductToModels(uint(id), resp.Item, createdAt, updatedAt)
 
 			mu.Lock()
 			lead.Products = append(lead.Products, product)

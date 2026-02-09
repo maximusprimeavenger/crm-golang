@@ -5,12 +5,11 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/fiveret/crm-golang/internal/db"
 	"github.com/fiveret/crm-golang/internal/models"
+	"gorm.io/gorm"
 )
 
 type LeadRepo interface {
-	AddProducts(id uint32, product_id []uint32) (*models.Lead, error)
 	CreateLead(lead *models.Lead) (string, *time.Time, error)
 	DeleteLead(id uint32) (string, error)
 	DeleteLeadProduct(id, productId uint32) (string, error)
@@ -21,18 +20,18 @@ type LeadRepo interface {
 }
 type leadRepo struct {
 	logger *slog.Logger
-	db     *db.DBConnection
+	db     *gorm.DB
 }
 
-func NewLeadRepository(db *db.DBConnection, log *slog.Logger) LeadRepo {
+func NewLeadRepository(db *gorm.DB, log *slog.Logger) LeadRepo {
 	return &leadRepo{db: db, logger: log}
 }
 func (repo *leadRepo) CreateLead(lead *models.Lead) (string, *time.Time, error) {
-	err := repo.db.SaveLead(lead)
+	err := repo.db.Create(lead).Error
 	if err != nil {
 		return "", nil, err
 	}
-	foundLead, err := repo.db.FindLeadById(uint32(lead.ID))
+	foundLead, err := repo.GetLead(uint32(lead.ID))
 	if err != nil {
 		return "", nil, err
 	}
@@ -40,18 +39,20 @@ func (repo *leadRepo) CreateLead(lead *models.Lead) (string, *time.Time, error) 
 }
 
 func (repo *leadRepo) DeleteLead(id uint32) (string, error) {
-	lead, err := repo.db.FindLeadById(id)
+	lead, err := repo.GetLead(id)
 	if err != nil {
 		return "", err
 	}
-	err = repo.db.DeleteLead(lead.ID)
+	err = repo.db.Delete(&lead, id).Error
 	if err != nil {
 		return "failure", err
 	}
 	return fmt.Sprintf("lead %s has been successfully deleted", lead.Name), nil
 }
+
 func (repo *leadRepo) GetLead(id uint32) (*models.Lead, error) {
-	lead, err := repo.db.FindLeadById(id)
+	lead := &models.Lead{}
+	err := repo.db.Preload("Products").First(lead, id).Error
 	if err != nil {
 		return nil, err
 	}
@@ -59,11 +60,13 @@ func (repo *leadRepo) GetLead(id uint32) (*models.Lead, error) {
 }
 
 func (repo *leadRepo) GetLeads() []*models.Lead {
-	return repo.db.FindLeads()
+	leads := []*models.Lead{}
+	repo.db.Find(&leads)
+	return leads
 }
 
 func (repo *leadRepo) UpdateLead(lead *models.Lead) (*models.Lead, error) {
-	existingLead, err := repo.db.FindLeadById(uint32(lead.ID))
+	existingLead, err := repo.GetLead(uint32(lead.ID))
 	if err != nil {
 		return nil, err
 	}
@@ -96,7 +99,7 @@ func (repo *leadRepo) UpdateLead(lead *models.Lead) (*models.Lead, error) {
 		existingLead.Products = lead.Products
 	}
 
-	err = repo.db.SaveUpdatedLead(existingLead)
+	err = repo.db.Save(existingLead).Error
 	if err != nil {
 		return nil, err
 	}
