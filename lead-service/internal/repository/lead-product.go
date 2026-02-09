@@ -15,37 +15,37 @@ func (repo *leadRepo) DeleteLeadProducts(id uint32) (string, error) {
 		return "nothing to delete", nil
 	}
 	lead.Products = []*models.Product{}
+	err = repo.db.Model(lead).Association("Products").Clear()
+	if err != nil {
+		return "", err
+	}
 	return "lead's products have been successfully deleted", nil
 }
 
-func (repo *leadRepo) DeleteLeadProduct(id, productId uint32) (string, error) {
-	lead, err := repo.GetLead(id)
+func (repo *leadRepo) DeleteLeadProduct(leadID, productID uint32) (string, error) {
+	lead, err := repo.GetLead(leadID)
 	if err != nil {
 		return "", err
 	}
 
-	var (
-		deletedProductName string
-		newProducts        []*models.Product
-	)
-
+	var product *models.Product
 	for _, p := range lead.Products {
-		if p.ID == uint(productId) {
-			deletedProductName = p.Name
-			continue
+		if p.ID == uint(productID) {
+			product = p
+			break
 		}
-		newProducts = append(newProducts, p)
 	}
 
-	if deletedProductName == "" {
-		return "", fmt.Errorf("product with id %d not found", productId)
+	if product == nil {
+		return "", fmt.Errorf("product with id %d not found", productID)
 	}
 
-	lead.Products = newProducts
-	err = repo.db.Save(lead).Error
-	if err != nil {
-		return "", fmt.Errorf("error saving updated lead")
+	if err := repo.db.Model(lead).Association("Products").Delete(product); err != nil {
+		return "", err
 	}
 
-	return fmt.Sprintf("lead's product %s has successfully deleted", deletedProductName), nil
+	return fmt.Sprintf(
+		"lead's product %s has successfully deleted",
+		product.Name,
+	), nil
 }

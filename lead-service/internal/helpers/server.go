@@ -7,10 +7,9 @@ import (
 	"github.com/fiveret/crm-golang/internal/models"
 )
 
-func GRPCProductToModels(leadID uint, product *grpcModels.ItemResponse, createdAt, updatedAt time.Time) *models.Product {
+func GRPCProductToModels(product *grpcModels.ItemResponse, createdAt, updatedAt time.Time) *models.Product {
 	return &models.Product{
 		ID:          uint(product.ProductId),
-		LeadID:      leadID,
 		Name:        product.Name,
 		Description: product.Description,
 		Price:       product.Price,

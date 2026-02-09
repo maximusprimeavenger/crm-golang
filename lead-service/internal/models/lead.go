@@ -10,7 +10,7 @@ type Lead struct {
 	Email            string     `gorm:"varchar(100);not null;unique"`
 	Phone            string     `gorm:"varchar(15);not null;unique"`
 	Company          string     `gorm:"varchar(50);not null"`
-	Products         []*Product `gorm:"foreignKey:LeadID;constraint:OnDelete:CASCADE"`
+	Products         []*Product `gorm:"many2many:lead_products;constraint:OnDelete:CASCADE"`
 	Visits           uint       `gorm:"default:0"`
 	LastVisit        *time.Time
 	TotalSales       float64 `gorm:"default:0"`
@@ -21,7 +21,6 @@ type Lead struct {
 
 type Product struct {
 	ID          uint    `gorm:"primaryKey"`
-	LeadID      uint    `gorm:"index;not null"`
 	Name        string  `gorm:"not null"`
 	Description string  `gorm:"not null"`
 	Price       float64 `gorm:"not null"`
