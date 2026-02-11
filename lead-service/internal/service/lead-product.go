@@ -3,14 +3,32 @@ package service
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"sync"
 	"time"
 
 	itemproto "github.com/fiveret/crm-golang/grpc/item-grpc"
 	"github.com/fiveret/crm-golang/internal/helpers"
+	"github.com/fiveret/crm-golang/internal/repository"
 )
 
-func (s *leadService) AddProductsToLead(leadID uint32, productIDs []uint32) (string, error) {
+type LeadProductService interface {
+	AddProductsToLead(leadID uint32, productIDs []uint32) (string, error)
+	DeleteLeadProduct(id, productId uint32) (string, error)
+	DeleteLeadProducts(id uint32) (string, error)
+}
+
+func NewLeadProductService(repo repository.LeadRepo, logger *slog.Logger, itemClient itemproto.ItemServiceClient) LeadProductService {
+	return &leadProductService{logger: logger, itemClient: itemClient, repo: repo}
+}
+
+type leadProductService struct {
+	logger     *slog.Logger
+	itemClient itemproto.ItemServiceClient
+	repo       repository.LeadRepo
+}
+
+func (s *leadProductService) AddProductsToLead(leadID uint32, productIDs []uint32) (string, error) {
 	lead, err := s.repo.GetLead(leadID)
 	if err != nil {
 		return "failure", err
@@ -55,10 +73,10 @@ func (s *leadService) AddProductsToLead(leadID uint32, productIDs []uint32) (str
 	return "success", nil
 }
 
-func (service *leadService) DeleteLeadProduct(id, productId uint32) (string, error) {
+func (service *leadProductService) DeleteLeadProduct(id, productId uint32) (string, error) {
 	return service.repo.DeleteLeadProduct(id, productId)
 }
 
-func (service *leadService) DeleteLeadProducts(id uint32) (string, error) {
+func (service *leadProductService) DeleteLeadProducts(id uint32) (string, error) {
 	return service.repo.DeleteLeadProducts(id)
 }

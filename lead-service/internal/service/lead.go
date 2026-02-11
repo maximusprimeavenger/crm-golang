@@ -1,41 +1,50 @@
 package service
 
 import (
-	"log/slog"
+	"context"
+	"strconv"
 	"time"
 
-	itemproto "github.com/fiveret/crm-golang/grpc/item-grpc"
 	"github.com/fiveret/crm-golang/internal/helpers"
+	producer "github.com/fiveret/crm-golang/internal/kafka"
 	"github.com/fiveret/crm-golang/internal/models"
 	"github.com/fiveret/crm-golang/internal/repository"
 )
 
 type LeadService interface {
-	NewLead(lead *models.Lead) (string, *time.Time, error)
+	NewLead(ctx context.Context, lead *models.Lead) (string, *time.Time, error)
 	DeleteLead(leadID uint32) (string, error)
 	UpdateLead(lead *models.Lead) (*models.Lead, error)
 	GetLead(leadID uint32) (*models.Lead, error)
 	GetLeads() []*models.Lead
-	AddProductsToLead(id uint32, product_id []uint32) (string, error)
-	DeleteLeadProduct(id, productId uint32) (string, error)
-	DeleteLeadProducts(id uint32) (string, error)
 }
 
 type leadService struct {
-	repo       repository.LeadRepo
-	itemClient itemproto.ItemServiceClient
-	logger     *slog.Logger
+	repo      repository.LeadRepo
+	publisher producer.EventPublisher
 }
 
-func NewLeadService(repo repository.LeadRepo, logger *slog.Logger, itemClient itemproto.ItemServiceClient) LeadService {
-	return &leadService{repo: repo, logger: logger, itemClient: itemClient}
+func NewLeadService(r repository.LeadRepo, p producer.EventPublisher) LeadService {
+	return &leadService{repo: r, publisher: p}
 }
 
-func (s *leadService) NewLead(lead *models.Lead) (string, *time.Time, error) {
+func (s *leadService) NewLead(ctx context.Context, lead *models.Lead) (string, *time.Time, error) {
 	if err := helpers.ValidateNewLead(lead); err != nil {
 		return "", nil, err
 	}
-	return s.repo.CreateLead(lead)
+	msg, createdAt, err := s.repo.CreateLead(lead)
+	if err != nil {
+		return "", nil, err
+	}
+	topic, err := helpers.GetTopic(0)
+	if err != nil {
+		return "", nil, err
+	}
+	err = s.publisher.Publish(ctx, topic, strconv.Itoa(int(lead.ID)), "lead.created", createdAt, lead)
+	if err != nil {
+		return "", nil, err
+	}
+	return msg, createdAt, nil
 }
 
 func (s *leadService) DeleteLead(leadID uint32) (string, error) {

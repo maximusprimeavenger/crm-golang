@@ -2,28 +2,31 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
-	"log/slog"
 	"os"
 
 	"github.com/fiveret/api-gateway/internal/gateway"
 	"github.com/fiveret/api-gateway/internal/handlers"
+	"github.com/fiveret/api-gateway/internal/helpers"
 	"github.com/gofiber/fiber/v2"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/valyala/fasthttp/fasthttpadaptor"
 	"google.golang.org/grpc"
 )
 
+const path = "/app/config/config.yaml"
+
 func main() {
-	logger, err := loadLogger()
+	logger, err := helpers.LoadLogger(path)
 	if err != nil {
-		log.Fatal("Logger is not set")
+		log.Fatalf("Logger is not set: %v", err)
 		os.Exit(1)
 	}
 
-	port := os.Getenv("PORT_GATEWAY")
-	if port == "" {
-		port = "9090"
+	port, err := helpers.GetPort(path)
+	if err != nil {
+		logger.Error(fmt.Sprintf("error getting port: %v", err))
 	}
 	opts := []grpc.DialOption{
 		grpc.WithInsecure(),
@@ -54,17 +57,4 @@ func main() {
 
 	logger.Info("Starting API Gateway", "port", port)
 	log.Fatal(app.Listen(":" + port))
-}
-func loadLogger() (*slog.Logger, error) {
-	env := os.Getenv("ENV")
-	var handler *slog.TextHandler
-	switch env {
-	case "dev":
-		handler = slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo})
-	case "test":
-		handler = slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug})
-	case "prod":
-		handler = (*slog.TextHandler)(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelWarn}))
-	}
-	return slog.New(handler), nil
 }

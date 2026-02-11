@@ -1,0 +1,17 @@
+env: dev
+
+api-gateway:
+  http-port: ${PORT_GATEWAY}
+
+item-service:
+  grpc-port: ${PORT_ITEM}
+  kafka-writer:
+    topic: item
+
+
+lead-service:
+  grpc-port: ${PORT_LEAD}
+  kafka-writer:
+    topics:
+      - lead
+      - lead-product

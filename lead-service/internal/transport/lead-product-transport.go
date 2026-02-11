@@ -17,7 +17,7 @@ func (h *GRPCHandler) AddProductsToLead(ctx context.Context, req *proto.AddProdu
 	if len(req.ProductIds) == 0 {
 		return nil, status.Error(codes.InvalidArgument, "product ids is null")
 	}
-	message, err := h.leadService.AddProductsToLead(req.Id, req.ProductIds)
+	message, err := h.leadProductService.AddProductsToLead(req.Id, req.ProductIds)
 	if err != nil {
 		return &proto.AddProductsToLeadResponse{Message: message}, err
 	}
@@ -29,7 +29,7 @@ func (h *GRPCHandler) DeleteLeadProducts(ctx context.Context, req *proto.DeleteL
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error sending delete request: %v", err)
 	}
-	msg, err := h.leadService.DeleteLeadProducts(req.Id)
+	msg, err := h.leadProductService.DeleteLeadProducts(req.Id)
 	if err != nil {
 		return &proto.DeleteLeadProductsResponse{Message: msg}, status.Errorf(codes.InvalidArgument, "couldn't delete lead's products: %v", err)
 	}
@@ -41,7 +41,7 @@ func (h *GRPCHandler) DeleteLeadProduct(ctx context.Context, req *proto.DeleteLe
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error sending delete request: %v", err)
 	}
-	msg, err := h.leadService.DeleteLeadProduct(req.Id, req.ProductId)
+	msg, err := h.leadProductService.DeleteLeadProduct(req.Id, req.ProductId)
 	if err != nil {
 		return &proto.DeleteLeadProductResponse{Message: msg}, status.Error(codes.InvalidArgument, fmt.Sprint(err))
 	}

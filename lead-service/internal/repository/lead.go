@@ -12,11 +12,11 @@ import (
 type LeadRepo interface {
 	CreateLead(lead *models.Lead) (string, *time.Time, error)
 	DeleteLead(id uint32) (string, error)
-	DeleteLeadProduct(id, productId uint32) (string, error)
-	DeleteLeadProducts(id uint32) (string, error)
 	GetLead(id uint32) (*models.Lead, error)
 	GetLeads() []*models.Lead
 	UpdateLead(lead *models.Lead) (*models.Lead, error)
+	DeleteLeadProducts(id uint32) (string, error)
+	DeleteLeadProduct(leadID, productID uint32) (string, error)
 }
 type leadRepo struct {
 	logger *slog.Logger

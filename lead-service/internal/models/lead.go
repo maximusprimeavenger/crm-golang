@@ -1,6 +1,7 @@
 package models
 
 import (
+	"encoding/json"
 	"time"
 )
 
@@ -30,4 +31,11 @@ type Product struct {
 	Status      string  `gorm:"not null"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
+}
+
+type Event struct {
+	EventID    string          `json:"event_id"`
+	EventType  string          `json:"event_type"`
+	OccurredAt time.Time       `json:"occurred_at"`
+	Payload    json.RawMessage `json:"payload"`
 }

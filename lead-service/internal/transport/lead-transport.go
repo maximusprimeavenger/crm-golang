@@ -15,11 +15,12 @@ import (
 type GRPCHandler struct {
 	proto.UnimplementedLeadServiceServer
 	proto.UnimplementedLeadProductServiceServer
-	leadService service.LeadService
+	leadService        service.LeadService
+	leadProductService service.LeadProductService
 }
 
-func NewGRPCHandler(serv1 service.LeadService) *GRPCHandler {
-	return &GRPCHandler{leadService: serv1}
+func NewGRPCHandler(serv1 service.LeadService, serv2 service.LeadProductService) *GRPCHandler {
+	return &GRPCHandler{leadService: serv1, leadProductService: serv2}
 }
 
 func (h *GRPCHandler) NewLead(ctx context.Context, req *proto.NewLeadRequest) (*proto.NewLeadResponse, error) {
@@ -27,7 +28,7 @@ func (h *GRPCHandler) NewLead(ctx context.Context, req *proto.NewLeadRequest) (*
 	if lead == nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error occured during validating, lead is nil")
 	}
-	msg, createdAt, err := h.leadService.NewLead(helpers.LeadRequest(lead))
+	msg, createdAt, err := h.leadService.NewLead(ctx, helpers.LeadRequest(lead))
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error occured during saving the lead: %v", err)
 	}

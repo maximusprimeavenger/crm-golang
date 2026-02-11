@@ -9,6 +9,7 @@ import (
 	itemproto "github.com/fiveret/crm-golang/grpc/item-grpc"
 	proto "github.com/fiveret/crm-golang/grpc/lead-grpc"
 	"github.com/fiveret/crm-golang/internal/db"
+	producer "github.com/fiveret/crm-golang/internal/kafka"
 	"github.com/fiveret/crm-golang/internal/repository"
 	"github.com/fiveret/crm-golang/internal/service"
 	"github.com/fiveret/crm-golang/internal/transport"
@@ -44,10 +45,10 @@ func main() {
 	defer conn.Close()
 
 	itemClient := itemproto.NewItemServiceClient(conn)
-
-	serv := service.NewLeadService(repo, logger, itemClient)
-
-	handler := transport.NewGRPCHandler(serv)
+	publisher := producer.NewKafkaPublisher([]string{"kafka:9092"})
+	serv1 := service.NewLeadService(repo, publisher)
+	serv2 := service.NewLeadProductService(repo, logger, itemClient)
+	handler := transport.NewGRPCHandler(serv1, serv2)
 
 	proto.RegisterLeadServiceServer(s, handler)
 	proto.RegisterLeadProductServiceServer(s, handler)
