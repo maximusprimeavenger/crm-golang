@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"encoding/json"
 	"fmt"
 	"log/slog"
 	"time"
@@ -10,7 +11,7 @@ import (
 )
 
 type LeadRepo interface {
-	CreateLead(lead *models.Lead) (string, *time.Time, error)
+	CreateLead(lead *models.Lead, topic string) (string, *time.Time, error)
 	DeleteLead(id uint32) (string, error)
 	GetLead(id uint32) (*models.Lead, error)
 	GetLeads() []*models.Lead
@@ -26,16 +27,34 @@ type leadRepo struct {
 func NewLeadRepository(db *gorm.DB, log *slog.Logger) LeadRepo {
 	return &leadRepo{db: db, logger: log}
 }
-func (repo *leadRepo) CreateLead(lead *models.Lead) (string, *time.Time, error) {
-	err := repo.db.Create(lead).Error
-	if err != nil {
-		return "", nil, err
-	}
-	foundLead, err := repo.GetLead(uint32(lead.ID))
-	if err != nil {
-		return "", nil, err
-	}
-	return fmt.Sprintf("Lead %s has successfully created!", lead.Name), &foundLead.CreatedAt, err
+func (repo *leadRepo) CreateLead(lead *models.Lead, topic string) (string, *time.Time, error) {
+	err := repo.db.Transaction(func(tx *gorm.DB) error {
+		err := tx.Create(lead).Error
+		if err != nil {
+			tx.Rollback()
+			return err
+		}
+		payload, err := json.Marshal(lead)
+		if err != nil {
+			return err
+		}
+		event := &models.OutboxEvent{
+			AggregateID:   lead.ID,
+			AggregateType: topic,
+			EventType:     fmt.Sprintf("%s.created", topic),
+			Payload:       json.RawMessage(payload),
+			Status:        "pending",
+			RetryCount:    5,
+			CreatedAt:     time.Now(),
+		}
+		err = tx.Create(event).Error
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+
+	return lead.Name, &lead.CreatedAt, err
 }
 
 func (repo *leadRepo) DeleteLead(id uint32) (string, error) {

@@ -39,3 +39,15 @@ type Event struct {
 	OccurredAt time.Time       `json:"occurred_at"`
 	Payload    json.RawMessage `json:"payload"`
 }
+
+type OutboxEvent struct {
+	ID            uint            `gorm:"primaryKey;autoIncrement"`
+	AggregateID   uint            `gorm:"not null"`                   // ID лида
+	AggregateType string          `gorm:"not null"`                   // "lead"
+	EventType     string          `gorm:"not null"`                   // "LeadCreated"
+	Payload       json.RawMessage `gorm:"type:jsonb;not null"`        //json event
+	Status        string          `gorm:"not null;default:'pending'"` // pending / processing / sent / failed
+	RetryCount    int             `gorm:"default:0"`
+	CreatedAt     time.Time       `gorm:"autoCreateTime"`
+	ProcessedAt   *time.Time
+}

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"log/slog"
 	"net"
@@ -13,6 +14,7 @@ import (
 	"github.com/fiveret/crm-golang/internal/repository"
 	"github.com/fiveret/crm-golang/internal/service"
 	"github.com/fiveret/crm-golang/internal/transport"
+	"github.com/fiveret/crm-golang/internal/worker"
 	"google.golang.org/grpc"
 )
 
@@ -38,11 +40,18 @@ func main() {
 		os.Exit(1)
 	}
 	repo := repository.NewLeadRepository(dbConn, logger)
+	repoEvent := repository.NewEventRepo(dbConn)
 	conn, err := grpc.Dial("item-service:9090", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("failed to connect item-service: %v", err)
 	}
 	defer conn.Close()
+
+	p := producer.NewKafkaPublisher([]string{"kafka:9092"})
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	w := worker.NewWorker(repoEvent, logger, p)
+	go w.StartWorker(ctx)
 
 	itemClient := itemproto.NewItemServiceClient(conn)
 	publisher := producer.NewKafkaPublisher([]string{"kafka:9092"})

@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"time"
+	"strconv"
 
 	"github.com/fiveret/crm-golang/internal/models"
 	"github.com/google/uuid"
@@ -12,7 +12,7 @@ import (
 )
 
 type EventPublisher interface {
-	Publish(ctx context.Context, topic, key, typeEvent string, createdAt *time.Time, payload any) error
+	Publish(ctx context.Context, event *models.OutboxEvent) error
 }
 
 type kafkaPublisher struct {
@@ -26,25 +26,26 @@ func NewKafkaPublisher(brokers []string) EventPublisher {
 	return &kafkaPublisher{writer: writer}
 }
 
-func (p *kafkaPublisher) Publish(ctx context.Context, topic, key, typeEvent string, createdAt *time.Time, payload any) error {
-	payloadBytes, err := json.Marshal(payload)
+func (p *kafkaPublisher) Publish(ctx context.Context, event *models.OutboxEvent) error {
+	payloadBytes, err := json.Marshal(event.Payload)
 	if err != nil {
 		return fmt.Errorf("couldn't marshal payload: %v", err)
 	}
-	event := &models.Event{
+	eventKafka := &models.Event{
 		EventID:    uuid.NewString(),
-		EventType:  typeEvent,
-		OccurredAt: createdAt.UTC(),
+		EventType:  event.EventType,
+		OccurredAt: event.CreatedAt.UTC(),
 		Payload:    payloadBytes,
 	}
-	eventBytes, err := json.Marshal(event)
+	eventBytes, err := json.Marshal(eventKafka)
 	if err != nil {
 		return err
 	}
+	keyString := strconv.Itoa(int(event.AggregateID))
 	msg := kafka.Message{
-		Topic: topic,
+		Topic: event.AggregateType,
 		Value: eventBytes,
-		Key:   []byte(key),
+		Key:   []byte(keyString),
 	}
 	return p.writer.WriteMessages(ctx, msg)
 }

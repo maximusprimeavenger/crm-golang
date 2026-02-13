@@ -2,6 +2,7 @@ package transport
 
 import (
 	"context"
+	"fmt"
 
 	proto "github.com/fiveret/crm-golang/grpc/lead-grpc"
 	grpcModels "github.com/fiveret/crm-golang/grpc/models"
@@ -28,12 +29,12 @@ func (h *GRPCHandler) NewLead(ctx context.Context, req *proto.NewLeadRequest) (*
 	if lead == nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error occured during validating, lead is nil")
 	}
-	msg, createdAt, err := h.leadService.NewLead(ctx, helpers.LeadRequest(lead))
+	name, createdAt, err := h.leadService.NewLead(ctx, helpers.LeadRequest(lead))
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error occured during saving the lead: %v", err)
 	}
 	return &proto.NewLeadResponse{
-		Message:   msg,
+		Message:   fmt.Sprintf("Lead %s has successfully created!", name),
 		CreatedAt: timestamppb.New(*createdAt),
 	}, nil
 }

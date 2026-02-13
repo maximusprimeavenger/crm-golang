@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"strconv"
+	"fmt"
 	"time"
 
 	"github.com/fiveret/crm-golang/internal/helpers"
@@ -29,22 +29,18 @@ func NewLeadService(r repository.LeadRepo, p producer.EventPublisher) LeadServic
 }
 
 func (s *leadService) NewLead(ctx context.Context, lead *models.Lead) (string, *time.Time, error) {
+	topic, err := helpers.GetTopic(0)
+	if err != nil {
+		return "", nil, fmt.Errorf("error getting topic: %v", err)
+	}
 	if err := helpers.ValidateNewLead(lead); err != nil {
 		return "", nil, err
 	}
-	msg, createdAt, err := s.repo.CreateLead(lead)
+	name, createdAt, err := s.repo.CreateLead(lead, topic)
 	if err != nil {
 		return "", nil, err
 	}
-	topic, err := helpers.GetTopic(0)
-	if err != nil {
-		return "", nil, err
-	}
-	err = s.publisher.Publish(ctx, topic, strconv.Itoa(int(lead.ID)), "lead.created", createdAt, lead)
-	if err != nil {
-		return "", nil, err
-	}
-	return msg, createdAt, nil
+	return name, createdAt, nil
 }
 
 func (s *leadService) DeleteLead(leadID uint32) (string, error) {
