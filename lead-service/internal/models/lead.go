@@ -49,5 +49,5 @@ type OutboxEvent struct {
 	Status        string          `gorm:"not null;default:'pending'"` // pending / processing / sent / failed
 	RetryCount    int             `gorm:"default:0"`
 	CreatedAt     time.Time       `gorm:"autoCreateTime"`
-	ProcessedAt   *time.Time
+	ProcessedAt   time.Time
 }

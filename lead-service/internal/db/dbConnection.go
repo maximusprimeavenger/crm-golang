@@ -19,7 +19,7 @@ func Init() (*gorm.DB, error) {
 		return nil, fmt.Errorf("error connecting to database")
 	}
 	fmt.Println("Successfully connected!")
-	if err := db.AutoMigrate(&models.Lead{}, &models.Product{}); err != nil {
+	if err := db.AutoMigrate(&models.Lead{}, &models.Product{}, &models.OutboxEvent{}); err != nil {
 		return nil, fmt.Errorf("migration failed: %v", err)
 	}
 	fmt.Println("Successfully migrated!")
