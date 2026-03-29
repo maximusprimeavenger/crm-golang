@@ -12,7 +12,7 @@ import (
 	"github.com/fiveret/crm-golang/internal/repository"
 )
 
-func (w worker) StartWorker(ctx context.Context) {
+func (w *worker) StartWorker(ctx context.Context) {
 	w.logger.Info("Worker started")
 	ticker := time.NewTicker(10 * time.Second)
 	defer ticker.Stop()
@@ -99,5 +99,5 @@ type worker struct {
 }
 
 func NewWorker(repo repository.EventRepo, logger *slog.Logger, p producer.EventPublisher) Worker {
-	return worker{logger: logger, repo: repo, publisher: p}
+	return &worker{logger: logger, repo: repo, publisher: p}
 }

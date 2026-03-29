@@ -125,6 +125,13 @@ services:
       - kafka
     networks:
       - crm-network
+  sqlite:
+    image: keinos/sqlite3
+    volumes:
+    - ./data/lead:/app/data
+    tty: true
+    stdin_open: true
+
 
 
 volumes:
