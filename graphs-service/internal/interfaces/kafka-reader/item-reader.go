@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"graphs-service/internal/domain"
+	domain "graphs-service/internal/entities"
 	models "graphs-service/internal/interfaces/dto"
 	"log/slog"
 

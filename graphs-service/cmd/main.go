@@ -3,11 +3,15 @@ package main
 import (
 	"context"
 	"fmt"
-	"graphs-service/internal/domain"
+	"graphs-service/internal/application/aggregator"
+	linechart "graphs-service/internal/application/use_cases/line_chart"
+	domain "graphs-service/internal/entities"
 	reader "graphs-service/internal/interfaces/kafka-reader"
 	"log/slog"
 	"os"
+	"strconv"
 
+	"github.com/gin-gonic/gin"
 	"github.com/goccy/go-yaml"
 )
 
@@ -31,8 +35,7 @@ func main() {
 		logger.Error(fmt.Sprintf("Error loading topics for leads: %v", err))
 		os.Exit(1)
 	}
-	eventsChan := make(chan domain.Event, 100)
-	//leadProductChan := make(chan domain.LeadProduct, 100)
+	eventsChan := make(chan domain.Event, 1000)
 
 	itemReader, leadReader, leadProductReader, err := reader.LoadReaders(itemTopic, leadTopics, address, logger)
 	if err != nil {
@@ -41,10 +44,21 @@ func main() {
 	}
 
 	go itemReader.Start(ctx, eventsChan)
-	/*go leadReader.Start(ctx, leadChan)
-	go leadProductReader.Start(ctx, eventsChan)*/
+	go leadReader.Start(ctx, eventsChan)
+	go leadProductReader.Start(ctx, eventsChan)
 
-	//go aggregator.NewAggregator().Run(ctx, eventsChan)
+	agg := aggregator.NewAggregator(logger)
+	go agg.Run(ctx, eventsChan)
+	r := gin.Default()
+	r.GET("/line-chart/:item_id", func(c *gin.Context) {
+		itemID := c.Param("item_id")
+		id, err := strconv.ParseUint(itemID, 10, 0)
+		if err != nil {
+			logger.Error("error", "error parsing uint during request line-chart/:item_id", err)
+			return
+		}
+		linechart.DrawLineChartByItem(agg.GetSalesAndRevenueByID(uint(id)))
+	})
 }
 
 func loadLeadTopics(path string) ([]string, error) {

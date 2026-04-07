@@ -2,20 +2,27 @@ package aggregator
 
 import (
 	"context"
-	"fmt"
-	"graphs-service/internal/domain"
-	"graphs-service/internal/interfaces/mapper"
+	domain "graphs-service/internal/entities"
 	"log/slog"
+	"sync"
 )
 
 type aggregator struct {
-	logger *slog.Logger
-	Items  map[uint]*domain.ItemState
-	Leads  map[uint]*domain.LeadState
+	mu       sync.Mutex
+	logger   *slog.Logger
+	Items    map[uint]*domain.ItemAnalytics
+	Leads    map[uint]*domain.LeadState
+	handlers map[domain.EventType]EventHandler
 }
 
 func NewAggregator(log *slog.Logger) *aggregator {
-	return &aggregator{Leads: make(map[uint]*domain.LeadState), Items: make(map[uint]*domain.ItemState), logger: log}
+	a := &aggregator{Leads: make(map[uint]*domain.LeadState),
+		Items:    make(map[uint]*domain.ItemAnalytics),
+		logger:   log,
+		handlers: make(map[domain.EventType]EventHandler),
+	}
+	a.handlers[domain.ItemCreated] = a.eventItemCreated
+	return a
 }
 
 func (a *aggregator) Run(ctx context.Context, eventChan chan domain.Event) {
@@ -29,31 +36,30 @@ func (a *aggregator) Run(ctx context.Context, eventChan chan domain.Event) {
 	}
 }
 
-type itemEvent struct {
-	ID string `json:"item_id"`
-}
-
-type leadEvent struct {
-	ID string `json:"lead_id"`
-}
+type EventHandler func(e domain.Event)
 
 func (a *aggregator) apply(event domain.Event) {
-
-	switch event.EventType {
-	case domain.ItemCreated:
-		itemPayload, err := mapper.ItemDTOtoDomain(event.Payload)
-		if err != nil {
-			a.logger.Error(fmt.Sprintf("error mapping item with id: %d", itemPayload.ID), "error", err)
-		}
-		state, ok := a.Items[itemPayload.ID]
-		if !ok {
-			state = &domain.ItemState{
-				ID:           itemPayload.ID,
-				Name:         itemPayload.Name,
-				SalesByDay:   make(map[string]int),
-				RevenueByDay: make(map[string]float64),
-			}
-			a.Items[itemPayload.ID] = state
-		}
+	handlers, ok := a.handlers[event.EventType]
+	if !ok {
+		a.logger.Warn("unknown event type", "type", event.EventType)
+		return
 	}
+	handlers(event)
+}
+
+func (a *aggregator) GetItemAnalytics() map[uint]*domain.ItemAnalytics {
+	a.mu.Lock()
+	defer a.mu.Unlock()
+	copyMap := make(map[uint]*domain.ItemAnalytics)
+	for k, v := range a.Items {
+		copyMap[k] = v
+	}
+	return copyMap
+}
+
+func (a *aggregator) GetSalesAndRevenueByID(itemID uint) (map[string]int, map[string]float64, string) {
+	a.mu.Lock()
+	defer a.mu.Unlock()
+	analytics := a.Items[itemID]
+	return analytics.SalesByDay, analytics.RevenueByDay, a.Items[itemID].Name
 }

@@ -3,7 +3,7 @@ package models
 import "time"
 
 type Item struct {
-	ID          uint      `gorm:"primarykey"`
+	ID          uint      `gorm:"primarykey" json:"item_id"`
 	Name        *string   `gorm:"unique; not null" json:"name"`
 	Description *string   `gorm:"not null" json:"description"`
 	Price       *float64  `gorm:"not null" json:"price"`

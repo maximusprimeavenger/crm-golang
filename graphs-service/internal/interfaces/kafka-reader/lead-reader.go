@@ -3,7 +3,7 @@ package reader
 import (
 	"context"
 	"errors"
-	"graphs-service/internal/domain"
+	domain "graphs-service/internal/entities"
 	"log/slog"
 
 	"github.com/segmentio/kafka-go"
