@@ -6,18 +6,18 @@ import (
 	"sync"
 	"time"
 
-	grpcModels "github.com/fiveret/product-service/grpc/models"
-	"github.com/fiveret/product-service/internal/helpers"
-	"github.com/fiveret/product-service/internal/models"
-	"github.com/fiveret/product-service/internal/repository"
+	grpcModels "github.com/fiveret/item-service/grpc/models"
+	"github.com/fiveret/item-service/internal/domain"
+	"github.com/fiveret/item-service/internal/helpers"
+	"github.com/fiveret/item-service/internal/repository"
 )
 
 type ItemService interface {
-	CreateItem(context.Context, *models.Item) (*time.Time, error)
+	CreateItem(context.Context, *domain.Item) (*time.Time, error)
 	DeleteItem(context.Context, *uint32) (string, error)
-	GetItem(context.Context, *uint32) (*models.Item, error)
+	GetItem(context.Context, *uint32) (*domain.Item, error)
 	GetItems(context.Context) ([]*grpcModels.ItemResponse, error)
-	PutItem(context.Context, *uint32, *models.Item) (*models.Item, *time.Time, *time.Time, error)
+	PutItem(context.Context, *uint32, *domain.UpdateItem) (*domain.Item, *time.Time, *time.Time, error)
 }
 
 type itemService struct {
@@ -28,15 +28,15 @@ func NewItemService(repo repository.ItemRepository) ItemService {
 	return &itemService{repo: repo}
 }
 
-func (s *itemService) CreateItem(ctx context.Context, item *models.Item) (*time.Time, error) {
-	if item.Name == nil || *item.Name == "" {
+func (s *itemService) CreateItem(ctx context.Context, item *domain.Item) (*time.Time, error) {
+	if item.Name == "" {
 		return nil, errors.New("item name is required")
 	}
-	if item.Price != nil && *item.Price < 0 {
+	if item.Price < 0 {
 		return nil, errors.New("price cannot be negative")
 	}
-	if item.InStock == nil {
-		return nil, errors.New("zero instock value")
+	if item.InStock == 0 {
+		return nil, errors.New("instock must be greater than 0")
 	}
 	return s.repo.NewItem(item)
 }
@@ -48,7 +48,7 @@ func (s *itemService) DeleteItem(ctx context.Context, id *uint32) (string, error
 	return s.repo.DeleteItem(id)
 }
 
-func (s *itemService) GetItem(ctx context.Context, id *uint32) (*models.Item, error) {
+func (s *itemService) GetItem(ctx context.Context, id *uint32) (*domain.Item, error) {
 	if id == nil {
 		return nil, errors.New("id is empty")
 	}
@@ -64,9 +64,9 @@ func (s *itemService) GetItems(ctx context.Context) ([]*grpcModels.ItemResponse,
 	var wg sync.WaitGroup
 	for i, item := range items {
 		wg.Add(1)
-		go func(i int, item *models.Item) {
+		go func(i int, item *domain.Item) {
 			defer wg.Done()
-			returnItems[i] = helpers.ConvertModelsToGRPCResponse(item)
+			returnItems[i] = helpers.ModelsToGRPC(item)
 		}(i, item)
 	}
 
@@ -74,7 +74,7 @@ func (s *itemService) GetItems(ctx context.Context) ([]*grpcModels.ItemResponse,
 	return returnItems, nil
 }
 
-func (s *itemService) PutItem(ctx context.Context, id *uint32, item *models.Item) (*models.Item, *time.Time, *time.Time, error) {
+func (s *itemService) PutItem(ctx context.Context, id *uint32, item *domain.UpdateItem) (*domain.Item, *time.Time, *time.Time, error) {
 	if id == nil {
 		return nil, nil, nil, errors.New("id is empty")
 	}
@@ -83,5 +83,14 @@ func (s *itemService) PutItem(ctx context.Context, id *uint32, item *models.Item
 	if err != nil {
 		return nil, nil, nil, err
 	}
-	return s.repo.PutItem(id, item)
+	newItem, createdAt, updatedAt, err := s.repo.PutItem(id, item)
+	if err != nil {
+		return nil, nil, nil, err
+	}
+	if newItem.Price != *item.Price {
+		/*go func(){
+			event := &models.OutboxEvent{}
+		}*/
+	}
+	return newItem, createdAt, updatedAt, nil
 }

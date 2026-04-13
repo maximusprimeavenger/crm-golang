@@ -6,11 +6,11 @@ import (
 	"net"
 	"os"
 
-	proto "github.com/fiveret/product-service/grpc/item-grpc"
-	"github.com/fiveret/product-service/internal/db"
-	"github.com/fiveret/product-service/internal/repository"
-	"github.com/fiveret/product-service/internal/service"
-	"github.com/fiveret/product-service/internal/transport"
+	proto "github.com/fiveret/item-service/grpc/item-grpc"
+	"github.com/fiveret/item-service/internal/db"
+	"github.com/fiveret/item-service/internal/repository"
+	"github.com/fiveret/item-service/internal/service"
+	"github.com/fiveret/item-service/internal/transport"
 	"google.golang.org/grpc"
 )
 

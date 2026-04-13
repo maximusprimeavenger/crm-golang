@@ -6,7 +6,8 @@ type Item struct {
 	ID          uint
 	Name        string
 	Description string
-	Price       float64
+	OldPrice    float64
+	NewPrice    float64
 	Category    string
 	InStock     uint32
 	Currency    string

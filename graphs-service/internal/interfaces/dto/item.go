@@ -6,7 +6,8 @@ type Item struct {
 	ID          uint      `json:"item_id"`
 	Name        *string   `json:"name"`
 	Description *string   `json:"description"`
-	Price       *float64  `json:"price"`
+	OldPrice    *float64  `json:"old_price"`
+	NewPrice    *float64  `json:"new_price"`
 	Category    *string   `json:"category"`
 	InStock     *uint32   `json:"in_stock"`
 	Currency    *string   `json:"currency"`

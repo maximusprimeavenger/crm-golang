@@ -5,6 +5,7 @@ go 1.23.3
 require (
 	github.com/envoyproxy/protoc-gen-validate v1.2.1
 	github.com/glebarez/sqlite v1.11.0
+	github.com/google/uuid v1.6.0
 	golang.org/x/text v0.23.0
 	google.golang.org/genproto/googleapis/api v0.0.0-20250519155744-55703ea1f237
 	google.golang.org/grpc v1.72.1
@@ -15,7 +16,6 @@ require (
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/glebarez/go-sqlite v1.21.2 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
-	github.com/google/uuid v1.6.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/klauspost/compress v1.15.9 // indirect

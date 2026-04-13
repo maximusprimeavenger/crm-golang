@@ -4,16 +4,17 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/fiveret/product-service/internal/db"
-	"github.com/fiveret/product-service/internal/models"
+	"github.com/fiveret/item-service/internal/db"
+	"github.com/fiveret/item-service/internal/domain"
+	"github.com/fiveret/item-service/internal/repository/mapper"
 )
 
 type ItemRepository interface {
-	GetItem(*uint32) (*models.Item, error)
-	GetItems() ([]*models.Item, error)
+	GetItem(*uint32) (*domain.Item, error)
+	GetItems() ([]*domain.Item, error)
 	DeleteItem(*uint32) (string, error)
-	NewItem(*models.Item) (*time.Time, error)
-	PutItem(*uint32, *models.Item) (*models.Item, *time.Time, *time.Time, error)
+	NewItem(*domain.Item) (*time.Time, error)
+	PutItem(*uint32, *domain.UpdateItem) (*domain.Item, *time.Time, *time.Time, error)
 }
 
 type itemRepo struct {
@@ -36,41 +37,43 @@ func (r *itemRepo) DeleteItem(id *uint32) (string, error) {
 	return fmt.Sprintf("item %s has successfully deleted", *item.Name), nil
 }
 
-func (r *itemRepo) NewItem(item *models.Item) (*time.Time, error) {
-	err := r.db.CreateItem(&models.Item{
-		Name:        item.Name,
-		Description: item.Description,
-		Category:    item.Category,
-		Price:       item.Price,
-		InStock:     item.InStock,
-	})
+func (r *itemRepo) NewItem(item *domain.Item) (*time.Time, error) {
+	err := r.db.CreateItem(mapper.DomainToDB(item))
 	if err != nil {
 		return nil, err
 	}
 
-	newItem, err := r.db.FindItemByName(*item.Name)
+	newItem, err := r.db.FindItemByName(item.Name)
 	if err != nil {
 		return nil, err
 	}
 	return &newItem.CreatedAt, nil
 }
 
-func (r *itemRepo) GetItem(id *uint32) (*models.Item, error) {
+func (r *itemRepo) GetItem(id *uint32) (*domain.Item, error) {
 	item, err := r.db.FindItem(*id)
 	if err != nil {
 		return nil, err
 	}
-	return item, nil
+	return mapper.DBToDomain(item), nil
 }
 
-func (r *itemRepo) GetItems() ([]*models.Item, error) {
-	return r.db.FindItems()
+func (r *itemRepo) GetItems() ([]*domain.Item, error) {
+	items, err := r.db.FindItems()
+	if err != nil {
+		return nil, err
+	}
+	serviceItem := []*domain.Item{}
+	for _, i := range items {
+		serviceItem = append(serviceItem, mapper.DBToDomain(i))
+	}
+	return serviceItem, nil
 }
 
-func (r *itemRepo) PutItem(id *uint32, item *models.Item) (*models.Item, *time.Time, *time.Time, error) {
-	item, err := r.db.UpdateItem(*id, item)
+func (r *itemRepo) PutItem(id *uint32, item *domain.UpdateItem) (*domain.Item, *time.Time, *time.Time, error) {
+	itemReq, err := r.db.UpdateItem(*id, mapper.DomainUpdateToDB(item))
 	if err != nil {
 		return nil, nil, nil, err
 	}
-	return item, &item.CreatedAt, &item.UpdatedAt, nil
+	return mapper.DBToDomain(itemReq), &item.CreatedAt, &item.UpdatedAt, nil
 }

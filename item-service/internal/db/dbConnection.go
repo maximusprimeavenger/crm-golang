@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/fiveret/product-service/internal/models"
+	"github.com/fiveret/item-service/internal/repository/models"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -46,7 +46,7 @@ func (db *DB) UpdateItem(id uint32, item *models.Item) (*models.Item, error) {
 		Description: item.Description,
 		Category:    item.Category,
 		Currency:    item.Currency,
-		Price:       item.Price,
+		NewPrice:    item.NewPrice,
 		InStock:     item.InStock,
 		Status:      item.Status,
 	}).Error

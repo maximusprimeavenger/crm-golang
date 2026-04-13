@@ -3,10 +3,10 @@ package helpers
 import (
 	"errors"
 
-	"github.com/fiveret/product-service/internal/models"
+	models "github.com/fiveret/item-service/internal/domain"
 )
 
-func CheckItem(item *models.Item) error {
+func CheckItem(item *models.UpdateItem) error {
 	switch {
 	case item.Name == nil:
 		return errors.New("name is null")

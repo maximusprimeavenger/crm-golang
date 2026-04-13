@@ -3,10 +3,10 @@ package transport
 import (
 	"context"
 
-	proto "github.com/fiveret/product-service/grpc/item-grpc"
-	"github.com/fiveret/product-service/internal/helpers"
-	"github.com/fiveret/product-service/internal/models"
-	"github.com/fiveret/product-service/internal/service"
+	proto "github.com/fiveret/item-service/grpc/item-grpc"
+	"github.com/fiveret/item-service/internal/helpers"
+	"github.com/fiveret/item-service/internal/service"
+	"github.com/fiveret/item-service/internal/transport/mapper"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -25,16 +25,7 @@ func (h *GRPCHandler) CreateItem(ctx context.Context, req *proto.CreateItemReque
 	if err := req.Validate(); err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "validation error: %v", err)
 	}
-
-	item := &models.Item{
-
-		Name:        &req.Item.Name,
-		Category:    &req.Item.Category,
-		Price:       &req.Item.Price,
-		Description: &req.Item.Description,
-		InStock:     &req.Item.InStock,
-	}
-	createdAt, err := h.service.CreateItem(ctx, item)
+	createdAt, err := h.service.CreateItem(ctx, mapper.ProtoToDomain(req.Item))
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error creating new item: %v", err)
 	}
@@ -55,7 +46,7 @@ func (h *GRPCHandler) GetItem(ctx context.Context, req *proto.GetItemRequest) (*
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error finding an item: %v", err)
 	}
-	respItem := helpers.ConvertModelsToGRPCResponse(item)
+	respItem := helpers.ModelsToGRPC(item)
 	resp := &proto.GetItemResponse{
 		Item:      respItem,
 		CreatedAt: timestamppb.New(item.CreatedAt),
@@ -70,14 +61,14 @@ func (h *GRPCHandler) PutItem(ctx context.Context, req *proto.PutItemRequest) (*
 	}
 
 	id, item := &req.Id, req.Item
-	updatedItem, createdAt, updatedAt, err := h.service.PutItem(ctx, id, helpers.ConvertGRPCToModelsRequest(*id, item))
+	updatedItem, createdAt, updatedAt, err := h.service.PutItem(ctx, id, helpers.GRPCToModelsUpdate(*id, item))
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error putting item:%v", err)
 	}
 	resp := &proto.PutItemResponse{
 		CreatedAt: timestamppb.New(*createdAt),
 		UpdatedAt: timestamppb.New(*updatedAt),
-		Item:      helpers.ConvertModelsToGRPCResponse(updatedItem),
+		Item:      helpers.ModelsToGRPC(updatedItem),
 	}
 	return resp, nil
 }
