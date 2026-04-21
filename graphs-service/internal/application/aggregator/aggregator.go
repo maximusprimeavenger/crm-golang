@@ -63,3 +63,7 @@ func (a *aggregator) GetSalesAndRevenueByID(itemID uint) (map[string]int, map[st
 	analytics := a.Items[itemID]
 	return analytics.SalesByDay, analytics.RevenueByDay, a.Items[itemID].Name
 }
+
+func (a *aggregator) Ready() bool {
+	return len(a.Items) > 0
+}

@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	domain "graphs-service/internal/entities"
-	models "graphs-service/internal/interfaces/dto"
+	models "graphs-service/internal/transport/dto"
 	"log/slog"
 
 	"github.com/segmentio/kafka-go"

@@ -6,7 +6,7 @@ import (
 	"graphs-service/internal/application/aggregator"
 	linechart "graphs-service/internal/application/use_cases/line_chart"
 	domain "graphs-service/internal/entities"
-	reader "graphs-service/internal/interfaces/kafka-reader"
+	reader "graphs-service/internal/transport/kafka-reader"
 	"log/slog"
 	"os"
 	"strconv"
@@ -23,14 +23,14 @@ func main() {
 	handler := slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo})
 	logger := slog.New(handler)
 	logger.Info("Graphs-service has been started")
+	port := os.Getenv("PORT_GRAPHS")
+	if port == "" {
+		logger.Error("Error, port is empty")
+	}
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	itemTopic, err := loadItemTopic(path)
-	if err != nil {
-		logger.Error(fmt.Sprintf("Error loading topic for item: %v", err))
-		os.Exit(1)
-	}
-	leadTopics, err := loadLeadTopics(path)
+
+	leadTopics, itemTopic, err := loadTopics(path)
 	if err != nil {
 		logger.Error(fmt.Sprintf("Error loading topics for leads: %v", err))
 		os.Exit(1)
@@ -51,6 +51,11 @@ func main() {
 	go agg.Run(ctx, eventsChan)
 	r := gin.Default()
 	r.GET("/line-chart/:item_id", func(c *gin.Context) {
+		if !agg.Ready() {
+			logger.Error("aggregator is null")
+			c.JSON(503, gin.H{"error": "not ready"})
+			return
+		}
 		itemID := c.Param("item_id")
 		id, err := strconv.ParseUint(itemID, 10, 0)
 		if err != nil {
@@ -59,53 +64,33 @@ func main() {
 		}
 		linechart.DrawLineChartByItem(agg.GetSalesAndRevenueByID(uint(id)))
 	})
+	//routes.RouteManager(r)
+
+	r.Run(":" + port)
 }
 
-func loadLeadTopics(path string) ([]string, error) {
+func loadTopics(path string) ([]string, string, error) {
 	body, err := os.ReadFile(path)
 	if err != nil {
-		return nil, err
+		return nil, "", err
 	}
-	lead := new(leadReader)
-	err = yaml.Unmarshal(body, lead)
+	reader := new(ultimateReader)
+	err = yaml.Unmarshal(body, reader)
 	if err != nil {
-		return nil, err
+		return nil, "", err
 	}
-	return lead.Lead.Writer.Topics, nil
+	return reader.Lead.KafkaLeadWriter.Topics, reader.Item.KafkaItemWriter.Topic, nil
 }
 
-func loadItemTopic(path string) (string, error) {
-	body, err := os.ReadFile(path)
-	if err != nil {
-		return "", err
-	}
-	item := new(itemReader)
-	err = yaml.Unmarshal(body, item)
-	if err != nil {
-		return "", err
-	}
-	return item.Item.Writer.Topic, err
-}
-
-type leadReader struct {
-	Lead lead `yaml:"lead-service"`
-}
-
-type lead struct {
-	Writer kafkaLeadWriter `yaml:"kafka-writer"`
-}
-type kafkaLeadWriter struct {
-	Topics []string `yaml:"topics"`
-}
-
-type itemReader struct {
-	Item item `yaml:"item-service"`
-}
-
-type item struct {
-	Writer kafkaItemWriter `yaml:"kafka-writer"`
-}
-
-type kafkaItemWriter struct {
-	Topic string `yaml:"item"`
+type ultimateReader struct {
+	Lead struct {
+		KafkaLeadWriter struct {
+			Topics []string `yaml:"topics"`
+		} `yaml:"kafka-writer"`
+	} `yaml:"lead-service"`
+	Item struct {
+		KafkaItemWriter struct {
+			Topic string `yaml:"topic"`
+		} `yaml:"kafka-writer"`
+	} `yaml:"item-service"`
 }

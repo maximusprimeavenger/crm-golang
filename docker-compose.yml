@@ -19,6 +19,26 @@ services:
     networks:
       - crm-network
 
+  graphs-service:
+    container_name: graphs-service
+    build:
+      context: ./graphs-service
+      dockerfile: Dockerfile
+    depends_on:
+      - zookeeper
+      - kafdrop
+      - kafka
+      - api-gateway
+      - item-service
+      - lead-service
+    volumes:
+      - ./config:/app/config
+    networks:
+      - crm-network
+    environment:
+      - PORT_GRAPHS=${PORT_GRAPHS}
+    ports:
+      - ${GRAPHS_PORTS}
   item-service:
     environment:
       - PORT_ITEM=${PORT_ITEM}

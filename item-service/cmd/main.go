@@ -5,22 +5,30 @@ import (
 	"log/slog"
 	"net"
 	"os"
+	"strconv"
 
 	proto "github.com/fiveret/item-service/grpc/item-grpc"
 	"github.com/fiveret/item-service/internal/db"
+	"github.com/fiveret/item-service/internal/helpers"
 	"github.com/fiveret/item-service/internal/repository"
 	"github.com/fiveret/item-service/internal/service"
 	"github.com/fiveret/item-service/internal/transport"
 	"google.golang.org/grpc"
 )
 
+const path = "/app/config/config.yaml"
+
 func main() {
 	logger, err := loadLogger()
 	if err != nil {
 		log.Fatal("logger is nil, error:", err)
 	}
-	port := os.Getenv("PORT_ITEM")
-	lis, err := net.Listen("tcp", ":"+port)
+	config, err := helpers.LoadConfig(path)
+	if err != nil {
+		log.Fatal("config is nil, error:", err)
+	}
+	port := config.ItemService.Port
+	lis, err := net.Listen("tcp", ":"+strconv.Itoa(port))
 	if err != nil {
 		logger.Error("error listening", "port", port)
 		os.Exit(1)
@@ -33,7 +41,7 @@ func main() {
 		os.Exit(1)
 	}
 	repo := repository.NewItemRepo(dbConn)
-	svc := service.NewItemService(repo)
+	svc := service.NewItemService(repo, config.ItemService.KafkaWriter.Topic)
 	handler := transport.NewGRPCHandler(svc)
 
 	proto.RegisterItemServiceServer(s, handler)

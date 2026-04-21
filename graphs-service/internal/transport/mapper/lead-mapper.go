@@ -3,7 +3,7 @@ package mapper
 import (
 	"encoding/json"
 	domain "graphs-service/internal/entities"
-	models "graphs-service/internal/interfaces/dto"
+	models "graphs-service/internal/transport/dto"
 )
 
 func LeadDTOToDomain(payload json.RawMessage) (*domain.Lead, error) {

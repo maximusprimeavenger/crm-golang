@@ -4,54 +4,58 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/fiveret/item-service/internal/db"
 	"github.com/fiveret/item-service/internal/domain"
 	"github.com/fiveret/item-service/internal/repository/mapper"
+	"github.com/fiveret/item-service/internal/repository/models"
+	"gorm.io/gorm"
 )
 
 type ItemRepository interface {
 	GetItem(*uint32) (*domain.Item, error)
 	GetItems() ([]*domain.Item, error)
 	DeleteItem(*uint32) (string, error)
-	NewItem(*domain.Item) (*time.Time, error)
-	PutItem(*uint32, *domain.UpdateItem) (*domain.Item, *time.Time, *time.Time, error)
+	NewItem(item *domain.Item, event *models.OutboxEvent) (*time.Time, error)
+	PutItem(*uint32, *domain.UpdateItem) (*domain.Item, error)
 }
 
 type itemRepo struct {
-	db *db.DB
+	db *gorm.DB
 }
 
-func NewItemRepo(db *db.DB) ItemRepository {
+func NewItemRepo(db *gorm.DB) ItemRepository {
 	return &itemRepo{db: db}
 }
 
 func (r *itemRepo) DeleteItem(id *uint32) (string, error) {
-	item, err := r.db.FindItem(*id)
-	if err != nil {
-		return "", fmt.Errorf("error finding item for deleting")
-	}
-	err = r.db.DeleteItem(*id)
+	var name string
+	err := r.db.Raw("DELETE FROM items WHERE id = ? RETURNING name", *id).Scan(&name).Error
 	if err != nil {
 		return "", err
 	}
-	return fmt.Sprintf("item %s has successfully deleted", *item.Name), nil
+	return fmt.Sprintf("item %s has successfully deleted", name), nil
 }
 
-func (r *itemRepo) NewItem(item *domain.Item) (*time.Time, error) {
-	err := r.db.CreateItem(mapper.DomainToDB(item))
-	if err != nil {
-		return nil, err
-	}
+func (r *itemRepo) NewItem(item *domain.Item, event *models.OutboxEvent) (*time.Time, error) {
+	dbItem := mapper.DomainToDB(item)
+	err := r.db.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Create(&dbItem).Error; err != nil {
+			return err
+		}
+		if err := tx.Create(&event).Error; err != nil {
+			return err
+		}
+		return nil
+	})
 
-	newItem, err := r.db.FindItemByName(item.Name)
 	if err != nil {
 		return nil, err
 	}
-	return &newItem.CreatedAt, nil
+	return &dbItem.CreatedAt, nil
 }
 
 func (r *itemRepo) GetItem(id *uint32) (*domain.Item, error) {
-	item, err := r.db.FindItem(*id)
+	item := new(models.Item)
+	err := r.db.First(&item, id).Error
 	if err != nil {
 		return nil, err
 	}
@@ -59,7 +63,8 @@ func (r *itemRepo) GetItem(id *uint32) (*domain.Item, error) {
 }
 
 func (r *itemRepo) GetItems() ([]*domain.Item, error) {
-	items, err := r.db.FindItems()
+	items := []*models.Item{}
+	err := r.db.Find(&items).Error
 	if err != nil {
 		return nil, err
 	}
@@ -70,10 +75,28 @@ func (r *itemRepo) GetItems() ([]*domain.Item, error) {
 	return serviceItem, nil
 }
 
-func (r *itemRepo) PutItem(id *uint32, item *domain.UpdateItem) (*domain.Item, *time.Time, *time.Time, error) {
-	itemReq, err := r.db.UpdateItem(*id, mapper.DomainUpdateToDB(item))
+func (r *itemRepo) PutItem(id *uint32, item *domain.UpdateItem) (*domain.Item, error) {
+	err := r.db.Model(&models.Item{}).
+		Where("id = ?", *id).
+		Updates(map[string]interface{}{
+			"name":        item.Name,
+			"description": item.Description,
+			"category":    item.Category,
+			"currency":    item.Currency,
+			"old_price":   gorm.Expr("new_price"),
+			"new_price":   item.Price,
+			"in_stock":    item.InStock,
+			"status":      item.Status,
+		}).Error
+
 	if err != nil {
-		return nil, nil, nil, err
+		return nil, fmt.Errorf("error updating item: %w", err)
 	}
-	return mapper.DBToDomain(itemReq), &item.CreatedAt, &item.UpdatedAt, nil
+
+	var updated models.Item
+	if err := r.db.First(&updated, *id).Error; err != nil {
+		return nil, err
+	}
+
+	return mapper.DBToDomain(&updated), nil
 }

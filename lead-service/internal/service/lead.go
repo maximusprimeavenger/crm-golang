@@ -36,7 +36,15 @@ func (s *leadService) NewLead(ctx context.Context, lead *models.Lead) (string, *
 	if err := helpers.ValidateNewLead(lead); err != nil {
 		return "", nil, err
 	}
-	name, createdAt, err := s.repo.CreateLead(lead, topic)
+	event := &models.OutboxEvent{
+		AggregateID:   lead.ID,
+		AggregateType: topic,
+		EventType:     fmt.Sprintf("%s.created", topic),
+		Status:        "pending",
+		RetryCount:    5,
+		CreatedAt:     time.Now(),
+	}
+	name, createdAt, err := s.repo.CreateLead(lead, event)
 	if err != nil {
 		return "", nil, err
 	}

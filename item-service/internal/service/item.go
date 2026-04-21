@@ -2,7 +2,9 @@ package service
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
+	"fmt"
 	"sync"
 	"time"
 
@@ -10,6 +12,9 @@ import (
 	"github.com/fiveret/item-service/internal/domain"
 	"github.com/fiveret/item-service/internal/helpers"
 	"github.com/fiveret/item-service/internal/repository"
+	"github.com/fiveret/item-service/internal/service/mapper"
+	"github.com/fiveret/item-service/internal/service/models"
+	"github.com/google/uuid"
 )
 
 type ItemService interface {
@@ -17,15 +22,16 @@ type ItemService interface {
 	DeleteItem(context.Context, *uint32) (string, error)
 	GetItem(context.Context, *uint32) (*domain.Item, error)
 	GetItems(context.Context) ([]*grpcModels.ItemResponse, error)
-	PutItem(context.Context, *uint32, *domain.UpdateItem) (*domain.Item, *time.Time, *time.Time, error)
+	PutItem(context.Context, *uint32, *domain.UpdateItem) (*domain.Item, error)
 }
 
 type itemService struct {
-	repo repository.ItemRepository
+	repo  repository.ItemRepository
+	topic string
 }
 
-func NewItemService(repo repository.ItemRepository) ItemService {
-	return &itemService{repo: repo}
+func NewItemService(repo repository.ItemRepository, topic string) ItemService {
+	return &itemService{repo: repo, topic: topic}
 }
 
 func (s *itemService) CreateItem(ctx context.Context, item *domain.Item) (*time.Time, error) {
@@ -38,7 +44,18 @@ func (s *itemService) CreateItem(ctx context.Context, item *domain.Item) (*time.
 	if item.InStock == 0 {
 		return nil, errors.New("instock must be greater than 0")
 	}
-	return s.repo.NewItem(item)
+
+	payload, err := json.Marshal(item)
+	if err != nil {
+		return nil, err
+	}
+	event := &models.Event{
+		EventID:    uuid.New().String(),
+		EventType:  fmt.Sprintf("%s.created", s.topic),
+		OccurredAt: time.Now(),
+		Payload:    payload,
+	}
+	return s.repo.NewItem(item, mapper.EventToOutboxEvent(event, item, s.topic))
 }
 
 func (s *itemService) DeleteItem(ctx context.Context, id *uint32) (string, error) {
@@ -74,23 +91,18 @@ func (s *itemService) GetItems(ctx context.Context) ([]*grpcModels.ItemResponse,
 	return returnItems, nil
 }
 
-func (s *itemService) PutItem(ctx context.Context, id *uint32, item *domain.UpdateItem) (*domain.Item, *time.Time, *time.Time, error) {
+func (s *itemService) PutItem(ctx context.Context, id *uint32, item *domain.UpdateItem) (*domain.Item, error) {
 	if id == nil {
-		return nil, nil, nil, errors.New("id is empty")
+		return nil, errors.New("id is empty")
 	}
 
 	err := helpers.CheckItem(item)
 	if err != nil {
-		return nil, nil, nil, err
+		return nil, err
 	}
-	newItem, createdAt, updatedAt, err := s.repo.PutItem(id, item)
+	newItem, err := s.repo.PutItem(id, item)
 	if err != nil {
-		return nil, nil, nil, err
+		return nil, err
 	}
-	if newItem.Price != *item.Price {
-		/*go func(){
-			event := &models.OutboxEvent{}
-		}*/
-	}
-	return newItem, createdAt, updatedAt, nil
+	return newItem, nil
 }

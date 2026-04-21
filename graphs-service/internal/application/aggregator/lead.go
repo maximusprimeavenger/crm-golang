@@ -3,7 +3,7 @@ package aggregator
 import (
 	"fmt"
 	domain "graphs-service/internal/entities"
-	"graphs-service/internal/interfaces/mapper"
+	"graphs-service/internal/transport/mapper"
 )
 
 func (a *aggregator) eventLeadCreated(event domain.Event) {

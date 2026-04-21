@@ -12,6 +12,8 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
+var Topic string
+
 type GRPCHandler struct {
 	proto.UnimplementedItemServiceServer
 	service service.ItemService
@@ -25,6 +27,7 @@ func (h *GRPCHandler) CreateItem(ctx context.Context, req *proto.CreateItemReque
 	if err := req.Validate(); err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "validation error: %v", err)
 	}
+
 	createdAt, err := h.service.CreateItem(ctx, mapper.ProtoToDomain(req.Item))
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error creating new item: %v", err)
@@ -61,13 +64,13 @@ func (h *GRPCHandler) PutItem(ctx context.Context, req *proto.PutItemRequest) (*
 	}
 
 	id, item := &req.Id, req.Item
-	updatedItem, createdAt, updatedAt, err := h.service.PutItem(ctx, id, helpers.GRPCToModelsUpdate(*id, item))
+	updatedItem, err := h.service.PutItem(ctx, id, helpers.GRPCToModelsUpdate(*id, item))
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error putting item:%v", err)
 	}
 	resp := &proto.PutItemResponse{
-		CreatedAt: timestamppb.New(*createdAt),
-		UpdatedAt: timestamppb.New(*updatedAt),
+		CreatedAt: timestamppb.New(updatedItem.CreatedAt),
+		UpdatedAt: timestamppb.New(updatedItem.UpdatedAt),
 		Item:      helpers.ModelsToGRPC(updatedItem),
 	}
 	return resp, nil

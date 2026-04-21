@@ -6,12 +6,13 @@ import (
 )
 
 func ProtoToDomain(item *models.ItemRequest) *domain.Item {
+	inStock := uint32(item.InStock)
 	return &domain.Item{
 		Name:        item.Name,
 		Category:    item.Category,
 		Description: item.Description,
 		Currency:    item.Currency,
-		InStock:     item.InStock,
+		InStock:     inStock,
 		Price:       item.Price,
 		Status:      item.Status,
 	}

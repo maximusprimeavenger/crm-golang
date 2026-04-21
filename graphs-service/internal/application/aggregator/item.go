@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	domain "graphs-service/internal/entities"
-	models "graphs-service/internal/interfaces/dto"
+	models "graphs-service/internal/transport/dto"
 )
 
 func (a *aggregator) eventItemCreated(event domain.Event) {
