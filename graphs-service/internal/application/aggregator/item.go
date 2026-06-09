@@ -7,7 +7,7 @@ import (
 	models "graphs-service/internal/transport/dto"
 )
 
-func (a *aggregator) eventItemCreated(event domain.Event) {
+func (a *Aggregator) eventItemCreated(event domain.Event) {
 	itemPayload := new(models.ItemCreatedPayload)
 	err := json.Unmarshal(event.Payload, itemPayload)
 	if err != nil {
@@ -27,7 +27,7 @@ func (a *aggregator) eventItemCreated(event domain.Event) {
 	}
 }
 
-func (a *aggregator) eventItemPriceChanged(event domain.Event) {
+func (a *Aggregator) eventItemPriceChanged(event domain.Event) {
 	itemPayload := new(models.ItemPriceChangedPayload)
 	err := json.Unmarshal(event.Payload, itemPayload)
 	if err != nil {
@@ -43,7 +43,7 @@ func (a *aggregator) eventItemPriceChanged(event domain.Event) {
 	state.PriceHistory[itemPayload.ChangedAt.Format("2006-01-02")] = itemPayload.NewPrice
 }
 
-func (a *aggregator) eventItemSold(event domain.Event) {
+func (a *Aggregator) eventItemSold(event domain.Event) {
 	itemPayload := new(models.ItemSoldPayload)
 	err := json.Unmarshal(event.Payload, itemPayload)
 	if err != nil {

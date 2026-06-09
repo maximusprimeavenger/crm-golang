@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"log/slog"
 	"net"
@@ -10,9 +11,11 @@ import (
 	proto "github.com/fiveret/item-service/grpc/item-grpc"
 	"github.com/fiveret/item-service/internal/db"
 	"github.com/fiveret/item-service/internal/helpers"
+	producer "github.com/fiveret/item-service/internal/kafka"
 	"github.com/fiveret/item-service/internal/repository"
 	"github.com/fiveret/item-service/internal/service"
 	"github.com/fiveret/item-service/internal/transport"
+	"github.com/fiveret/item-service/internal/worker"
 	"google.golang.org/grpc"
 )
 
@@ -41,9 +44,15 @@ func main() {
 		os.Exit(1)
 	}
 	repo := repository.NewItemRepo(dbConn)
+	repoEv := repository.NewEventRepo(dbConn)
 	svc := service.NewItemService(repo, config.ItemService.KafkaWriter.Topic)
 	handler := transport.NewGRPCHandler(svc)
+	p := producer.NewKafkaPublisher([]string{"kafka:9092"})
+	w := worker.NewWorker(repoEv, logger, p)
 
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	go w.StartWorker(ctx)
 	proto.RegisterItemServiceServer(s, handler)
 	logger.Info("server is running", "port", port)
 	if err := s.Serve(lis); err != nil {

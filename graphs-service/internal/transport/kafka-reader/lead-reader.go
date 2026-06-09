@@ -29,14 +29,17 @@ func LoadReaders(itemTopic string, leadTopics, address []string, l *slog.Logger)
 	itemR := kafka.NewReader(kafka.ReaderConfig{
 		Brokers: address,
 		Topic:   itemTopic,
+		GroupID: "graphs-service",
 	})
 	leadR := kafka.NewReader(kafka.ReaderConfig{
 		Brokers: address,
 		Topic:   leadTopics[0],
+		GroupID: "graphs-service",
 	})
 	leadProductR := kafka.NewReader(kafka.ReaderConfig{
 		Brokers: address,
 		Topic:   leadTopics[1],
+		GroupID: "graphs-service",
 	})
 	return &itemReader{reader: itemR, logger: l}, &leadReader{reader: leadR}, &leadProductReader{reader: leadProductR}, nil
 }

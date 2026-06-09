@@ -20,7 +20,7 @@ func NewEventRepo(dbConn *gorm.DB) EventRepo {
 
 func (r eventRepo) GetEvents() ([]*models.OutboxEvent, error) {
 	events := new([]*models.OutboxEvent)
-	if err := r.db.Find(&events).Where("status = ?", "pending").Error; err != nil {
+	if err := r.db.Where("status = ?", "pending").Find(&events).Error; err != nil {
 		return nil, err
 	}
 	return *events, nil

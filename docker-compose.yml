@@ -25,12 +25,14 @@ services:
       context: ./graphs-service
       dockerfile: Dockerfile
     depends_on:
-      - zookeeper
-      - kafdrop
-      - kafka
-      - api-gateway
-      - item-service
-      - lead-service
+      kafka:
+        condition: service_healthy
+      api-gateway:
+        condition: service_started
+      item-service:
+        condition: service_started
+      lead-service:
+        condition: service_started
     volumes:
       - ./config:/app/config
     networks:
@@ -133,6 +135,12 @@ services:
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
     networks:
       - crm-network
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "9092"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
 
   kafdrop:
     image: obsidiandynamics/kafdrop:latest

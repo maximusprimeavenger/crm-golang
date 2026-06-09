@@ -1,12 +1,14 @@
 package repository
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 
 	"github.com/fiveret/item-service/internal/domain"
 	"github.com/fiveret/item-service/internal/repository/mapper"
 	"github.com/fiveret/item-service/internal/repository/models"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -14,7 +16,7 @@ type ItemRepository interface {
 	GetItem(*uint32) (*domain.Item, error)
 	GetItems() ([]*domain.Item, error)
 	DeleteItem(*uint32) (string, error)
-	NewItem(item *domain.Item, event *models.OutboxEvent) (*time.Time, error)
+	NewItem(item *domain.Item, topic string) (*time.Time, error)
 	PutItem(*uint32, *domain.UpdateItem) (*domain.Item, error)
 }
 
@@ -35,13 +37,26 @@ func (r *itemRepo) DeleteItem(id *uint32) (string, error) {
 	return fmt.Sprintf("item %s has successfully deleted", name), nil
 }
 
-func (r *itemRepo) NewItem(item *domain.Item, event *models.OutboxEvent) (*time.Time, error) {
+func (r *itemRepo) NewItem(item *domain.Item, topic string) (*time.Time, error) {
 	dbItem := mapper.DomainToDB(item)
 	err := r.db.Transaction(func(tx *gorm.DB) error {
-		if err := tx.Create(&dbItem).Error; err != nil {
+		if err := tx.Create(dbItem).Error; err != nil {
 			return err
 		}
-		if err := tx.Create(&event).Error; err != nil {
+		payload, err := json.Marshal(mapper.DBToDomain(dbItem))
+		if err != nil {
+			return err
+		}
+		event := &models.OutboxEvent{
+			AggregateID:   dbItem.ID,
+			AggregateType: topic,
+			EventID:       uuid.New().String(),
+			EventType:     fmt.Sprintf("%s.created", topic),
+			ProcessedAt:   time.Now(),
+			Payload:       payload,
+		}
+
+		if err := tx.Create(event).Error; err != nil {
 			return err
 		}
 		return nil

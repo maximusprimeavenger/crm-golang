@@ -2,9 +2,7 @@ package service
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
-	"fmt"
 	"sync"
 	"time"
 
@@ -12,9 +10,6 @@ import (
 	"github.com/fiveret/item-service/internal/domain"
 	"github.com/fiveret/item-service/internal/helpers"
 	"github.com/fiveret/item-service/internal/repository"
-	"github.com/fiveret/item-service/internal/service/mapper"
-	"github.com/fiveret/item-service/internal/service/models"
-	"github.com/google/uuid"
 )
 
 type ItemService interface {
@@ -45,17 +40,7 @@ func (s *itemService) CreateItem(ctx context.Context, item *domain.Item) (*time.
 		return nil, errors.New("instock must be greater than 0")
 	}
 
-	payload, err := json.Marshal(item)
-	if err != nil {
-		return nil, err
-	}
-	event := &models.Event{
-		EventID:    uuid.New().String(),
-		EventType:  fmt.Sprintf("%s.created", s.topic),
-		OccurredAt: time.Now(),
-		Payload:    payload,
-	}
-	return s.repo.NewItem(item, mapper.EventToOutboxEvent(event, item, s.topic))
+	return s.repo.NewItem(item, s.topic)
 }
 
 func (s *itemService) DeleteItem(ctx context.Context, id *uint32) (string, error) {

@@ -4,12 +4,12 @@ import (
 	"context"
 	"fmt"
 	"graphs-service/internal/application/aggregator"
-	linechart "graphs-service/internal/application/use_cases/line_chart"
-	domain "graphs-service/internal/entities"
+	"graphs-service/internal/application/dispatcher"
+	"graphs-service/internal/transport/http/routes"
 	reader "graphs-service/internal/transport/kafka-reader"
+	"graphs-service/internal/transport/kafka-reader/models"
 	"log/slog"
 	"os"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/goccy/go-yaml"
@@ -35,36 +35,22 @@ func main() {
 		logger.Error(fmt.Sprintf("Error loading topics for leads: %v", err))
 		os.Exit(1)
 	}
-	eventsChan := make(chan domain.Event, 1000)
+	eventsChan := make(chan models.Envelope, 1000)
 
-	itemReader, leadReader, leadProductReader, err := reader.LoadReaders(itemTopic, leadTopics, address, logger)
+	itemReader, _, _, err := reader.LoadReaders(itemTopic, leadTopics, address, logger)
 	if err != nil {
 		logger.Error(fmt.Sprintf("Error creating one of the readers: %v", err))
 		os.Exit(1)
 	}
 
 	go itemReader.Start(ctx, eventsChan)
-	go leadReader.Start(ctx, eventsChan)
-	go leadProductReader.Start(ctx, eventsChan)
+	//go leadReader.Start(ctx, eventsChan)
+	//go leadProductReader.Start(ctx, eventsChan)
 
 	agg := aggregator.NewAggregator(logger)
-	go agg.Run(ctx, eventsChan)
+	go dispatcher.Dispatcher(ctx, agg, itemReader.Reader(), eventsChan)
 	r := gin.Default()
-	r.GET("/line-chart/:item_id", func(c *gin.Context) {
-		if !agg.Ready() {
-			logger.Error("aggregator is null")
-			c.JSON(503, gin.H{"error": "not ready"})
-			return
-		}
-		itemID := c.Param("item_id")
-		id, err := strconv.ParseUint(itemID, 10, 0)
-		if err != nil {
-			logger.Error("error", "error parsing uint during request line-chart/:item_id", err)
-			return
-		}
-		linechart.DrawLineChartByItem(agg.GetSalesAndRevenueByID(uint(id)))
-	})
-	//routes.RouteManager(r)
+	routes.RouteManager(r, agg)
 
 	r.Run(":" + port)
 }

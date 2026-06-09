@@ -4,8 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	domain "graphs-service/internal/entities"
-	models "graphs-service/internal/transport/dto"
+	dto "graphs-service/internal/transport/dto"
+	models "graphs-service/internal/transport/kafka-reader/models"
 	"log/slog"
 
 	"github.com/segmentio/kafka-go"
@@ -17,44 +19,51 @@ type itemReader struct {
 }
 
 type ItemReader interface {
-	Start(ctx context.Context, itemChan chan<- domain.Event)
+	Start(ctx context.Context, ch chan<- models.Envelope)
+	Reader() *kafka.Reader
 }
 
-func (i *itemReader) Start(ctx context.Context, itemChan chan<- domain.Event) {
+func (i *itemReader) Reader() *kafka.Reader {
+	return i.reader
+}
+
+func (i *itemReader) Start(ctx context.Context, ch chan<- models.Envelope) {
 	for {
 		msg, err := i.reader.FetchMessage(ctx)
 		if err != nil {
 			if errors.Is(err, context.Canceled) {
 				return
 			}
-			i.logger.Error("kafka item fetch error", "error", err)
+			i.logger.Error("fetch error", "error", err)
 			continue
 		}
-		eventDomain, err := parse(msg)
+		fmt.Println("GOT MESSAGE: ", string(msg.Value))
+		event, err := parse(msg)
 		if err != nil {
-			i.logger.Error("item parse error", "error", err)
+			i.logger.Error("parse error", "error", err)
 			continue
 		}
+		fmt.Println("Created new event: ", event.EventType)
 		select {
 		case <-ctx.Done():
 			return
-		case itemChan <- *eventDomain:
-		}
-		if err := i.reader.CommitMessages(ctx, msg); err != nil {
-			i.logger.Error("commit error", "error", err)
+		case ch <- models.Envelope{
+			Event: *event,
+			Msg:   msg,
+		}:
 		}
 	}
 }
-
 func parse(msg kafka.Message) (*domain.Event, error) {
-	eventModels := new(models.Event)
-	err := json.Unmarshal(msg.Value, eventModels)
-	if err != nil {
+	e := new(dto.Event)
+
+	if err := json.Unmarshal(msg.Value, e); err != nil {
 		return nil, err
 	}
+
 	return &domain.Event{
-		EventType: domain.EventType(eventModels.EventType),
-		EventID:   eventModels.EventID,
-		Payload:   eventModels.Payload,
+		EventType: domain.EventType(e.EventType),
+		EventID:   e.EventID,
+		Payload:   e.Payload,
 	}, nil
 }

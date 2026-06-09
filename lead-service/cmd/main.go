@@ -54,8 +54,7 @@ func main() {
 	go w.StartWorker(ctx)
 
 	itemClient := itemproto.NewItemServiceClient(conn)
-	publisher := producer.NewKafkaPublisher([]string{"kafka:9092"})
-	serv1 := service.NewLeadService(repo, publisher)
+	serv1 := service.NewLeadService(repo, p)
 	serv2 := service.NewLeadProductService(repo, logger, itemClient)
 	handler := transport.NewGRPCHandler(serv1, serv2)
 

@@ -1,22 +1,23 @@
 package aggregator
 
 import (
-	"context"
+	"errors"
+	"fmt"
 	domain "graphs-service/internal/entities"
 	"log/slog"
 	"sync"
 )
 
-type aggregator struct {
-	mu       sync.Mutex
+type Aggregator struct {
+	mu       sync.RWMutex
 	logger   *slog.Logger
 	Items    map[uint]*domain.ItemAnalytics
 	Leads    map[uint]*domain.LeadState
 	handlers map[domain.EventType]EventHandler
 }
 
-func NewAggregator(log *slog.Logger) *aggregator {
-	a := &aggregator{Leads: make(map[uint]*domain.LeadState),
+func NewAggregator(log *slog.Logger) *Aggregator {
+	a := &Aggregator{Leads: make(map[uint]*domain.LeadState),
 		Items:    make(map[uint]*domain.ItemAnalytics),
 		logger:   log,
 		handlers: make(map[domain.EventType]EventHandler),
@@ -25,29 +26,21 @@ func NewAggregator(log *slog.Logger) *aggregator {
 	return a
 }
 
-func (a *aggregator) Run(ctx context.Context, eventChan chan domain.Event) {
-	for {
-		select {
-		case <-ctx.Done():
-			return
-		case event := <-eventChan:
-			a.apply(event)
-		}
-	}
-}
-
 type EventHandler func(e domain.Event)
 
-func (a *aggregator) apply(event domain.Event) {
-	handlers, ok := a.handlers[event.EventType]
+func (a *Aggregator) Apply(event domain.Event) error {
+	a.mu.Lock()
+	defer a.mu.Unlock()
+	fmt.Println("Aggregator received the event: ", event.EventType)
+	handler, ok := a.handlers[event.EventType]
 	if !ok {
-		a.logger.Warn("unknown event type", "type", event.EventType)
-		return
+		return errors.New("unknown event type")
 	}
-	handlers(event)
-}
 
-func (a *aggregator) GetItemAnalytics() map[uint]*domain.ItemAnalytics {
+	handler(event)
+	return nil
+}
+func (a *Aggregator) GetItemAnalytics() map[uint]*domain.ItemAnalytics {
 	a.mu.Lock()
 	defer a.mu.Unlock()
 	copyMap := make(map[uint]*domain.ItemAnalytics)
@@ -57,13 +50,26 @@ func (a *aggregator) GetItemAnalytics() map[uint]*domain.ItemAnalytics {
 	return copyMap
 }
 
-func (a *aggregator) GetSalesAndRevenueByID(itemID uint) (map[string]int, map[string]float64, string) {
-	a.mu.Lock()
-	defer a.mu.Unlock()
-	analytics := a.Items[itemID]
-	return analytics.SalesByDay, analytics.RevenueByDay, a.Items[itemID].Name
+func (a *Aggregator) GetSalesAndRevenueByID(itemID uint) (map[string]int, map[string]float64, string) {
+	a.mu.RLock()
+	defer a.mu.RUnlock()
+
+	item, ok := a.Items[itemID]
+	if !ok || item == nil {
+		return map[string]int{}, map[string]float64{}, ""
+	}
+
+	return item.SalesByDay, item.RevenueByDay, item.Name
 }
 
-func (a *aggregator) Ready() bool {
-	return len(a.Items) > 0
+func (a *Aggregator) Ready(itemID uint) bool {
+	a.mu.RLock()
+	defer a.mu.RUnlock()
+
+	item, ok := a.Items[itemID]
+	if !ok || item == nil {
+		return false
+	}
+
+	return len(item.SalesByDay) > 0 || len(item.RevenueByDay) > 0
 }
