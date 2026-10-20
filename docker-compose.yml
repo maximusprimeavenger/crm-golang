@@ -45,6 +45,10 @@ services:
     environment:
       - PORT_ITEM=${PORT_ITEM}
       - ENV=${ENV}
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASS=${POSTGRES_PASSWORD}
+      - DB_NAME=${POSTGRES_DB}
+      - PORT_SQL=${POSTGRES_PORT}
     depends_on:
       postgres:
         condition: service_healthy
@@ -56,6 +60,25 @@ services:
     container_name: item-service
     volumes:
       - ./config:/app/config
+    networks:
+      - crm-network
+  
+  auth-service:
+    container_name: auth-service
+    depends_on:
+      api-gateway:
+      condition: service_started
+    build: 
+      context: ./auth
+      dockerfile: Dockerfile
+    environment:
+      - PORT_AUTH=${PORT_AUTH}
+      - KEY=${KEY}
+      - MONGO_URL=${MONGO_URL}
+      - FRONTEND_API=${FRONTEND_API}
+      - EMAIL_SENDER=${EMAIL_SENDER}
+    ports:
+      - ${AUTH_PORTS}
     networks:
       - crm-network
 
