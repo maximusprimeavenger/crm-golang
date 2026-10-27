@@ -6,18 +6,18 @@ import (
 )
 
 type Lead struct {
-	ID               uint       `gorm:"primaryKey" json:"lead_id"`
-	Name             string     `gorm:"varchar(50);not null" json:"name"`
-	Email            string     `gorm:"varchar(100);not null;unique" json:"email"`
-	Phone            string     `gorm:"varchar(15);not null;unique" json:"phone"`
-	Company          string     `gorm:"varchar(50);not null" json:"company"`
-	Products         []*Product `gorm:"many2many:lead_products;constraint:OnDelete:CASCADE" json:"products"`
-	Visits           uint       `gorm:"default:0" json:"visits"`
-	LastVisit        *time.Time `json:"last_visit"`
-	TotalSales       float64    `gorm:"default:0" json:"total_sales"`
-	LastPurchaseDays *uint      `json:"last_purchase_days"`
-	CreatedAt        time.Time  `json:"created_at"`
-	UpdatedAt        time.Time  `json:"updated_at"`
+	ID             uint       `gorm:"primaryKey" json:"lead_id"`
+	Name           string     `gorm:"varchar(50);not null" json:"name"`
+	Email          string     `gorm:"varchar(100);not null;unique" json:"email"`
+	Phone          string     `gorm:"varchar(15);not null;unique" json:"phone"`
+	Company        string     `gorm:"varchar(50);not null" json:"company"`
+	Products       []*Product `gorm:"many2many:lead_products;constraint:OnDelete:CASCADE" json:"products"`
+	Visits         uint       `gorm:"default:0" json:"visits"`
+	LastVisit      *time.Time `json:"last_visit"`
+	TotalSales     float64    `gorm:"default:0" json:"total_sales"`
+	LastPurchaseAt *time.Time `json:"last_purchase_at"`
+	CreatedAt      time.Time  `json:"created_at"`
+	UpdatedAt      time.Time  `json:"updated_at"`
 }
 
 type Product struct {

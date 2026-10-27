@@ -16,7 +16,7 @@ message LeadResponse{
     uint32 visits = 7;
     google.protobuf.Timestamp  lastVisit = 8;
     double totalSales = 9;
-    uint32 lastPurchaseDays = 10;
+    google.protobuf.Timestamp lastPurchaseAt = 10;
 }
 
 message LeadRequest{
@@ -28,7 +28,7 @@ message LeadRequest{
     uint32 visits = 6;
     google.protobuf.Timestamp lastVisit = 7;
     double totalSales = 8;
-    uint32 lastPurchaseDays = 9;
+    google.protobuf.Timestamp lastPurchaseAt = 9;
 }
 
 message ItemResponse{

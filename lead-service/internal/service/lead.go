@@ -37,7 +37,6 @@ func (s *leadService) NewLead(ctx context.Context, lead *models.Lead) (string, *
 		return "", nil, err
 	}
 	event := &models.OutboxEvent{
-		AggregateID:   lead.ID,
 		AggregateType: topic,
 		EventType:     fmt.Sprintf("%s.created", topic),
 		Status:        "pending",

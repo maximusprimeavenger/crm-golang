@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"net"
 	"os"
 
 	"go/auth-service/internal/controllers"
@@ -20,13 +21,11 @@ func main() {
 	router := gin.Default()
 
 	port := os.Getenv("PORT_AUTH")
-
-	ip := os.Getenv("IP")
-	if ip == "" {
-		log.Fatal("No trusted IP address provided")
+	if port == "" {
+		log.Fatal("PORT_AUTH is not set")
 	}
 
-	if err := router.SetTrustedProxies([]string{ip}); err != nil {
+	if err := router.SetTrustedProxies([]string{}); err != nil {
 		log.Fatal("Failed to set trusted proxies:", err)
 	}
 	err := controllers.AdminPresence()
@@ -38,9 +37,12 @@ func main() {
 	routes.UserManager(router)
 	routes.AdminManager(router)
 
-	addr := fmt.Sprintf("%s:%s", ip, port)
-	log.Printf("Trying to run server on %s...", addr)
-	if err := router.Run(addr); err != nil {
+	lis, err := net.Listen("tcp", ":"+port)
+	if err != nil {
+		log.Fatalf("Error while trying to listen to port - %s", port)
+	}
+	log.Printf("Trying to run server on %s...", lis.Addr())
+	if err := router.RunListener(lis); err != nil {
 		log.Fatal("Server failed to start:", err)
 	}
 }

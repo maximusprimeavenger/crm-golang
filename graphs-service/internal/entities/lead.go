@@ -3,18 +3,18 @@ package domain
 import "time"
 
 type Lead struct {
-	ID               uint
-	Name             string
-	Email            string
-	Phone            string
-	Company          string
-	Products         []*Product
-	Visits           uint
-	LastVisit        *time.Time
-	TotalSales       float64
-	LastPurchaseDays *uint
-	CreatedAt        time.Time
-	UpdatedAt        time.Time
+	ID             uint
+	Name           string
+	Email          string
+	Phone          string
+	Company        string
+	Products       []*Product
+	Visits         uint
+	LastVisit      *time.Time
+	TotalSales     float64
+	LastPurchaseAt *time.Time
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
 }
 
 type Product struct {

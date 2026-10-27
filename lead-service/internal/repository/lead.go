@@ -33,6 +33,7 @@ func (repo *leadRepo) CreateLead(lead *models.Lead, event *models.OutboxEvent) (
 		if err != nil {
 			return err
 		}
+		event.AggregateID = lead.ID
 		payload, err := json.Marshal(lead)
 		if err != nil {
 			return err
@@ -102,8 +103,8 @@ func (repo *leadRepo) UpdateLead(lead *models.Lead) (*models.Lead, error) {
 	if lead.TotalSales != 0 {
 		existingLead.TotalSales = lead.TotalSales
 	}
-	if lead.LastPurchaseDays != nil {
-		existingLead.LastPurchaseDays = lead.LastPurchaseDays
+	if lead.LastPurchaseAt != nil {
+		existingLead.LastPurchaseAt = lead.LastPurchaseAt
 	}
 	if len(lead.Products) > 0 {
 		existingLead.Products = lead.Products

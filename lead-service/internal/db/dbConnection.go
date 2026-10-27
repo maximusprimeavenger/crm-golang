@@ -5,23 +5,20 @@ import (
 	"os"
 
 	"github.com/fiveret/crm-golang/internal/models"
-	"github.com/glebarez/sqlite"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 func Init() (*gorm.DB, error) {
-	dbPath := os.Getenv("SQLITE_PATH")
-	if dbPath == "" {
-		return nil, fmt.Errorf("error finding the SQLITE_PATH")
-	}
-	db, err := gorm.Open(sqlite.Open(dbPath), &gorm.Config{})
+	dsn := fmt.Sprintf("host=postgres user=%s password=%s dbname=%s port=%s sslmode=disable", os.Getenv("DB_USER"), os.Getenv("DB_PASS"), os.Getenv("DB_NAME"), os.Getenv("PORT_SQL"))
+	conn, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		return nil, fmt.Errorf("error connecting to database")
+		return nil, err
 	}
-	fmt.Println("Successfully connected!")
-	if err := db.AutoMigrate(&models.Lead{}, &models.Product{}, &models.OutboxEvent{}); err != nil {
-		return nil, fmt.Errorf("migration failed: %v", err)
+	err = conn.AutoMigrate(&models.Lead{}, &models.OutboxEvent{})
+	if err != nil {
+		return nil, fmt.Errorf("error migrating")
 	}
-	fmt.Println("Successfully migrated!")
-	return db, nil
+	fmt.Println("Connected and Migrated!")
+	return conn, nil
 }

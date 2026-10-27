@@ -7,7 +7,6 @@ import (
 	"os"
 
 	"github.com/fiveret/api-gateway/internal/gateway"
-	"github.com/fiveret/api-gateway/internal/handlers"
 	"github.com/fiveret/api-gateway/internal/helpers"
 	"github.com/gofiber/fiber/v2"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
@@ -49,7 +48,6 @@ func main() {
 
 	app := fiber.New()
 	handler := fasthttpadaptor.NewFastHTTPHandler(mux)
-	handlers.PythonHandler(app)
 	app.All("/v1/*", func(c *fiber.Ctx) error {
 		handler(c.Context())
 		return nil

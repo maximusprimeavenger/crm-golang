@@ -67,8 +67,8 @@ services:
     container_name: auth-service
     depends_on:
       api-gateway:
-      condition: service_started
-    build: 
+        condition: service_started
+    build:
       context: ./auth
       dockerfile: Dockerfile
     environment:
@@ -118,21 +118,6 @@ services:
     networks:
       - crm-network
 
-  crm-service:
-    environment:
-      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
-      - DEEPSEEK=${DEEPSEEK}
-    build:
-      context: ./crm-analytics
-      dockerfile: Dockerfile
-    depends_on:
-      - api-gateway
-    container_name: crm-analytics
-    ports:
-      - "9093:9093"
-    networks:
-      - crm-network
-
   zookeeper:
     image: confluentinc/cp-zookeeper:7.7.7
     environment:
@@ -176,14 +161,6 @@ services:
       - kafka
     networks:
       - crm-network
-  sqlite:
-    image: keinos/sqlite3
-    volumes:
-    - ./data/lead:/app/data
-    tty: true
-    stdin_open: true
-
-
 
 volumes:
   postgres_data:

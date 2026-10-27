@@ -7,8 +7,7 @@ COPY go.* ./
 RUN go mod download
 
 COPY . .
-WORKDIR /app/cmd/auth
-RUN go build -o /app/main .
+RUN go build -o /app/main ./cmd
 
 CMD ["/app/main"]
 

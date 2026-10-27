@@ -67,6 +67,5 @@ crm-golang/
 ├── Dockerfile.api-gateway
 ├── Dockerfile.item-service
 ├── Dockerfile.lead-service
-├── init.sql
 └── .gitignore             
 ```

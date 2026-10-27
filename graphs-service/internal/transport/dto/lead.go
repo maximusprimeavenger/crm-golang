@@ -3,18 +3,18 @@ package models
 import "time"
 
 type Lead struct {
-	ID               uint       `json:"lead_id"`
-	Name             string     `json:"name"`
-	Email            string     `json:"email"`
-	Phone            string     `json:"phone"`
-	Company          string     `json:"company"`
-	Products         []*Product `json:"products"`
-	Visits           uint       `json:"visits"`
-	LastVisit        *time.Time `json:"last_visit"`
-	TotalSales       float64    `json:"total_sales"`
-	LastPurchaseDays *uint      `json:"last_purchase_days"`
-	CreatedAt        time.Time  `json:"created_at"`
-	UpdatedAt        time.Time  `json:"updated_at"`
+	ID             uint       `json:"lead_id"`
+	Name           string     `json:"name"`
+	Email          string     `json:"email"`
+	Phone          string     `json:"phone"`
+	Company        string     `json:"company"`
+	Products       []*Product `json:"products"`
+	Visits         uint       `json:"visits"`
+	LastVisit      *time.Time `json:"last_visit"`
+	TotalSales     float64    `json:"total_sales"`
+	LastPurchaseAt *time.Time `json:"last_purchase_at"`
+	CreatedAt      time.Time  `json:"created_at"`
+	UpdatedAt      time.Time  `json:"updated_at"`
 }
 
 type Product struct {

@@ -12,18 +12,18 @@ func LeadDTOToDomain(payload json.RawMessage) (*domain.Lead, error) {
 		return nil, err
 	}
 	return &domain.Lead{
-		ID:               lead.ID,
-		Name:             lead.Name,
-		Email:            lead.Email,
-		Phone:            lead.Phone,
-		Company:          lead.Company,
-		Visits:           lead.Visits,
-		Products:         dtoProductsToDomain(lead.Products),
-		LastVisit:        lead.LastVisit,
-		TotalSales:       lead.TotalSales,
-		LastPurchaseDays: lead.LastPurchaseDays,
-		CreatedAt:        lead.CreatedAt,
-		UpdatedAt:        lead.UpdatedAt,
+		ID:             lead.ID,
+		Name:           lead.Name,
+		Email:          lead.Email,
+		Phone:          lead.Phone,
+		Company:        lead.Company,
+		Visits:         lead.Visits,
+		Products:       dtoProductsToDomain(lead.Products),
+		LastVisit:      lead.LastVisit,
+		TotalSales:     lead.TotalSales,
+		LastPurchaseAt: lead.LastPurchaseAt,
+		CreatedAt:      lead.CreatedAt,
+		UpdatedAt:      lead.UpdatedAt,
 	}, nil
 }
 

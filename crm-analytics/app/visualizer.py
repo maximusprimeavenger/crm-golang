@@ -28,7 +28,7 @@ def plot_clusters_png(df: pd.DataFrame, filename_prefix="customer_clusters") -> 
         return ""
     df = df.rename(columns={
         "totalSales": "total_sales",
-        "lastPurchaseDays": "last_purchase_days"
+        "lastPurchaseAt": "last_purchase_days"
     })
 
     if "total_sales" not in df.columns or "visits" not in df.columns:
