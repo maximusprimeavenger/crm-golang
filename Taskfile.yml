@@ -8,18 +8,18 @@ tasks:
   run:
     desc: Run the docker compose up
     cmds:
-      - docker compose up
+      - sudo docker compose up
 
 
   build:
     desc: Build the docker container
     cmds:
-      - docker compose build
+      - sudo docker compose build
   
   stop:
     desc: Stop the docker container
     cmds:
-      - docker compose down
+      - sudo docker compose down
 
   restart:
     desc: Restart the docker container
@@ -30,12 +30,12 @@ tasks:
   logs:
     desc: Show logs
     cmds:
-      - docker compose logs -f --tail=50
+      - sudo docker compose logs -f --tail=50
 
   logs-service:
     desc: Show logs for certain service
     cmds:
-      - docker compose logs -f {{.CLI_ARGS}}
+      - sudo docker compose logs -f {{.CLI_ARGS}}
 
   proto-item:
     desc: "Compilation of item-service and gateway"

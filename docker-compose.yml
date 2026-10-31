@@ -47,7 +47,7 @@ services:
       - ENV=${ENV}
       - DB_USER=${POSTGRES_USER}
       - DB_PASS=${POSTGRES_PASSWORD}
-      - DB_NAME=${POSTGRES_DB}
+      - DB_NAME=${DB_ITEM}
       - PORT_SQL=${POSTGRES_PORT}
     depends_on:
       postgres:
@@ -60,6 +60,29 @@ services:
     container_name: item-service
     volumes:
       - ./config:/app/config
+    networks:
+      - crm-network
+
+  lead-service:
+    container_name: lead-service
+    environment:
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASS=${POSTGRES_PASSWORD}
+      - DB_NAME=${DB_LEAD}
+      - PORT_SQL=${POSTGRES_PORT}
+      - PORT_LEAD=${PORT_LEAD}
+      - ENV=${ENV}
+    build: 
+      context: ./lead-service
+      dockerfile: Dockerfile
+    volumes:
+      - ./config:/app/config
+      - ./data/lead:/app/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - ${LEAD_PORTS}
     networks:
       - crm-network
   
@@ -93,30 +116,15 @@ services:
       - "5432:${POSTGRES_PORT}"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     networks:
       - crm-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
 
-  lead-service:
-    container_name: lead-service
-    environment:
-      - SQLITE_PATH=/app/data/crm.db
-      - PORT_LEAD=${PORT_LEAD}
-      - ENV=${ENV}
-    build: 
-      context: ./lead-service
-      dockerfile: Dockerfile
-    volumes:
-      - ./config:/app/config
-      - ./data/lead:/app/data
-    ports:
-      - ${LEAD_PORTS}
-    networks:
-      - crm-network
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.7.7

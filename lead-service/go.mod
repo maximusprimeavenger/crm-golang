@@ -37,6 +37,7 @@ require (
 
 require (
 	github.com/badoux/checkmail v1.2.4
+	github.com/joho/godotenv v1.5.1
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/segmentio/kafka-go v0.4.50
 	golang.org/x/sys v0.31.0 // indirect

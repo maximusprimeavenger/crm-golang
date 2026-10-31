@@ -1,0 +1,2 @@
+CREATE DATABASE leads_db;
+CREATE DATABASE items_db;
